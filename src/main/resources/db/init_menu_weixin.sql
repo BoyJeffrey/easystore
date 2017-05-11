@@ -1,0 +1,1 @@
+update sys_menu set location=10 where path='0001';
