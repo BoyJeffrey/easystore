@@ -1,17 +1,11 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Table;
-
 import cn.usually.common.base.Model;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created on 2017/5/10.
@@ -34,9 +28,13 @@ public class Easy_product_category extends Model implements Serializable {
     
     @Column
     @Comment("产品类别状态:0正常;1下架")
+	@NotNull
     @Default(value = "0")
     @ColDefine(type = ColType.INT)
     private int status;
+
+	@Many(field = "category_id" , target = Easy_product.class)
+	private List<Easy_product> easyProductList;
 
 	public long getId() {
 		return id;
@@ -60,6 +58,14 @@ public class Easy_product_category extends Model implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public List<Easy_product> getEasyProductList() {
+		return easyProductList;
+	}
+
+	public void setEasyProductList(List<Easy_product> easyProductList) {
+		this.easyProductList = easyProductList;
 	}
 
 }

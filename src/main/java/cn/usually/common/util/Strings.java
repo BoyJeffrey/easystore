@@ -1,4 +1,8 @@
 package cn.usually.common.util;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * String相关工具类
  * @author fengpro@163.com
@@ -48,5 +52,29 @@ public class Strings {
 		}else{
 			return "0000";
 		}
+	}
+
+	/**
+	 * list非空
+	 * @param list
+	 * @return
+	 */
+	public static boolean listNotEmpty(List<?> list) {
+		if(list != null && list.size() > 0)
+			return true;
+		else
+			return  false;
+	}
+
+	/**
+	 * map非空
+	 * @param map
+	 * @return
+	 */
+	public static boolean mapNotEmpty(Map map) {
+		if(map != null && map.size() > 0)
+			return true;
+		else
+			return  false;
 	}
 }

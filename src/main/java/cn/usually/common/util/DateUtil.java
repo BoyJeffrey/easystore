@@ -5,6 +5,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -42,6 +43,15 @@ public class DateUtil {
      */
     public static String getDateTime() {
         return DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE);
+    }
+
+    /**
+     * 获取当前时间(yyyyMMddHHmmss)
+     *
+     * @return
+     */
+    public static String getCompactDateTime() {
+        return DateFormatUtils.format(new Date(), "yyyyMMddHHmmss", DEFAULT_LOCALE);
     }
 
     /**
@@ -100,5 +110,34 @@ public class DateUtil {
         } catch (ParseException e) {
             return 0;
         }
+    }
+
+    /**
+     * 将长时间格式字符串转换为时间:yyyyMMddHHmmss类型字符串
+     * @param strDate
+     * @return
+     */
+    public static Date strToDateLong(String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(strDate, pos);
+        return strtodate;
+    }
+
+    /**
+     * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss
+     *
+     * @param dateDate
+     * @return
+     */
+    public static String dateToStrLong(java.util.Date dateDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(dateDate);
+        return dateString;
+    }
+
+    public static void main(String args[]) {
+        System.out.println(strToDateLong("20140903131540"));
+        System.out.println(dateToStrLong(strToDateLong("20140903131540")));
     }
 }

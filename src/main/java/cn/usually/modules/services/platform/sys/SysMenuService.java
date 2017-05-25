@@ -49,8 +49,10 @@ public class SysMenuService extends Service<Sys_menu> {
      */
     @Aop(TransAop.READ_COMMITTED)
     public void deleteAndChild(Sys_menu unit) {
-        dao().execute(Sqls.create("delete from sys_menu where path like @path").setParam("path", unit.getPath() + "%"));
+        // 先删除菜单相关信息
         dao().execute(Sqls.create("delete from sys_role_menu where menuId=@id or menuId in(SELECT id FROM sys_menu WHERE path like @path)").setParam("id", unit.getId()).setParam("path", unit.getPath() + "%"));
+        // 最后再删除菜信息
+        dao().execute(Sqls.create("delete from sys_menu where path like @path").setParam("path", unit.getPath() + "%"));
         if (!Strings.isEmpty(unit.getParentId())) {
             int count = count(Cnd.where("parentId", "=", unit.getParentId()));
             if (count < 1) {

@@ -1,12 +1,22 @@
 package cn.usually.modules.controllers.platform.sys;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.usually.common.annotation.SLog;
+import cn.usually.common.base.Result;
+import cn.usually.common.constant.ConstantSys;
+import cn.usually.common.filter.PrivateFilter;
+import cn.usually.common.page.DataTableColumn;
+import cn.usually.common.page.DataTableOrder;
+import cn.usually.common.util.CheckUtil;
+import cn.usually.modules.models.check.CheckInfo;
+import cn.usually.modules.models.platform.easystore.Easy_deliveryman_associatecompany;
+import cn.usually.modules.models.platform.sys.Sys_menu;
+import cn.usually.modules.models.platform.sys.Sys_unit;
+import cn.usually.modules.models.platform.sys.Sys_user;
+import cn.usually.modules.services.platform.easystore.EasyDeliverymanService;
+import cn.usually.modules.services.platform.sys.SysMenuService;
+import cn.usually.modules.services.platform.sys.SysRoleService;
+import cn.usually.modules.services.platform.sys.SysUnitService;
+import cn.usually.modules.services.platform.sys.SysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,23 +32,13 @@ import org.nutz.json.Json;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.By;
-import org.nutz.mvc.annotation.Filters;
-import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.annotation.*;
 
-import cn.usually.common.annotation.SLog;
-import cn.usually.common.base.Result;
-import cn.usually.common.filter.PrivateFilter;
-import cn.usually.common.page.DataTableColumn;
-import cn.usually.common.page.DataTableOrder;
-import cn.usually.modules.models.platform.sys.Sys_menu;
-import cn.usually.modules.models.platform.sys.Sys_unit;
-import cn.usually.modules.models.platform.sys.Sys_user;
-import cn.usually.modules.services.platform.sys.SysMenuService;
-import cn.usually.modules.services.platform.sys.SysUnitService;
-import cn.usually.modules.services.platform.sys.SysUserService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2016/6/23.
@@ -54,6 +54,10 @@ public class SysUserController {
     SysMenuService menuService;
     @Inject
     SysUnitService unitService;
+    @Inject
+    SysRoleService roleService;
+    @Inject
+    EasyDeliverymanService deliverymanService;
 
     @At("")
     @Ok("beetl:/platform/sys/user/index.html")
@@ -94,7 +98,8 @@ public class SysUserController {
     @Ok("beetl:/platform/sys/user/edit.html")
     @RequiresAuthentication
     public Object edit(String id) {
-        return userService.fetchLinks(userService.fetch(id), "unit");
+//        return userService.fetchLinks(userService.fetch(id), "unit");
+        return userService.fetch(id);
     }
 
     @At
@@ -126,10 +131,10 @@ public class SysUserController {
             Sys_user user = userService.fetch(id);
             RandomNumberGenerator rng = new SecureRandomNumberGenerator();
             String salt = rng.nextBytes().toBase64();
-            String hashedPasswordBase64 = new Sha256Hash("ET922", salt, 1024).toBase64();
+            String hashedPasswordBase64 = new Sha256Hash("888888", salt, 1024).toBase64();
             userService.update(Chain.make("salt", salt).add("password", hashedPasswordBase64), Cnd.where("id", "=", id));
             req.setAttribute("loginname", user.getLoginname());
-            return Result.success("system.success", "ET922");
+            return Result.success("system.success", "888888");
         } catch (Exception e) {
             return Result.error("system.error");
         }
@@ -145,6 +150,14 @@ public class SysUserController {
             if ("superadmin".equals(user.getLoginname())) {
                 return Result.error("system.not.allow");
             }
+            // 待删除用户如果为送货员,且其下存在关联公司,则不予以删除
+            boolean flag_role_delivery = roleService.includeTargetRolecodeByUserid(userId, ConstantSys.SYSROLE_DELIVERY);
+            if(flag_role_delivery) {
+                List<Easy_deliveryman_associatecompany> deliveryman_associatecompanyList = deliverymanService.searchDeliverymanAssociatecompanyByUserid(userId);
+                if(cn.usually.common.util.Strings.listNotEmpty(deliveryman_associatecompanyList)) {
+                    return Result.error("该用户角色为送货员,其下存在关联公司,请至【送货员管理】中解除关联关系后,才予以删除！");
+                }
+            }
             userService.deleteById(userId);
             req.setAttribute("loginname", user.getLoginname());
             return Result.success("system.success");
@@ -159,7 +172,7 @@ public class SysUserController {
     @SLog(tag = "批量删除用户", msg = "用户ID:${args[1].getAttribute('ids')}")
     public Object deletes(@Param("ids") String[] userIds, HttpServletRequest req) {
         try {
-            Sys_user user = userService.fetch(Cnd.where("loginname", "=", "superadmin"));
+            Sys_user user = userService.fetch(Cnd.where("loginname", "like", "%admin"));
             StringBuilder sb = new StringBuilder();
             for (String s : userIds) {
                 if (s.equals(user.getId())) {
@@ -167,10 +180,17 @@ public class SysUserController {
                 }
                 sb.append(s).append(",");
             }
-            userService.deleteByIds(userIds);
+            // 如待删除用户中存在送货员角色,且存在关联公司,则不予以删除
+            CheckInfo checkInfo = CheckUtil.getDefaultSuccessCheckInfo(); // 默认可以删除
+            deliverymanService.searchDeliverymanAssociatecompanyByUserids(roleService, userIds, checkInfo);
+            if(checkInfo.getFlag())
+              userService.deleteByIds(userIds);
+            else
+                return  Result.error(checkInfo.getMsg());
             req.setAttribute("ids", sb.toString());
             return Result.success("system.success");
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.error("system.error");
         }
     }

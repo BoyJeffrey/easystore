@@ -1,5 +1,6 @@
 package cn.usually.modules.services.check;
 
+import cn.usually.modules.models.frontapi.param.FrontApiParam;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import cn.usually.common.util.MoneyUtil;
@@ -54,4 +55,19 @@ public class CheckService {
 		}
 	}
 
+	/**
+	 * 校验展示某公司货架商品参数
+	 * @param param
+	 * @param checkInfo
+	 */
+    public void checkShowProductsParam(FrontApiParam param, CheckInfo checkInfo) {
+		checkInfo.setFlag(false); // 默认校验不通过
+		if(param != null) {
+			if(param.getCompany_id() == 0) {
+				checkInfo.setMsg("公司ID缺失");
+				return;
+			}
+			checkInfo.setFlag(true);
+		}
+    }
 }

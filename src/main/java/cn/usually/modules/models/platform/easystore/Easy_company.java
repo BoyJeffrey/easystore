@@ -1,19 +1,10 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
-
 import cn.usually.common.base.Model;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
 
 /**
  * Created on 2017/5/10.
@@ -94,8 +85,8 @@ public class Easy_company extends Model implements Serializable {
     @Comment("员工和企业共同负担公司员工支付钱数占产品公开价格的比例(%)---默认40,不能高于企业的拿货价格的最低值")
     @NotNull
     @Default(value = "40")
-    @ColDefine(type = ColType.INT)
-    private int price_percent_benefit;
+    @ColDefine(type = ColType.FLOAT, precision = 2)
+    private Double price_percent_benefit;
     
     @Column
     @Comment("公司在平台状态:0正常;1已退出平台")
@@ -184,11 +175,11 @@ public class Easy_company extends Model implements Serializable {
 		this.price_pure_benefit = price_pure_benefit;
 	}
 
-	public int getPrice_percent_benefit() {
+	public Double getPrice_percent_benefit() {
 		return price_percent_benefit;
 	}
 
-	public void setPrice_percent_benefit(int price_percent_benefit) {
+	public void setPrice_percent_benefit(Double price_percent_benefit) {
 		this.price_percent_benefit = price_percent_benefit;
 	}
 

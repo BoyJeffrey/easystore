@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="nutzwk-code-generator1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../devlop/nutzwk-code-generator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../devlop/nutzwk-code-generator.jar!/" />
+    </SOURCES>
+  </library>
+</component>

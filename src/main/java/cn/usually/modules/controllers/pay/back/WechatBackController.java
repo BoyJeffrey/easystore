@@ -1,14 +1,10 @@
 package cn.usually.modules.controllers.pay.back;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.usually.common.constant.ConstantEasystoreOrder;
+import cn.usually.common.pay.wechat.RequestHandler;
+import cn.usually.common.pay.wechat.XMLUtil;
+import cn.usually.modules.models.platform.easystore.Easy_empolyee_order;
+import cn.usually.modules.services.pay.EasystorePayService;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -19,20 +15,16 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 
-import cn.usually.common.constant.ConstantPay;
-import cn.usually.common.pay.wechat.RequestHandler;
-import cn.usually.common.pay.wechat.XMLUtil;
-import cn.usually.common.util.CheckUtil;
-import cn.usually.common.util.DateUtil;
-import cn.usually.modules.models.app.pay.param.PayParam;
-import cn.usually.modules.models.check.CheckInfo;
-import cn.usually.modules.models.platform.pay.Pay_order_statistics;
-import cn.usually.modules.services.pay.CommonPayService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Map;
 
 /**
  * @desc 微信回调处理
  * @author 
- * @Copyright: (c) 2016年12月6日 上午11:40:45
+ * @Copyright: (c) 2017/05/23
  * @company: 
  */
 @IocBean
@@ -42,7 +34,7 @@ public class WechatBackController {
 	private static final Log log = Logs.get();
 	
 	@Inject
-    private CommonPayService commonPayService;
+    private EasystorePayService payService;
 	
 	/**
      * 回调
@@ -54,6 +46,9 @@ public class WechatBackController {
 		log.debug("map::" + Json.toJson(map));
 		log.info("-------------微信回调开始-------------");
 		String out_trade_no = "";
+		String openid = ""; // 用户openid
+		String transaction_id = ""; // 微信支付订单号
+		String pay_time = ""; // 支付完成时间
 		try {
 			InputStream inStream = req.getInputStream();
 			ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
@@ -68,11 +63,12 @@ public class WechatBackController {
 			Map<String, String> resultMap = XMLUtil.doXMLParse(resultStr);
 			out_trade_no = resultMap.get("out_trade_no");
 			// 本地检查已支付成功则忽略
-			PayParam payParam = new PayParam();
-			payParam.setOut_trade_no(out_trade_no);
-			CheckInfo checkInfo = CheckUtil.getDefaultFalseCheckInfo(); // 校验对象
-			commonPayService.validateIsOrderSuccess(payParam, checkInfo);
-			if (checkInfo.getFlag()) {
+			Easy_empolyee_order empolyee_order = payService.dao().fetch(Easy_empolyee_order.class, out_trade_no);
+			if(empolyee_order == null) {
+				log.info("订单号:" + out_trade_no + "未找到");
+				return;
+			}
+			if(ConstantEasystoreOrder.PURCHASEORDER_PAYSTATUS_PAYSUCCESS == empolyee_order.getPay_status()) {
 				log.info("订单号:" + out_trade_no + "已支付");
 				return;
 			}
@@ -80,15 +76,11 @@ public class WechatBackController {
 			log.info("微信支付回调，相关【商户订单号】：" + out_trade_no);
 			// 签名验证
 			if (return_code.equals("SUCCESS")) {
-				// 整理待修改订单信息
-				Pay_order_statistics pay_order_statistics = tidyOrderStatistic(resultMap);
 				// 修改订单状态
-				CheckUtil.emptyCheckInfo(checkInfo);
-				Pay_order_statistics update_order_statistics = commonPayService.updateOrderPaySuccess(pay_order_statistics, checkInfo);
-				// 异步通知
-				if (checkInfo.getFlag()) {
-					commonPayService.notifyCustomMachine(update_order_statistics);
-				}
+				openid = resultMap.get("openid");
+				transaction_id = resultMap.get("transaction_id");
+				pay_time = resultMap.get("pay_time");
+				payService.updateEmlpoyeeOrderSuccess(out_trade_no, openid, transaction_id, pay_time);
 				// 通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
 				res.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
 			} else
@@ -99,41 +91,4 @@ public class WechatBackController {
 		}
 	}
     	
-    public static Map<String, String> getAllRequestParam(final HttpServletRequest req) {
-		Map<String, String> res = new HashMap<String, String>();
-		Enumeration<?> temp = req.getParameterNames();
-		if (null != temp) {
-			while (temp.hasMoreElements()) {
-				String en = (String) temp.nextElement();
-				String value = req.getParameter(en);
-				res.put(en, value);
-				// 在报文上送时，如果字段的值为空，则不上送<下面的处理为在获取所有参数数据时，判断若值为空，则删除这个字段>
-				// System.out.println("ServletUtil类247行  temp数据的键=="+en+"     值==="+value);
-				if (null == res.get(en) || "".equals(res.get(en))) {
-					res.remove(en);
-				}
-			}
-		}
-		return res;
-	}
-
-    /**
-     * 整理待修改订单信息
-     * @param params
-     * @return
-     */
-	private Pay_order_statistics tidyOrderStatistic(Map<String, String> reqParam) {
-		Pay_order_statistics pay_order_statistics = new Pay_order_statistics();
-		String out_trade_no = reqParam.get("out_trade_no"); // 获取商户订单号
-		String transaction_id = reqParam.get("transaction_id"); // 微信支付订单号
-		String total_fee = reqParam.get("total_fee"); // 订单总金额:分
-		pay_order_statistics.setOut_trade_no(out_trade_no);
-		pay_order_statistics.setTrade_no_third(transaction_id);
-		pay_order_statistics.setPaytime(DateUtil.getDateTime());
-		pay_order_statistics.setOrder_status(ConstantPay.ORDERSTATISTICS_ORDERSTATUS_PAYSUCCESS);
-		pay_order_statistics.setPayment(ConstantPay.PAYTYPE_WECHAT);
-		log.info("该笔订单信息out_trade_no:" + out_trade_no + ";transaction_id:" + transaction_id + ";total_fee:" + total_fee);
-		return pay_order_statistics;
-	}
-
 }

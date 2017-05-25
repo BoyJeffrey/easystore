@@ -1,19 +1,10 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
-
 import cn.usually.common.base.Model;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
 
 /**
  * Created on 2017/5/10.
@@ -37,6 +28,7 @@ public class Easy_product extends Model implements Serializable {
     
     @Column
     @Comment("产品图片URL")
+	@NotNull
     @Default(value="")
     @ColDefine(type = ColType.VARCHAR, width = 200)
     private String image_url;
@@ -72,6 +64,12 @@ public class Easy_product extends Model implements Serializable {
     @Default(value = "0")
     @ColDefine(type = ColType.INT)
     private int stock;
+
+	@One(field = "category_id" , target = Easy_product_category.class)
+	private Easy_product_category productCategory;
+
+	// 其它临时参数
+	private int product_num; // 产品库存信息
 
 	public long getId() {
 		return id;
@@ -137,4 +135,19 @@ public class Easy_product extends Model implements Serializable {
 		this.stock = stock;
 	}
 
+	public Easy_product_category getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(Easy_product_category productCategory) {
+		this.productCategory = productCategory;
+	}
+
+	public int getProduct_num() {
+		return product_num;
+	}
+
+	public void setProduct_num(int product_num) {
+		this.product_num = product_num;
+	}
 }

@@ -1,11 +1,6 @@
 package cn.usually.common.shiro.filter;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.usually.common.shiro.interceptor.ShiroAnnotationsAuthorizingMethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.aop.MethodInvocation;
 import org.apache.shiro.authz.AuthorizationException;
@@ -21,7 +16,10 @@ import org.nutz.mvc.view.DefaultViewMaker;
 import org.nutz.mvc.view.ServerRedirectView;
 import org.nutz.mvc.view.VoidView;
 
-import cn.usually.common.shiro.interceptor.ShiroAnnotationsAuthorizingMethodInterceptor;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class ShiroActionFilter implements ActionFilter {
     private static Log log = Logs.get();
@@ -94,7 +92,8 @@ public class ShiroActionFilter implements ActionFilter {
         HttpServletResponse localHttpServletResponse = ctx.getResponse();
         String str = localHttpServletRequest.getHeader("X-Requested-With");
         if (StringUtils.isNotBlank(str) && (str.equalsIgnoreCase("XMLHttpRequest"))) {
-            localHttpServletResponse.addHeader("loginStatus", "unauthorized");
+//            localHttpServletResponse.addHeader("loginStatus", "unauthorized");
+            localHttpServletResponse.addHeader("loginStatus", "unauthorized_");
             try {
                 localHttpServletResponse.sendError(403);
             } catch (IOException exception) {

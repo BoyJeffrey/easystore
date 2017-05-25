@@ -1,26 +1,18 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
-
 import cn.usually.common.base.Model;
+import cn.usually.modules.models.platform.sys.Sys_user;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
 
 /**
  * Created on 2017/5/10.
  */
 @Table("easy_deliveryman")
 @Comment("送货员管理")
-@TableIndexes({@Index(name = "INDEX_EASYDELIVERYMAN_LOGINID", fields = {"login_id"}, unique = true)})
+@TableIndexes({@Index(name = "INDEX_EASYDELIVERYMAN_USERID", fields = {"userId"}, unique = true)})
 public class Easy_deliveryman extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -28,18 +20,11 @@ public class Easy_deliveryman extends Model implements Serializable {
     @Comment("ID")
     @Id
     private long id;
-    
-    @Column
-    @Comment("送货员登录Id")
-    @NotNull
-    @ColDefine(type = ColType.VARCHAR, width = 50)
-    private long login_id;
 
-    @Column
-    @Comment("送货员页面登录密码")
-    @NotNull
-    @ColDefine(type = ColType.VARCHAR, width = 100)
-    private String login_password;
+	@Column
+	@Comment("关联送货员角色用户")
+	@ColDefine(type = ColType.VARCHAR, width = 32)
+	private String userId;
     
     @Column
     @Comment("送货员名称")
@@ -47,11 +32,11 @@ public class Easy_deliveryman extends Model implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 50)
     private String deliveryman_name;
     
-    @Column
-    @Comment("送货员昵称")
-    @NotNull
-    @ColDefine(type = ColType.VARCHAR, width = 50)
-    private String deliveryman_nickname;
+	@Column
+	@Comment("送货员联系电话")
+	@NotNull
+	@ColDefine(type = ColType.VARCHAR, width = 50)
+	private String deliveryman_phone;
     
     @Column
     @Comment("送货员状态:0正常;1已退出平台")
@@ -60,28 +45,23 @@ public class Easy_deliveryman extends Model implements Serializable {
     @ColDefine(type = ColType.INT)
     private int status;
 
+    @One(target = Sys_user.class, field = "userId")
+    private Sys_user sys_user;
+
 	public long getId() {
 		return id;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public long getLogin_id() {
-		return login_id;
-	}
-
-	public void setLogin_id(long login_id) {
-		this.login_id = login_id;
-	}
-
-	public String getLogin_password() {
-		return login_password;
-	}
-
-	public void setLogin_password(String login_password) {
-		this.login_password = login_password;
 	}
 
 	public String getDeliveryman_name() {
@@ -92,16 +72,24 @@ public class Easy_deliveryman extends Model implements Serializable {
 		this.deliveryman_name = deliveryman_name;
 	}
 
-	public String getDeliveryman_nickname() {
-		return deliveryman_nickname;
+	public String getDeliveryman_phone() {
+		return deliveryman_phone;
 	}
 
-	public void setDeliveryman_nickname(String deliveryman_nickname) {
-		this.deliveryman_nickname = deliveryman_nickname;
+	public void setDeliveryman_phone(String deliveryman_phone) {
+		this.deliveryman_phone = deliveryman_phone;
 	}
 
 	public int getStatus() {
 		return status;
+	}
+
+	public Sys_user getSys_user() {
+		return sys_user;
+	}
+
+	public void setSys_user(Sys_user sys_user) {
+		this.sys_user = sys_user;
 	}
 
 	public void setStatus(int status) {

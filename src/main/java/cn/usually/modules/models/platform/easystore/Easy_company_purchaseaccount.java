@@ -3,13 +3,7 @@ package cn.usually.modules.models.platform.easystore;
 import java.io.Serializable;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
+import org.nutz.dao.entity.annotation.*;
 
 import cn.usually.common.base.Model;
 
@@ -22,6 +16,11 @@ import cn.usually.common.base.Model;
 public class Easy_company_purchaseaccount extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
+	@Column
+	@Comment("ID")
+	@Id
+	private long id;
+
     @Column
     @Comment("公司ID，对应表easy_company中id")
     @NotNull
@@ -33,6 +32,20 @@ public class Easy_company_purchaseaccount extends Model implements Serializable 
     @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 200)
     private String company_openid;
+
+	@Column
+	@Comment("公司采购员姓名")
+	@NotNull
+	@ColDefine(type = ColType.VARCHAR, width = 50)
+	private String company_purchasename;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public long getCompany_id() {
 		return company_id;
@@ -50,4 +63,11 @@ public class Easy_company_purchaseaccount extends Model implements Serializable 
 		this.company_openid = company_openid;
 	}
 
+	public String getCompany_purchasename() {
+		return company_purchasename;
+	}
+
+	public void setCompany_purchasename(String company_purchasename) {
+		this.company_purchasename = company_purchasename;
+	}
 }

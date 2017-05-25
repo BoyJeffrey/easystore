@@ -1,17 +1,10 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
 import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created on 2017/5/10.
@@ -53,7 +46,7 @@ public class Easy_company_purchaseorder implements Serializable {
     private Double total_price;
     
     @Column
-    @Comment("供货状态:0处理中;1采购员确认货到")
+    @Comment("供货状态:0处理中;1采购员确认货到;2已取消")
     @NotNull
     @Default(value = "0")
     @ColDefine(type = ColType.INT)
@@ -72,12 +65,26 @@ public class Easy_company_purchaseorder implements Serializable {
     @Default(value = "0")
     @ColDefine(type = ColType.INT)
     private int pay_way;
+
+	@Column
+	@Comment("订单支付时间")
+	@NotNull
+	@ColDefine(type = ColType.DATETIME)
+	private String pay_time;
     
     @Column
     @Comment("第三方系统中付款订单号")
     @Default(value = "")
     @ColDefine(type = ColType.VARCHAR, width = 150)
     private String thirdpay_order_id;
+
+    @One(target = Easy_company.class, field = "company_id")
+    private Easy_company company;
+
+	/**
+	 * 详细订单信息
+	 */
+	private List<Easy_company_purchaseorderdetail> purchaseorderdetailList;
 
 	public long getId() {
 		return id;
@@ -143,6 +150,14 @@ public class Easy_company_purchaseorder implements Serializable {
 		this.pay_way = pay_way;
 	}
 
+	public String getPay_time() {
+		return pay_time;
+	}
+
+	public void setPay_time(String pay_time) {
+		this.pay_time = pay_time;
+	}
+
 	public String getThirdpay_order_id() {
 		return thirdpay_order_id;
 	}
@@ -151,4 +166,19 @@ public class Easy_company_purchaseorder implements Serializable {
 		this.thirdpay_order_id = thirdpay_order_id;
 	}
 
+	public List<Easy_company_purchaseorderdetail> getPurchaseorderdetailList() {
+		return purchaseorderdetailList;
+	}
+
+	public void setPurchaseorderdetailList(List<Easy_company_purchaseorderdetail> purchaseorderdetailList) {
+		this.purchaseorderdetailList = purchaseorderdetailList;
+	}
+
+	public Easy_company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Easy_company company) {
+		this.company = company;
+	}
 }

@@ -3,14 +3,7 @@ package cn.usually.modules.models.platform.easystore;
 import java.io.Serializable;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
+import org.nutz.dao.entity.annotation.*;
 
 /**
  * Created on 2017/5/10.
@@ -57,6 +50,9 @@ public class Easy_company_purchaseorderdetail implements Serializable {
     @NotNull
     @ColDefine(type = ColType.INT)
     private long product_num;
+
+    @One(target = Easy_product.class, field = "product_id")
+    private Easy_product product;
 
 	public long getId() {
 		return id;
@@ -106,4 +102,11 @@ public class Easy_company_purchaseorderdetail implements Serializable {
 		this.product_num = product_num;
 	}
 
+	public Easy_product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Easy_product product) {
+		this.product = product;
+	}
 }

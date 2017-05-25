@@ -57,10 +57,39 @@ public class UuidUtil {
         }  
         return String.valueOf((long)(Math.random()*9*Math.pow(10,digit-1)) + (long)Math.pow(10,digit-1));
 	}
+
+	/**
+	 * 生成公司采购单唯一订单号:
+	 * 格式:account_id + "00" + 14位时间戳 + "00" + 8位随机数
+	 * @return
+	 */
+	public static String getCompanyPurchaseOrderIdByUUId(String account_id) {
+		int hashCodeV = UUID.randomUUID().toString().hashCode();
+		if(hashCodeV < 0) {//有可能是负数
+			hashCodeV = - hashCodeV;
+		}
+		return account_id + "00" + DateUtil.getCompactDateTime() + "00" + getFixedDigitRandomNumber(8);
+	}
+
+	/**
+	 * 生成唯一用户订单号:32位数
+	 * 格式:14位时间戳 + "00" + 1位随机数 + 15位hashCode
+	 * @return
+	 */
+	public static String getOrderId32ByUUId() {
+		int hashCodeV = UUID.randomUUID().toString().hashCode();
+		if(hashCodeV < 0) {//有可能是负数
+			hashCodeV = - hashCodeV;
+		}
+		// 0 代表前面补充0;15 代表长度为15;d 代表参数为正数型
+		return DateUtil.getCompactDateTime() + "00" + getFixedDigitRandomNumber(1) + String.format("%015d", hashCodeV);
+	}
 	
     public static void main(String[] args) {
         System.out.println(getOrderId28ByUUId("1"));
-        System.out.println(getFixedDigitRandomNumber(18));
-    }
+        System.out.println(getFixedDigitRandomNumber(8));
+		System.out.println(getCompanyPurchaseOrderIdByUUId("123"));
+		System.out.println(getOrderId32ByUUId());
+	}
 
 }

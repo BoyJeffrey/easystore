@@ -19,13 +19,16 @@ public class Globals {
     //项目目录
     public static String AppBase = "";
     //项目名称
-    public static String AppName = "支付服务";
+    public static String AppName = "便利店服务";
     //项目短名称
     public static String AppShrotName = "easystore";
     //项目域名
     public static String AppDomain = "127.0.0.1";
     //文件上传路径
     public static String AppUploadPath = "/upload";
+
+    //产品上传所在文件路径
+    public static String UploadProductImagePath = "/image/product";
     
     /**
 	 * 默认最大异步通知客户端次数:10

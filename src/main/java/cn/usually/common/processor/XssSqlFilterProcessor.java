@@ -1,9 +1,6 @@
 package cn.usually.common.processor;
 
-import java.util.Iterator;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.usually.common.base.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.nutz.integration.shiro.NutShiro;
 import org.nutz.log.Log;
@@ -13,7 +10,8 @@ import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.impl.processor.AbstractProcessor;
 import org.nutz.mvc.view.ForwardView;
 
-import cn.usually.common.base.Result;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 
 /**
  * SQL XSS拦截

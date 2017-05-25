@@ -1,8 +1,11 @@
 package cn.usually.modules.services.platform.sys;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.usually.common.base.Service;
+import cn.usually.modules.models.platform.sys.Sys_menu;
+import cn.usually.modules.models.platform.sys.Sys_role;
+import cn.usually.modules.models.platform.sys.Sys_user;
+import org.apache.shiro.SecurityUtils;
+import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.entity.Entity;
@@ -10,9 +13,8 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
 
-import cn.usually.common.base.Service;
-import cn.usually.modules.models.platform.sys.Sys_menu;
-import cn.usually.modules.models.platform.sys.Sys_role;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on 2016/6/22.
@@ -69,5 +71,44 @@ public class SysRoleService extends Service<Sys_role> {
             }
         }
         return list;
+    }
+
+    /**
+     *
+     * 当前登录的用户角色中是否包含制定角色
+     * @param role_code
+     * @return
+     */
+    public boolean includeTargetRolecodeByCurrentLoginUser(String role_code) {
+        boolean flag = false;
+        // 查找指定的角色
+        Sys_role sys_role = dao().fetch(Sys_role.class, Cnd.where("code","=",role_code));
+        if(sys_role != null) {
+            Sys_user user = (Sys_user) SecurityUtils.getSubject().getPrincipal();
+            if(user != null && user.getId() != null) {
+                int count = dao().count("sys_user_role", Cnd.where("roleId","=",sys_role.getId()).and("userId","=",user.getId()));
+                if(count == 1) // 匹配成功
+                    flag = true;
+            }
+        }
+
+        return flag;
+    }
+
+    /**
+     * 根据userId查询是否用户角色中是否包含制定角色
+     * @param userId
+     * @param role_code
+     */
+    public boolean includeTargetRolecodeByUserid(String userId, String role_code) {
+        boolean flag = false;
+        // 查找指定的角色
+        Sys_role sys_role = dao().fetch(Sys_role.class, Cnd.where("code","=",role_code));
+        if(sys_role != null) {
+            int count = dao().count("sys_user_role", Cnd.where("roleId","=",sys_role.getId()).and("userId","=", userId));
+            if(count == 1) // 匹配成功
+                flag = true;
+        }
+        return flag;
     }
 }

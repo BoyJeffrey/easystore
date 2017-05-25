@@ -1,11 +1,11 @@
 package cn.usually.common.pay.union.demo;
 
+import cn.usually.common.pay.union.sdk.SDKConfig;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.usually.common.pay.union.sdk.SDKConfig;
 
 /**
  * 名称： 第一卷 商户卷 第1\5\6部分 跳转网关支付产品\手机控件支付产品\手机网页支付产品<br>

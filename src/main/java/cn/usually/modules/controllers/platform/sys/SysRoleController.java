@@ -1,12 +1,22 @@
 package cn.usually.modules.controllers.platform.sys;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import cn.usually.common.annotation.SLog;
+import cn.usually.common.base.Result;
+import cn.usually.common.constant.ConstantSys;
+import cn.usually.common.filter.PrivateFilter;
+import cn.usually.common.page.DataTableColumn;
+import cn.usually.common.page.DataTableOrder;
+import cn.usually.modules.models.platform.easystore.Easy_deliveryman;
+import cn.usually.modules.models.platform.easystore.Easy_deliveryman_associatecompany;
+import cn.usually.modules.models.platform.sys.Sys_menu;
+import cn.usually.modules.models.platform.sys.Sys_role;
+import cn.usually.modules.models.platform.sys.Sys_unit;
+import cn.usually.modules.models.platform.sys.Sys_user;
+import cn.usually.modules.services.platform.easystore.EasyDeliverymanService;
+import cn.usually.modules.services.platform.sys.SysMenuService;
+import cn.usually.modules.services.platform.sys.SysRoleService;
+import cn.usually.modules.services.platform.sys.SysUnitService;
+import cn.usually.modules.services.platform.sys.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,24 +29,13 @@ import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.At;
-import org.nutz.mvc.annotation.By;
-import org.nutz.mvc.annotation.Filters;
-import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.annotation.*;
 
-import cn.usually.common.annotation.SLog;
-import cn.usually.common.base.Result;
-import cn.usually.common.filter.PrivateFilter;
-import cn.usually.common.page.DataTableColumn;
-import cn.usually.common.page.DataTableOrder;
-import cn.usually.modules.models.platform.sys.Sys_menu;
-import cn.usually.modules.models.platform.sys.Sys_role;
-import cn.usually.modules.models.platform.sys.Sys_unit;
-import cn.usually.modules.services.platform.sys.SysMenuService;
-import cn.usually.modules.services.platform.sys.SysRoleService;
-import cn.usually.modules.services.platform.sys.SysUnitService;
-import cn.usually.modules.services.platform.sys.SysUserService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2016/6/28.
@@ -54,6 +53,8 @@ public class SysRoleController {
     SysUnitService unitService;
     @Inject
     SysRoleService roleService;
+    @Inject
+    EasyDeliverymanService deliverymanService;
 
     @At("")
     @Ok("beetl:/platform/sys/role/index.html")
@@ -186,7 +187,7 @@ public class SysRoleController {
     public Object editMenuDo(@Param("menuIds") String menuIds, @Param("roleid") String roleid, HttpServletRequest req) {
         try {
             String[] ids = StringUtils.split(menuIds, ",");
-            roleService.dao().clear("sys_role_menu", Cnd.where("roleid", "=", roleid));
+            roleService.dao().clear("sys_role_menu", Cnd.where("roleId", "=", roleid));
             for (String s : ids) {
                 if (!Strings.isEmpty(s)) {
                     roleService.insert("sys_role_menu", org.nutz.dao.Chain.make("roleId", roleid).add("menuId", s));
@@ -266,8 +267,23 @@ public class SysRoleController {
     public Object delUser(@Param("menuIds") String menuIds, @Param("roleid") String roleid, HttpServletRequest req) {
         try {
             String[] ids = StringUtils.split(menuIds, ",");
-            roleService.dao().clear("sys_user_role", Cnd.where("userId", "in", ids).and("roleId", "=", roleid));
+            // 如果为送货员,则删除相应送货员信息
             Sys_role role = roleService.fetch(roleid);
+            if(ConstantSys.SYSROLE_DELIVERY.equals(role.getCode())) {
+                for (String userId : ids) {
+                    if (!Strings.isEmpty(userId)) {
+                        // 校验是否满足批量删除条件:送货员下如果存在关联公司,则不予以删除
+                        List<Easy_deliveryman_associatecompany> deliveryman_associatecompanyList = deliverymanService.searchDeliverymanAssociatecompanyByUserid(userId);
+                        if(cn.usually.common.util.Strings.listNotEmpty(deliveryman_associatecompanyList)) {
+                            // 查找该用户
+                            Sys_user user = roleService.dao().fetch(Sys_user.class, userId);
+                            return Result.error("该角色下用户【" + user.getLoginname() + "】存在关联公司,请至【送货员管理】中解除关联关系后,才予以删除！");
+                        }
+                    }
+                }
+            }
+            roleService.dao().clear("easy_deliveryman", Cnd.where("userId","in", ids));
+            roleService.dao().clear("sys_user_role", Cnd.where("userId", "in", ids).and("roleId", "=", roleid));
             req.setAttribute("name", role.getName());
             return Result.success("system.success");
         } catch (Exception e) {
@@ -282,12 +298,23 @@ public class SysRoleController {
     public Object pushUser(@Param("menuIds") String menuIds, @Param("roleid") String roleid, HttpServletRequest req) {
         try {
             String[] ids = StringUtils.split(menuIds, ",");
+            Sys_role role = roleService.fetch(roleid);
             for (String s : ids) {
                 if (!Strings.isEmpty(s)) {
                     roleService.insert("sys_user_role", org.nutz.dao.Chain.make("roleId", roleid).add("userId", s));
+                    // 检查是否为送货员角色,如果是则插入Easy_deliveryman
+                    if(ConstantSys.SYSROLE_DELIVERY.equals(role.getCode())) {
+                        // 查询用户信息
+                        Sys_user user = roleService.dao().fetch(Sys_user.class,s);
+                        Easy_deliveryman deliveryman = new Easy_deliveryman();
+                        deliveryman.setUserId(s);
+                        deliveryman.setDeliveryman_name(user.getNickname());
+                        deliveryman.setDeliveryman_phone("---");
+                        deliveryman.setStatus(0); // 正常
+                        roleService.dao().insert(deliveryman);
+                    }
                 }
             }
-            Sys_role role = roleService.fetch(roleid);
             req.setAttribute("name", role.getName());
             return Result.success("system.success");
         } catch (Exception e) {
@@ -333,7 +360,7 @@ public class SysRoleController {
     @RequiresAuthentication
     public Object edit(String roleId, HttpServletRequest req) {
         Sys_role role = roleService.fetch(roleId);
-        req.setAttribute("unit", unitService.fetch(role.getUnitid()));
+//        req.setAttribute("unit", unitService.fetch(role.getUnitid()));
         return role;
     }
 
@@ -367,11 +394,12 @@ public class SysRoleController {
     public Object delete(String roleId, HttpServletRequest req) {
         try {
             Sys_role role = roleService.fetch(roleId);
-            if (!"sysadmin".equals(role.getCode()) || !"public".equals(role.getCode())) {
+            if ("sysadmin".equals(role.getCode()) || "public".equals(role.getCode()) || "delivery".equals(role.getCode())) { // 管理员/公用/送货员角色不予以删除
                 return Result.error("system.not.allow");
             }
-            roleService.delete(roleId);
             roleService.dao().clear("sys_user_role", Cnd.where("roleId", "=", roleId));
+            roleService.dao().clear("sys_role_menu", Cnd.where("roleId", "=", roleId));
+            roleService.delete(roleId);
             req.setAttribute("name", role.getName());
             return Result.success("system.success");
         } catch (Exception e) {
@@ -387,13 +415,16 @@ public class SysRoleController {
         try {
             Sys_role role = roleService.fetch(Cnd.where("code", "=", "sysadmin"));
             Sys_role role1 = roleService.fetch(Cnd.where("code", "=", "public"));
+            Sys_role role2 = roleService.fetch(Cnd.where("code", "=", "delivery"));
             StringBuilder sb = new StringBuilder();
             for (String s : roleIds) {
-                if (s.equals(role.getId()) || s.equals(role1.getId())) {
+                if (s.equals(role.getId()) || s.equals(role1.getId()) || s.equals(role2.getId())) { // 管理员/公用/送货员角色不予以删除
                     return Result.error("system.not.allow");
                 }
                 sb.append(s).append(",");
             }
+            roleService.dao().clear("sys_user_role", Cnd.where("roleId", "in", roleIds));
+            roleService.dao().clear("sys_role_menu", Cnd.where("roleId", "in", roleIds));
             roleService.delete(roleIds);
             req.setAttribute("ids", sb.toString());
             return Result.success("system.success");

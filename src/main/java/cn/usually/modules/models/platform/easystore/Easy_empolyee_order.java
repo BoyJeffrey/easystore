@@ -1,17 +1,9 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
 import org.antlr.v4.runtime.misc.NotNull;
-import org.nutz.dao.entity.annotation.ColDefine;
-import org.nutz.dao.entity.annotation.ColType;
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Comment;
-import org.nutz.dao.entity.annotation.Default;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Index;
-import org.nutz.dao.entity.annotation.Table;
-import org.nutz.dao.entity.annotation.TableIndexes;
+import org.nutz.dao.entity.annotation.*;
+
+import java.io.Serializable;
 
 /**
  * Created on 2017/5/10.
@@ -29,6 +21,7 @@ public class Easy_empolyee_order implements Serializable {
     
     @Column
     @Comment("员工购买ID,openid + time")
+	@Name
     @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 150)
     private String buy_order_id;
@@ -41,15 +34,14 @@ public class Easy_empolyee_order implements Serializable {
 
     @Column
     @Comment("员工微信公众号ID:openid")
-    @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 150)
     private String openid;
     
     @Column
-    @Comment("员工购买创建时间")
-    @NotNull
-    @ColDefine(type = ColType.DATETIME)
-    private String create_time;
+	@Comment("员工购买创建时间")
+	@NotNull
+	@ColDefine(type = ColType.DATETIME)
+	private String create_time;
     
     @Column
     @Comment("此次订单应付金额:元")
@@ -62,6 +54,11 @@ public class Easy_empolyee_order implements Serializable {
     @Default(value = "")
     @ColDefine(type = ColType.VARCHAR, width = 150)
     private String thirdpay_order_id;
+
+	@Column
+	@Comment("支付完成时间")
+	@ColDefine(type = ColType.DATETIME)
+	private String pay_time;
     
     @Column
     @Comment("支付状态:0未支付;1处理中;2支付成功")
@@ -149,4 +146,11 @@ public class Easy_empolyee_order implements Serializable {
 		this.pay_way = pay_way;
 	}
 
+	public String getPay_time() {
+		return pay_time;
+	}
+
+	public void setPay_time(String pay_time) {
+		this.pay_time = pay_time;
+	}
 }

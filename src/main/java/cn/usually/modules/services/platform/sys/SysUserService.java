@@ -1,10 +1,10 @@
 package cn.usually.modules.services.platform.sys;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cn.usually.common.base.Service;
+import cn.usually.common.util.StringUtil;
+import cn.usually.modules.models.platform.sys.Sys_menu;
+import cn.usually.modules.models.platform.sys.Sys_role;
+import cn.usually.modules.models.platform.sys.Sys_user;
 import org.nutz.aop.interceptor.ioc.TransAop;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -16,11 +16,10 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
 
-import cn.usually.common.base.Service;
-import cn.usually.common.util.StringUtil;
-import cn.usually.modules.models.platform.sys.Sys_menu;
-import cn.usually.modules.models.platform.sys.Sys_role;
-import cn.usually.modules.models.platform.sys.Sys_user;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2016/6/22.
@@ -112,6 +111,8 @@ public class SysUserService extends Service<Sys_user> {
         dao().clear("sys_user_unit", Cnd.where("userId", "=", userId));
         dao().clear("sys_user_role", Cnd.where("userId", "=", userId));
         dao().clear("sys_user", Cnd.where("id", "=", userId));
+        // 删除送货员用户
+        dao().clear("easy_deliveryman", Cnd.where("userId", "=", userId));
     }
 
     /**
@@ -124,6 +125,8 @@ public class SysUserService extends Service<Sys_user> {
         dao().clear("sys_user_unit", Cnd.where("userId", "in", userIds));
         dao().clear("sys_user_role", Cnd.where("userId", "in", userIds));
         dao().clear("sys_user", Cnd.where("id", "in", userIds));
+        // 删除送货员用户
+        dao().clear("easy_deliveryman", Cnd.where("userId", "in", userIds));
     }
     
     public void fillMenu(Sys_user user) {

@@ -1,0 +1,150 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/purchaseorder/info/${company_id}" id="goback" data-pjax><i class="ti-angle-left"></i> 返回</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/purchaseorder/info/editDetailDo" method="post">
+                <input name="id" type="hidden" value="${obj.id}"/>
+                <input type="hidden" id="orderitem_datas" name="orderitem_datas" value=""/>
+                <div class="container">
+                    <table id="cart" class="table table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <th style="width:33%" class="text-center">商品类型名称/商品名称</th>
+                            <th style="width:33%" class="text-center">产品供给价格:元</th>
+                            <th style="width:33%" class="text-center">数量:个</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%if(!isEmpty(productCategoryList)){ for(category in productCategoryList){
+                        %>
+                        <tr>
+                            <td colspan="4">
+                                <div class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" data-toggle="collapse" href="#collapse_${category.id}">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td width="33%" class="text-center">
+                                                        <h4 class="panel-title">
+                                                            <a>
+                                                                ${category.name}
+                                                            </a>
+                                                        </h4>
+                                                    </td>
+                                                    <td colspan="2"/>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="collapse_${category.id}" class="panel-collapse collapse in">
+                                            <table width="100%">
+                                                <%if(!isEmpty(category.easyProductList)){ for(product in category.easyProductList){
+                                                %>
+                                                <tr name="orderitem">
+                                                    <td width="33%" class="text-center">
+                                                        ${product.product_name}
+                                                    </td>
+                                                    <td width="33%" class="text-center">${product.price_company}</td>
+                                                    <td width="33%">
+                                                        <input type="number" name="product_num" class="form-control text-center" value="${product.product_num}">
+                                                        <input type="hidden" name="product_id" value="${product.id}" />
+                                                    </td>
+                                                </tr>
+                                                <%
+                                                } }%>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <%
+                        } }%>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在保存...">保 存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#editForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                // 校验采购产品的数量需大于0
+                var check_flag = true;
+                var orderitem_datas = "";
+                $("input[name='product_id']").each(function (i, item) {
+                    var product_id = item.value;
+                    var product_num = $("input[name='product_num']")[i].value;
+                    if(product_num < 0) {
+                        check_flag = false;
+                        $("input[name='product_num']")[i].focus();
+                        return false;
+                    } else if (product_num > 0) {
+                        orderitem_datas += '{"product_id":"' + product_id + '","product_num":"' + product_num + '"},';
+                    }
+                });
+                if(! check_flag) { // 校验失败
+                    Toast.error("所采购产品数量需为正整数！");
+                    return false;
+                }
+                if(orderitem_datas == '') {
+                    Toast.error("您还未采购产品！");
+                    return false;
+                }
+                form.find("button:submit").button("loading");
+            },
+            beforeSerialize: function() {
+                // 赋值
+                var orderitem_datas = "";
+                $("input[name='product_id']").each(function (i, item) {
+                    var product_id = item.value;
+                    var product_num = $("input[name='product_num']")[i].value;
+                    if (product_num > 0) {
+                        orderitem_datas += '{"product_id":"' + product_id + '","product_num":"' + product_num + '"},';
+                    }
+                });
+                if(orderitem_datas != '') {
+                    orderitem_datas = "[" + orderitem_datas.substring(0,orderitem_datas.length-1) + "]";
+                    $("#orderitem_datas").attr("value",orderitem_datas); // 赋值
+                }
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    setTimeout(function () {
+                        $("#goback").trigger("click");
+                    }, 1000);
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+</script>
+
+
+<%}%>

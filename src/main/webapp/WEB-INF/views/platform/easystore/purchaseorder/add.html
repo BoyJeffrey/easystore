@@ -1,0 +1,102 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<header class="header navbar bg-white shadow">
+    <div class="btn-group tool-button">
+        <a class="btn btn-primary navbar-btn" href="${base}/platform/purchaseorder/info" data-pjax><i class="ti-angle-left"></i> 返回</a>
+    </div>
+</header>
+
+<div class="content-wrap">
+    <div class="wrapper" style="min-height:500px;">
+        <section class="panel panel-form">
+            <form id="addForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                  action="${base}/platform/purchaseorder/info/addDo" method="post">
+                <div class="row mb10">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="company_id" class="col-sm-2 control-label">公司ID，对应表easy_company中id</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="company_id" class="form-control" name="company_id" data-parsley-required="true" placeholder="公司ID，对应表easy_company中id">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="order_id" class="col-sm-2 control-label">订单ID,唯一account_id+时间戳</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="order_id" class="form-control" name="order_id" data-parsley-required="true" placeholder="订单ID,唯一account_id+时间戳">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="create_time" class="col-sm-2 control-label">订单创建时间</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="create_time" class="form-control" name="create_time" data-parsley-required="true" placeholder="订单创建时间">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="total_price" class="col-sm-2 control-label">此次订单总金额:元</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="total_price" class="form-control" name="total_price" data-parsley-required="true" placeholder="此次订单总金额:元">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="goods_status" class="col-sm-2 control-label">供货状态:0处理中;1采购员确认货到</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="goods_status" class="form-control" name="goods_status" data-parsley-required="true" placeholder="供货状态:0处理中;1采购员确认货到">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pay_status" class="col-sm-2 control-label">支付状态:0未支付;1处理中;2支付成功</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="pay_status" class="form-control" name="pay_status" data-parsley-required="true" placeholder="支付状态:0未支付;1处理中;2支付成功">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pay_way" class="col-sm-2 control-label">支付方式:0未知;1现金;2微信支付</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="pay_way" class="form-control" name="pay_way" data-parsley-required="true" placeholder="支付方式:0未知;1现金;2微信支付">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="thirdpay_order_id" class="col-sm-2 control-label">第三方系统中付款订单号</label>
+                            <div class="col-sm-8">
+                            <input type="text" id="thirdpay_order_id" class="form-control" name="thirdpay_order_id" data-parsley-required="true" placeholder="第三方系统中付款订单号">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="form-group text-center">
+                        <label></label>
+
+                        <div>
+                            <button class="btn btn-primary btn-block btn-lg btn-parsley" data-loading-text="正在提交...">提 交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#addForm').ajaxForm({
+            dataType: 'json',
+            beforeSubmit: function (arr, form, options) {
+                form.find("button:submit").button("loading");
+            },
+            success: function (data, statusText, xhr, form) {
+                if (data.code == 0) {
+                    Toast.success(data.msg);
+                    form.resetForm();
+                } else {
+                    Toast.error(data.msg);
+                }
+                form.find("button:submit").button("reset");
+            }
+        });
+    });
+</script>
+<%}%>
+
+
