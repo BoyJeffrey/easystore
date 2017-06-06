@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0; }
+
+html, body {
+  font-family: 'Microsoft YaHei'; }
+
+h1, h2, h3, h4, h5, h6, p, span, div, b {
+  font-size: 14px;
+  font-weight: normal; }
+
+ul, li, ol, li {
+  list-style: none; }
+
+/*# sourceMappingURL=common.css.map */

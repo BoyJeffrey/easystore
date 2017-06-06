@@ -2,10 +2,7 @@ package cn.usually.modules.services.frontweb;
 
 import cn.usually.common.base.Service;
 import cn.usually.common.constant.ConstantEasystoreOrder;
-import cn.usually.common.util.CheckUtil;
-import cn.usually.common.util.DateUtil;
-import cn.usually.common.util.Strings;
-import cn.usually.common.util.UuidUtil;
+import cn.usually.common.util.*;
 import cn.usually.modules.models.check.CheckInfo;
 import cn.usually.modules.models.frontapi.param.FrontApiParam;
 import cn.usually.modules.models.frontapi.result.CompanyProducts;
@@ -113,7 +110,7 @@ public class FrontUserService extends Service {
 				ProductInfo productInfo = new ProductInfo();
 				productInfo.setProduct_id(product.getId());
 				productInfo.setProduct_name(product.getProduct_name());
-				productInfo.setImage_url("http://106.14.133.211" + product.getImage_url());
+				productInfo.setImage_url("http://www.newworklife.cn" + product.getImage_url());
 				productInfo.setPrice_public(product.getPrice_public());
 				productInfo.setPrice_empolyee(product.getPrice_company());
 				productInfo.setNum(product.getStock());
@@ -252,7 +249,8 @@ public class FrontUserService extends Service {
 			// 统计库中总价格
 			double total_price_db = 0.00;
 			for(Easy_empolyee_orderdetail orderdetail : orderdetailList) {
-				total_price_db += productInfoMap.get(orderdetail.getProduct_id()).getPrice_empolyee() * orderdetail.getProduct_num();
+				total_price_db = (MoneyUtil.objectToBigDecimalNoException(total_price_db)
+						.add(MoneyUtil.objectToBigDecimalNoException(productInfoMap.get(orderdetail.getProduct_id()).getPrice_empolyee()).multiply(MoneyUtil.objectToBigDecimalNoException(Long.valueOf(orderdetail.getProduct_num())))).doubleValue());
 			}
 			// 标胶最终价格
 			if(total_price != total_price_db) {
@@ -291,7 +289,7 @@ public class FrontUserService extends Service {
 		empolyee_order.setCreate_time(DateUtil.getDateTime());
 		empolyee_order.setTotal_price(total_price);
 		empolyee_order.setThirdpay_order_id(""); // 待成功支付时插入
-		empolyee_order.setPay_time(""); // 待成功支付时插入
+		empolyee_order.setPay_time(null); // 待成功支付时插入
 		empolyee_order.setPay_status(ConstantEasystoreOrder.PURCHASEORDER_PAYSTATUS_UNPAY);
 		empolyee_order.setPay_way(ConstantEasystoreOrder.PURCHASEORDER_PAYWAY_UNKNOWN);
 		// 组装详细表

@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+
+*	{
+	margin: 0;
+	padding: 0;
+	}
+html, body	{
+	height: auto;
+	}
+body	{
+	background: #fff;
+	color: #393939;
+	font-family: Arial;
+	font-size: 12px;
+	line-height: 0;
+	min-width: 1000px;
+	
+	}
+ul li{list-style:none;}
+
+	
+/*  LOGIN -------------------------------------------------------------------------------- */	
+#login-bg{background: url(../images/login/bg.jpg) repeat;}
+#login-newbg	{
+	width:960px;
+	margin:0 auto;
+	height:460px;
+	background: url(../images/login/login_topbg.png) no-repeat  center -108px;
+	}
+#login-content	{
+	margin: 0px auto;
+	width: 620px;
+	}
+.login_logo{
+	margin-top:160px;
+	text-align:center;
+	}
+.login_inner{
+	width:613px;
+	height:58px;
+	padding:8px 0;
+	background: url(../images/login/login_formbg.png) 0 0 no-repeat;
+
+	}	
+.login_inner input{
+	float:left; 
+	margin-left:8px;
+	border:none;
+	color:#999;
+	font-family:"微软雅黑";
+	font-size:18px;
+	}	
+.login-int{
+	width:236px;
+	height:58px;
+	line-height:58px;
+	background:url(../images/login/login_user.png) no-repeat;
+	padding-left:12px;
+	
+	}
+.login_submit{
+	width:77px;
+	height:58px;
+	background:url(../images/login/login_inner.png) no-repeat;
+	cursor: pointer;
+	}
+.login_submit:hover{
+	width:77px;
+	height:58px;
+	background:url(../images/login/login_inner1.png) no-repeat;
+	cursor: pointer;
+	}
+
+
+
+	

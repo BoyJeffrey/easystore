@@ -1,0 +1,82 @@
+#file_uploadUploader,#jyp_fileUploader {
+	float: left
+}
+#content-table object{
+	float: left;
+}
+.uploadifyButton {
+	background: url(redbtn.gif) no-repeat;
+	width: 73px;
+	height: 26px;
+	line-height: 26px;
+	background-position: 0 -74px;
+	color: #227085;
+	cursor: pointer;
+	font-size: 12px;
+	text-align: center;
+}
+
+.uploadify:hover .uploadifyButton {
+	color: #f00;
+}
+
+.uploadifyQueue {
+	clear: left
+}
+
+.Ufilent {
+	color: #999;
+	font-size: 12px;
+	padding-bottom: 4px;
+	height: 33px;
+	line-height: 32px;
+	float: left;
+	margin-left: 10px;
+	white-space: nowrap
+}
+
+.uploadifyQueueItem {
+	background-color: #F5F5F5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font: 11px Verdana, Geneva, sans-serif;
+	margin-top: 5px;
+	max-width: 500px;
+	padding: 10px;
+}
+
+.uploadifyError {
+	background-color: #FDE5DD !important;
+}
+
+.uploadifyQueueItem .cancel {
+	float: right;
+	width: 16px;
+	height: 16px;
+	cursor: pointer
+}
+
+.uploadifyQueueItem .mover {
+	background-position: 0 -34px
+}
+
+.uploadifyQueue .completed {
+	background-color: #E5E5E5;
+}
+
+.uploadifyProgress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.uploadifyProgress textarea {
+	font-size: 13px
+}
+
+.uploadifyProgressBar {
+	background-color: #0099FF;
+	height: 9px;
+	width: 1px;
+}

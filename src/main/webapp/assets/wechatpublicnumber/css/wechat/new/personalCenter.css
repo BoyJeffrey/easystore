@@ -1,0 +1,116 @@
+body {
+  background: #ececec; }
+
+.wrap {
+  width: 100%; }
+
+header {
+  width: 95%;
+  background: #f2f2f2;
+  margin-left: 2.5%;
+  border: 1px solid #969696;
+  margin-top: 5px; }
+  header .t {
+    background: #3c94fd;
+    height: 45px;
+    position: relative;
+    line-height: 45px; }
+    header .t h1 {
+      position: absolute;
+      left: 50%;
+      font-size: 1.5em;
+      color: #fff;
+      margin-left: -55px; }
+      header .t h1 img {
+        position: relative;
+        top: 3px;
+        width: 20%;
+        margin-right: 5px; }
+  header .photo img {
+    width: 30%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 18px;
+    margin-bottom: 5px; }
+  header .massege h1 {
+    width: 80%;
+    margin: 0 auto;
+    font-size: 1.1em;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #969696;
+    color: #333; }
+    header .massege h1 span {
+      float: right; }
+  header .massege h1:last-child {
+    border-bottom: none; }
+
+.content {
+  width: 95%;
+  background: #f2f2f2;
+  margin-left: 2.5%;
+  border: 1px solid #969696;
+  margin-top: 5px; }
+  .content .t {
+    background: #3c94fd;
+    height: 45px;
+    position: relative;
+    line-height: 45px; }
+    .content .t h1 {
+      position: absolute;
+      left: 50%;
+      font-size: 1.5em;
+      color: #fff;
+      margin-left: -55px; }
+      .content .t h1 img {
+        position: relative;
+        top: 3px;
+        width: 20%;
+        margin-right: 5px; }
+  .content .text ul {
+    display: -webkit-box; }
+    .content .text ul li {
+      -webkit-box-flex: 1;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      font-size: 1.1em;
+      border-bottom: 1px solid #969696; }
+  .content .num ul {
+    display: -webkit-box; }
+    .content .num ul li {
+      -webkit-box-flex: 1;
+      text-align: center;
+      height: 50px;
+      font-size: 1.3em;
+      line-height: 50px;
+      color: #0d4892; }
+    .content .num ul li:first-child {
+      background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#fe322c), to(#ed7b73));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; }
+    .content .num ul li:last-child {
+      color: #383838; }
+
+footer {
+  background: #eaeaea;
+  border-top: 1px solid #969696;
+  border-bottom: 1px solid #969696;
+  margin-top: 20px;
+  margin-bottom: 20px; }
+  footer ul li {
+    border-bottom: 1px solid #969696;
+    width: 90%;
+    margin-left: 10%;
+    height: 40px;
+    line-height: 40px;
+    color: #194891;
+    font-size: 1.3em; }
+    footer ul li span {
+      float: right;
+      font-size: 1.5em;
+      margin-right: 5%; }
+  footer ul li:last-child {
+    border-bottom: none; }
+
+/*# sourceMappingURL=personalCenter.css.map */

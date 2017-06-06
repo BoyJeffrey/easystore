@@ -1,0 +1,11 @@
+body,ul,li,h1,h2,div {
+	padding:0;
+	margin:0;
+	border:0;
+}
+body {
+	font-size:100%;
+	-webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+	font-family:helvetica;
+}

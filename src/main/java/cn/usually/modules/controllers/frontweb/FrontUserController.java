@@ -9,8 +9,11 @@ import cn.usually.modules.models.platform.easystore.Easy_empolyee_orderdetail;
 import cn.usually.modules.services.frontweb.FrontUserService;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.mvc.adaptor.JsonAdaptor;
+import org.nutz.mvc.annotation.AdaptBy;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
@@ -82,12 +85,14 @@ public class FrontUserController {
      * 校验用户支付前参数,校验通过则返回该笔订单在本系统中商户订单号
      * @param company_id
      * @param total_price
-     * @param orderdetailList
+     * @param orderitem_datas
      */
     @At
     @Ok("json")
-    public Object checkPay(@Param("company_id") long company_id, @Param("company_id") double total_price, @Param("orderitem_datas")List<Easy_empolyee_orderdetail> orderdetailList) {
-        log.debug("用户下单前,订单校验:company_id:" + company_id + ";total_price:" + total_price + ";orderdetailList:" + orderdetailList.toString());
+    @AdaptBy(type = JsonAdaptor.class)
+    public Object checkBeforePay(@Param("company_id") long company_id, @Param("total_price") double total_price, @Param("orderitem_datas") String orderitem_datas) {
+        log.debug("用户下单前,订单校验:company_id:" + company_id + ";total_price:" + total_price + ";orderitem_datas:" + orderitem_datas);
+        List<Easy_empolyee_orderdetail> orderdetailList = Json.fromJsonAsList(Easy_empolyee_orderdetail.class, orderitem_datas);
         CheckInfo checkInfo = CheckUtil.getDefaultFalseCheckInfo(); // 校验对象初始化
         String buy_order_id = frontUserService.dealEmployeeBeforePay(company_id, total_price, orderdetailList, checkInfo);
         if(checkInfo.getFlag())

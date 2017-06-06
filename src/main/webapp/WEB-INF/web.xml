@@ -5,6 +5,30 @@
          version="3.1">
     <display-name>easystore</display-name>
 
+    <!-- easystore_wechat add begin -->
+
+    <welcome-file-list>
+        <welcome-file>/wechatpublicnumber/welcome.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- start up listener -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:wechatpublicnumber/applicationContext-*.xml
+        </param-value>
+    </context-param>
+
+    <!-- 防止内存泄露 -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+
+    <!-- easystore_wechat add end -->
+
     <!-- Shiro -->
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
@@ -83,5 +107,13 @@
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/error/404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/error/500.html</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.NullPointerException</exception-type>
+        <location>/WEB-INF/error/500.html</location>
     </error-page>
 </web-app>

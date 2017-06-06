@@ -35,6 +35,7 @@ public class PayCenterController {
      * 第三方支付接口
      */
     @At
+//    @AdaptBy(type = JsonAdaptor.class)
     public void pay(@Param("buy_order_id") String buy_order_id, HttpServletResponse res) {
         try {
             CheckInfo checkInfo = CheckUtil.getDefaultFalseCheckInfo(); // 校验对象

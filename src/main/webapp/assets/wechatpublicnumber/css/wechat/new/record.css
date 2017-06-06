@@ -1,0 +1,72 @@
+body {
+  background: #ececec; }
+
+.wrap {
+  width: 100%; }
+
+.content {
+  clear: both; }
+  .content section {
+    display: -webkit-box;
+    height: 100px;
+    background: url(../../../images/wechat/new/list-section-line.jpg) no-repeat bottom center;
+    background-size: contain; }
+    .content section dl {
+      display: -webkit-box;
+      width: 100%; }
+      .content section dl dt {
+        width: 20%; }
+        .content section dl dt img {
+          width: 90%;
+          margin-left: 10%;
+          display: block;
+          padding-top: 20%; }
+      .content section dl dd {
+        width: 77%;
+        margin-left: 3%; }
+        .content section dl dd h1 {
+          font-size: 1.4em;
+          color: #333;
+          padding-top: 6%; }
+          .content section dl dd h1 span {
+            color: #666;
+            font-size: 0.9em;
+            margin-left: 30px; }
+        .content section dl dd p {
+          font-size: 1.2em;
+          color: #666;
+          padding-top: 5%;
+          display: block;
+          width: 100%; }
+          .content section dl dd p span {
+            color: #3c94fd;
+            font-size: 1em; }
+          .content section dl dd p .right {
+            color: #333;
+            margin-left: 10px; }
+
+.noneRecord {
+  width: 100%;
+  position: relative; }
+  .noneRecord h1 {
+    text-align: center;
+    color: #3c94fd;
+    font-size: 1.4em;
+    margin-top: 88px; }
+  .noneRecord span {
+    display: block;
+    color: #fff;
+    text-align: center;
+    width: 30%;
+    background: url(../../../images/wechat/new/record-btn.png) no-repeat;
+    background-size: contain;
+    line-height: 40px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    margin-left: -15%;
+    margin-top: 30px; }
+
+/*# sourceMappingURL=record.css.map */

@@ -6,20 +6,25 @@ package cn.usually.common.constant;
  * @company: 
  */
 public class ConstantUrl {
+
+	/**
+	 * 工程主地址
+	 */
+	public static final String	SERVER_DOMAIN_ROOT	=	"http://www.newworklife.cn//easystore";
 	
 	/**
 	 * 微信RedirectUrl
 	 */
-	public static final String URL_WECHAT_REDIRECT = "http://106.14.133.211/easystore/post/paycenter/redirect_wechat?";
+	public static final String URL_WECHAT_REDIRECT = "http://www.newworklife.cn/easystore/post/paycenter/redirect_wechat?";
 
 	/**
-	 * 微信同步通知前端所跳转的front_url
+	 * 微信同步通知前端所跳转的front_url:用户购买产品
 	 */
-	public static final String URL_WECHAT_FRONT = "http://106.14.133.211/easystore/frontweb/qr.html";
+	public static final String URL_WECHAT_FRONT = "http://www.newworklife.cn/easystore/frontweb/qr.html";
 
 	/**
-	 * 微信异步所通知的服务器Notify_url
+	 * 微信异步所通知的服务器Notify_url:用户购买产品
 	 */
-	public static final String URL_WECHAT_NOTIFY = "http://106.14.133.211/easystore/thirdpay/back/wechat/notify";
+	public static final String URL_WECHAT_NOTIFY_EMPLOYEE = "http://www.newworklife.cn/easystore/frontweb/employee/report_buy_result";
 	
 }

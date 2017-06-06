@@ -1,0 +1,47 @@
+body {
+  background: #e5e5e5; }
+
+.wrap {
+  width: 100%; }
+
+.content {
+  clear: both; }
+  .content ul {
+    background: #f2f2f2;
+    width: 95%;
+    margin-left: 2.5%;
+    border: 1px solid #999;
+    margin-top: 30px; }
+    .content ul li {
+      clear: both;
+      border-bottom: 1px solid #999;
+      width: 90%;
+      margin-left: 5%;
+      height: 60px; }
+      .content ul li h1 {
+        float: left;
+        line-height: 60px;
+        font-size: 1.3em; }
+      .content ul li input {
+        border: none;
+        height: 40px;
+        margin-top: 10px;
+        background: #f2f2f2;
+        outline: none;
+        font-size: 1.3em;
+        width: 50%; }
+    .content ul li:last-child {
+      border-bottom: none; }
+  .content .submitBtn {
+    width: 50%;
+    margin-left: 25%;
+    color: #fff;
+    font-size: 1.5em;
+    background: #3c94fd;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    margin-top: 50px;
+    line-height: 40px; }
+
+/*# sourceMappingURL=qmoney.css.map */

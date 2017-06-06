@@ -15,6 +15,9 @@ public class WechatPageInfo {
 	private String sign; // 签名处理后信息
 	private String prepay_id; // 微信支付所需prepay_id
 
+	// 其它参数
+	private String front_url; // 微信支付后前端跳转url
+
 	public String getAppid() {
 		return appid;
 	}
@@ -63,4 +66,11 @@ public class WechatPageInfo {
 		this.prepay_id = prepay_id;
 	}
 
+	public String getFront_url() {
+		return front_url;
+	}
+
+	public void setFront_url(String front_url) {
+		this.front_url = front_url;
+	}
 }

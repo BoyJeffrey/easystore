@@ -1,0 +1,44 @@
+
+.TreeGrid{
+	border-collapse: collapse; 
+	font-size: 14px;
+	border: 1px solid #778899;
+	line-height:34px;
+}
+
+.TreeGrid .heade{
+	background-color: #c0eaff;
+	font-size: 14px;
+	
+}
+
+.TreeGrid td{
+	border: 1px solid #ddd;
+	padding: 4px 15px 2px 15px;
+}
+
+.TreeGrid a{
+	text-decoration: none;
+}
+
+
+.TreeGrid .image_hand{
+	border: 0;
+	cursor:hand;
+	align:absmiddle;
+	margin-right:5px;
+}
+
+.TreeGrid .image_nohand{
+	border: 0;
+	align:absmiddle;
+	display:none;
+}
+
+.TreeGrid .row_hover{
+	background-color: #E6E6FA;
+}
+
+/*.TreeGrid .row_active{
+	background-color: #E0FFFF;
+}*/

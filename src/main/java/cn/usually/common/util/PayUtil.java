@@ -1,6 +1,6 @@
 package cn.usually.common.util;
 
-import cn.usually.common.pay.wechat.ConfigUtil;
+import cn.usually.common.pay.wechat.WechatConfig;
 import cn.usually.common.pay.wechat.MD5Util;
 
 import java.util.Iterator;
@@ -32,7 +32,7 @@ public class PayUtil {
                 sb.append(k + "=" + v + "&");
             }
         }
-        sb.append("key=" + ConfigUtil.API_KEY);
+        sb.append("key=" + WechatConfig.API_KEY);
         System.out.println("md5 sb:" + sb);
         String sign = MD5Util.MD5Encode(sb.toString(), charset).toUpperCase();
         System.out.println("packge签名:" + sign);

@@ -1,0 +1,13 @@
+.con table.list{
+	width: 100%;
+}
+.con table.list thead{
+	width: 100%;
+	background-color: #d3dfed;
+}
+.con table.list tbody{
+	width: 100%;
+	background-color: #ceffff;
+	text-align: center;
+	line-height: 30px;
+}

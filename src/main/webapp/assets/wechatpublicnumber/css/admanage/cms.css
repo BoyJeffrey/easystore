@@ -1,0 +1,269 @@
+html, body, div, span, ul, li, a {
+	padding: 0 ;
+	margin: 0 ;
+}
+ul {
+	list-style: none ;
+}
+a {
+	text-decoration: none;
+}
+img {
+	border : 0px ;
+}
+.f-14 {
+	font-size:14px;
+}
+.bd {
+	font-weight: bold;
+}
+.color-red {
+	color:#ff3300;
+}
+
+#cms_box {
+	overflow : hidden ;
+	position : fixed ;
+	top : 20% ;
+	left : 30% ;
+	background : #fff ;
+	border : 6px solid #777 ;
+	display : none ;
+}
+#cms_box span.cls {
+	display : block ;
+	float : right ;
+	width : 36px ;
+	height : 36px ;
+	line-height : 36px ;
+	color : #fff ;
+	font-family : arail ;
+	font-size : 12px ;
+	text-align : center ;
+	background : #dc143c ;
+	cursor : pointer ;
+}
+#cms_box .t {
+	width : 100%;
+	height : 36px ;
+	line-height : 36px ;
+	color : #fff ;
+	font-family : arail ;
+	font-size : 14px ;
+	text-align : center ;
+	background : #2e82ff ;
+}
+#cms_box .c {
+	width : 100%;
+	overflow : scroll ;
+	height:500px;
+}
+
+#cms_box .photo-list-wrap {
+	padding-top : 12px ;
+	padding-bottom : 10px ;
+	overflow : hidden ;
+}
+
+#cms_box .photo-list-wrap .photo-content {
+	width : 680px ;
+	overflow : hidden ;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info {
+	width : 320px ;
+	overflow : hidden ;
+	float : left ;
+	position : relative ;
+	padding : 10px ;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .close {
+	display : block ;
+	width : 22px ;
+	height : 22px ;
+	line-height : 22px ;
+	color : #fff ;
+	font-family : arail ;
+	font-size : 12px ;
+	text-align : center ;
+	background : #dc143c ;
+	cursor : pointer ;
+	position : absolute ;
+	top : 0px ;
+	right : 0px ;
+	border-radius: 50%;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .icon {
+	width : 320px ;
+	height : 240px ;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .name {
+	margin : 0 auto ;
+	width : 320px ;
+	height : 32px ;
+	line-height : 32px ;
+	color : #333 ;
+	font-family : arail ;
+	font-size : 13px ;
+	text-overflow: ellipsis ;
+	padding-top : 5px ;
+	padding-bottom:3px;
+	text-align:center;
+}
+
+#cms_box .photo-list-wrap .photo-content .photo-info .name input {
+	margin : 0 auto ;
+	margin-right:10px;
+	border:none ;
+	width : 110px ;
+	height : 24px ;
+	line-height : 24px ;
+	border: 1px solid #2e82ff;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .name a.radio-icon-button {
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 0.875em;
+	font-family: arial;
+	color: #fff;
+	background: #00a8ff;
+	border: 1px solid #6699cc;
+	border-radius: 7px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	margin-right: 30%;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .name input.sort-edit {
+	margin : 0 auto ;
+	margin-right:10px;"
+	border:none ;
+	width : 48px ;
+	height : 24px ;
+	line-height : 24px ;
+	border: 1px solid #2e82ff;
+}
+#cms_box .photo-list-wrap .photo-content .photo-info .name a {
+	width: 45px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 0.875em;
+	font-family: arial;
+	color: #fff;
+	background: #00a8ff;
+	border: 1px solid #2e82ff;
+	border-radius: 7px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	float:right;
+	margin-top:3px;
+}
+#iconView img {
+	border : 1px solid #00a8ff;
+}
+
+
+#cms_box .seller-photo-list-wrap {
+	padding-top : 12px ;
+	padding-bottom : 10px ;
+}
+
+#cms_box .seller-photo-list-wrap .seller-photo-content {
+	width : 680px ;
+}
+
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info {
+	width : 320px ;
+	float : left ;
+	position : relative ;
+	padding : 10px ;
+}
+
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .close {
+	display : block ;
+	width : 22px ;
+	height : 22px ;
+	line-height : 22px ;
+	color : #fff ;
+	font-family : arail ;
+	font-size : 12px ;
+	text-align : center ;
+	background : #dc143c ;
+	cursor : pointer ;
+	position : absolute ;
+	top : 0px ;
+	right : 0px ;
+	border-radius: 50%;
+}
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .icon {
+	width : 320px ;
+	height : 240px ;
+}
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name {
+	margin : 0 auto ;
+	width : 320px ;
+	line-height : 32px ;
+	color : #333 ;
+	font-family : arail ;
+	font-size : 13px ;
+	text-overflow: ellipsis ;
+	padding-top : 5px ;
+	padding-bottom:3px;
+	text-align:center;
+}
+
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name input {
+	margin : 0 auto ;
+	margin-right:10px;
+	border:none ;
+	width : 156px ;
+	height : 24px ;
+	line-height : 24px ;
+	border: 1px solid #2e82ff;
+}
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name a.radio-icon-button {
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 0.875em;
+	font-family: arial;
+	color: #fff;
+	background: #00a8ff;
+	border: 1px solid #6699cc;
+	border-radius: 7px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	margin-right: 30%;
+}
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name input.sort-edit {
+	margin : 0 auto ;
+	margin-right:10px;"
+	border:none ;
+	width : 48px ;
+	height : 24px ;
+	line-height : 24px ;
+	border: 1px solid #2e82ff;
+}
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name a {
+	width: 100px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 0.875em;
+	font-family: arial;
+	color: #fff;
+	background: #00a8ff;
+	border: 1px solid #2e82ff;
+	border-radius: 7px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	float:right;
+	margin-top:3px;
+}
+
+#cms_box .seller-photo-list-wrap .seller-photo-content .seller-photo-info .name textarea{
+	width:320px;
+	height:100px;
+}

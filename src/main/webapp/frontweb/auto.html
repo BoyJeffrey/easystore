@@ -1,0 +1,40 @@
+
+<html>
+<head>
+<title>自动安装</title>
+<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<script type="text/javascript">
+    function doLocation() {
+        var regtel = /OS (\d)_(\d)/;
+        var vesionstr=navigator.userAgent.match(regtel);
+        var numbOne=vesionstr[1];
+        var numbTow=vesionstr[2];
+        var tourl='';
+        if((numbOne == 7 && numbTow > 0) || numbOne >7){
+            tourl="https://raw.githubusercontent.com/liuweifree/wanjiadaren/master/wanjiadaren.plist";
+        }
+        else{
+            tourl="http://www.wanjiadr.com/wanjiadaren.plist";
+        }
+        var url='itms-services://?action=download-manifest&url='+tourl;
+        var a = document.createElement("a");
+        if (!a.click) {
+            window.location = url;
+            return;
+        }
+        a.setAttribute("href", url);
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+    }
+</script>
+</head>
+<body>
+<script type="text/javascript">
+    doLocation();
+ 
+</script>
+   请使用safari浏览器打开此页面，并安装玩家达人的app
+</body>
+</html>

@@ -1,0 +1,215 @@
+
+.sendtr{
+	background-color:#e4e5e5;
+	font-weight:bold;
+	margin-top:10px;
+	line-height:25px;
+}
+#id-form .sendtr td{
+	padding:0 0 0 5px;
+}
+.clearfix:after{content:'.';display:block;_display:inline-block;visibility:hidden;clear:both;height:0px;font-size:0;line-height:0px;} 
+.tslist{
+    width:100%;
+  border-bottom:1px solid #cccccc;}
+.tslist li{
+   float:left;
+   height:36px;
+   line-height: 36px;
+   background-color:#f2f2f2;
+   padding:5px 40px;
+   border-radius: 5px 5px 0px 0px;
+   border-top:1px solid #cccccc;
+   border-left:1px solid #cccccc;
+   border-right:1px solid #cccccc;
+   cursor: pointer;s
+}
+li.active{
+background-color:#fff;
+line-height:38px;
+height:38px;
+margin-bottom:-2px;
+}
+textarea{
+width:100%;
+height:74px;
+border:1px solid #ccc;
+}
+dl.tsdl{
+ margin-top:10px;
+ font-family:"黑体";
+ font-size:14px;
+}
+dl.tsdl dt{
+ line-height:25px;
+ margin:5px 0;
+}
+.tsdl dd{ 	}
+.tslist li:last-child{
+margin-left:-1px;
+}
+ .tsboxa{}
+ .tsboxb{display:none;}
+ /*消息推送信息展示*/
+  .message_top_ad{
+ 	width:280px;
+ 	height:51px;
+ 	background:url(../images/messagesend/andriod_top01.png) 0 0 no-repeat;
+ 	color:#fff;
+ 	padding-left:36px;
+ 	padding-right:4px;
+ 	line-height:26px;
+ 	text-overflow:ellipsis; 
+ 	overflow:hidden; 
+ 	white-space:nowrap; 
+ }
+ .message_top{
+ 	width:280px;
+ 	height:30px;
+ 	color:#fff;
+ 	line-height:26px;
+ 	text-overflow:ellipsis; 
+ 	overflow:hidden; 
+ 	white-space:nowrap; 
+ }
+ .message_bom{
+	 width:260px;
+ 	height:28px;
+ 	padding-top:37px;
+ 	padding-left:10px;
+ 	padding-right:50px;
+ 	background:url(../images/messagesend/andriod_bom01.png) 0 0 no-repeat;
+ 	line-height:24px;
+ 	color:#010101;
+ 	overflow:hidden;
+ 	word-wrap: break-word;
+ }
+.message_bom p{
+	text-overflow:ellipsis; 
+ 	overflow:hidden; 
+ 	white-space:nowrap; 	
+}
+.android_01 .message_top{
+	overflow:hidden;
+	/*border-left: 1px solid #CCCCCC;*/
+    /*border-right: 1px solid #CCCCCC;*/
+}
+.android_01 .message_bom{
+	border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+}
+.android_02 .message_top_ad{
+ 	background:url(../images/messagesend/andriod_top02.png) 0 0 no-repeat;
+ 	height:48px;
+}
+.android_02 .message_top{
+	overflow:hidden;
+	height:30px;
+}
+.android_02 .message_bom{
+	color:#6b6b6b;
+	background:url(../images/messagesend/andriod_bom02.png) 0 0 no-repeat;
+	padding-right:68px;
+	width:242px;
+	font-size:13px;
+	color:#6b6b6b;
+}
+.android_03 .message_top_ad{
+	height:60px;
+	line-height:32px;
+	font-size:16px;
+ 	background:url(../images/messagesend/andriod_top03.png) 0 0 no-repeat;
+}
+.android_03 .message_top{
+	overflow:hidden;
+}
+.android_03 .message_bom{
+	padding-left:50px;
+	padding-right:40px;
+	width:230px;
+	background:url(../images/messagesend/andriod_bom03.png) 0 0 no-repeat;
+	color:#ababab;
+	font-size:13px;
+	line-height:20px;
+	height:21px;
+}
+/*ios*/
+.ios_01 .message_top{
+	height:26px;
+	padding: 14px 20px 0 38px;
+    width: 262px;
+	background:url(../images/messagesend/ios_top01.png) 0 0 no-repeat;
+	color:#000;
+	font-size:12px;
+}
+.ios_01  .message_bom{
+	height:83px;
+	color:#fff;
+	background:url(../images/messagesend/ios_bom01.png) 0 0 no-repeat;
+	padding:37px 12px 0 58px;
+	width:250px;
+	font-size:14px;
+	line-height:20px;
+}
+.ios_02  .message_bom{
+	height:161px;
+	padding:50px 28px 0 32px;
+	background:url(../images/messagesend/ios_bom02.png) 0 0 no-repeat;
+	color:#fff;
+	font-size:16px;
+	text-align:center;
+}
+.ios_03  .message_bom{
+	height:84px;
+	width:274px;
+	padding:48px 14px 0 32px;
+	background:url(../images/messagesend/ios_bom03.png) 0 0 no-repeat;
+	color:#fff;
+	font-size:13px;
+	line-height:18px;
+}
+.ios_04 .message_top_ios{
+	height:41px;
+	padding: 22px 13px 0 45px;
+    width: 262px;
+	background:url(../images/messagesend/ios_top04.png) 0 0 no-repeat;
+	color:#fff;
+	font-size:15px;
+	 line-height: 20px;
+	 overflow:hidden;
+}
+.ios_04  .message_bom{
+	height:80px;
+	padding: 32px 15px 0 45px;
+    width: 260px;
+	background:url(../images/messagesend/ios_bom04.png) 0 0 no-repeat;
+	color:#fff;
+	font-size:16px;
+	line-height:20px;
+}
+.ios_05  .message_bom{
+	height:120px;
+	 padding: 34px 25px 0 45px;
+    width: 250px;
+	background:url(../images/messagesend/ios_bom05.png) 0 0 no-repeat;
+	color:#000;
+	font-size:14px;
+	line-height:18px;
+}
+.ios_06  .message_bom{
+	height:70px;
+	padding: 65px 27px 0 48px;
+    width: 245px;
+	background:url(../images/messagesend/ios_bom06.png) 0 0 no-repeat;
+	color:#fff;
+	font-size:15px;
+	line-height:18px;
+}
+.message_toptit{
+	line-height:34px;
+	font-size:14px;
+}
+.messageNumber ul{
+	max-height:200px;
+	overflow-y:auto;
+}
