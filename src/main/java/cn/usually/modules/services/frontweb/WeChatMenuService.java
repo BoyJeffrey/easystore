@@ -18,49 +18,33 @@ public class WeChatMenuService extends Service {
 
 	//create menu object
 	public WeChatMenu	createWeChatMenu(){
-		
+
 		WeChatMenu	weChatMenu = new WeChatMenu();
-		
-		//便利店
+
+		//进入店铺
 		WeChatViewButton easystoreButton = new WeChatViewButton();
-		easystoreButton.setName("零食来了");
+		easystoreButton.setName("进入店铺");
 		easystoreButton.setType("view");
 		easystoreButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/employee/scan_guide");
-		
-    	//后台管理
-		WeChatViewButton managerButton = new WeChatViewButton();
-		managerButton.setName("公司采购");
-		managerButton.setType("view");
-//		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/h5/manager.do");
-		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/manager.html");
 
-    	//更多
-    	WeChatComplexButton moreButton = new WeChatComplexButton();
-    	moreButton.setName("更多");
-    	
-    		//申请开店
-    		WeChatViewButton applyButton = new WeChatViewButton();
-    		applyButton.setName("申请开店");
-    		applyButton.setType("view");
-    		applyButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/apply.html");
-    		//联系客服
-    		WeChatCommonButton contactButton =	new	WeChatCommonButton();
-    		contactButton.setName("联系客服");
-    		contactButton.setType("click");
-    		contactButton.setKey(WeChatMessageType.MENU_CLICK_KEY_CONTACT);
-    		//关于我们
-    		WeChatViewButton aboutusButton =	new	WeChatViewButton();
-    		aboutusButton.setName("关于我们");
-    		aboutusButton.setType("view");
-    		aboutusButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/aboutus.html");
-    	WeChatBaseButton[] moreButtonGroup = new WeChatBaseButton[]{applyButton, contactButton,aboutusButton};
-    	moreButton.setSub_button(moreButtonGroup);  
-    	
-    	//组装到菜单中
-    	WeChatBaseButton[] menuGroup = new WeChatBaseButton[]{easystoreButton, managerButton, moreButton};
-    	weChatMenu.setButton(menuGroup);
-    	
+		//工作平台
+		WeChatViewButton managerButton = new WeChatViewButton();
+		managerButton.setName("工作平台");
+		managerButton.setType("view");
+		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/apply.html");
+
+		//关于我们
+		WeChatViewButton aboutUsButton = new WeChatViewButton();
+		aboutUsButton.setName("关于我们");
+		aboutUsButton.setType("view");
+		aboutUsButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/aboutus.html");
+
+		//组装到菜单中
+		WeChatBaseButton[] menuGroup = new WeChatBaseButton[]{easystoreButton, managerButton, aboutUsButton};
+		weChatMenu.setButton(menuGroup);
+
 		return	weChatMenu;
+		
 	}
 	
 	
