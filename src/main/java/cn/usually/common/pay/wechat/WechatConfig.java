@@ -7,10 +7,11 @@ public class WechatConfig {
 	// 公众号名称
 	 public final static String MCH_NAME = "易民新便利";
 	 // 微信公众号支付参数
-	 public final static String MCH_ID = "";//商户号
+	 public final static String MCH_ID = "1480583782";//商户号
+
 	 public final static String APPID = "wx9d2a4d6ba347cb26";//服务号的应用号
 	 public final static String APP_SECRECT = "62651b156ea3794019e58c0a70d26cc0";//服务号的应用密码
-	 public final static String API_KEY = "";//API密钥
+	 public final static String API_KEY = "62651b156ea3794019e58c0a70d26cc1";//API密钥
 	 public final static String SIGN_TYPE = "MD5";//签名加密方式
 //	 public final static String REDIRECT_URI = "http://192.168.1.112/paymanager/post/paycenter/redirect?";
 

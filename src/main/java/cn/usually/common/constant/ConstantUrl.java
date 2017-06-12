@@ -20,7 +20,7 @@ public class ConstantUrl {
 	/**
 	 * 微信同步通知前端所跳转的front_url:用户购买产品
 	 */
-	public static final String URL_WECHAT_FRONT = "http://www.newworklife.cn/easystore/frontweb/qr.html";
+	public static final String URL_WECHAT_FRONT = "http://www.newworklife.cn/easystore/frontweb/employee/company_shop_from_scan";
 
 	/**
 	 * 微信异步所通知的服务器Notify_url:用户购买产品

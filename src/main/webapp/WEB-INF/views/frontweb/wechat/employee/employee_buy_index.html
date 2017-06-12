@@ -2,15 +2,453 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>易民新便利</title>
+	<title>${company_name}</title>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=20170612">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script type="text/javascript" src="${base}/assets/js/front/jquery-1.1.4.min.js"></script>
+	<script type="text/javascript" src="${base}/assets/js/front/zepto.js"></script>
+	<script type="text/javascript" src="${base}/assets/js/front/zepto.touch.js"></script>
+	<script type="text/javascript"  src="${base}/assets/js/front/underscore.js"></script>
+	<script type="text/javascript">
+        function set(){
+            var w = document.documentElement.clientWidth;
+            if(w > 667){
+                w = 667;
+            }else if(w < 320){
+                w = 320;
+            }
+            var rate = w / 667;
+            document.documentElement.style.fontSize = 40 * rate + "px";
+        }
+        set();
+        window.onresize = set;
+
+        var mm=0;var shop_list=[];
+        var flag_success = "${checkInfo.flag}"; // 是否正常跳转入该页面
+        var company_id = "${company_id}";
+        var open_id = "${open_id}";
+        console.log("flag_success:" + flag_success + ";company_id:" + company_id + ";open_id:" + open_id);
+        if(!flag_success || company_id <= 0) {
+//            window.localStorage.setItem("company_id", company_id);
+            window.location.href = "${base}/frontweb/employee/scan_guide";
+        }
+
+        //        setTimeout(function(){
+        $(document).ready(function () {
+            $(".carbask").css({"height":window.screen.height+"px"});
+//            $(".list").on("tap",function(event){
+//                event.stopPropagation();
+//                if($(this).siblings(".bask").css("display")==="block"){
+//                    return ;
+//                }
+//                if($(this).siblings(".bask").css("display")==="none"){
+//                    $(this).siblings(".bask").css({display:"block"});
+//                    $("#total").html(
+//                        (parseFloat($("#total").html())+parseFloat($(this).find(".price").html().substr(1))).toFixed(2)
+//                    )
+//                    $(".usualytotal").html(
+//                        (parseFloat($(".usualytotal").html())+parseFloat($(this).find(".newprice").html().substr(1))).toFixed(2)
+//                    )
+//                }
+//            });
+//            $(".close").on("tap",function(event){
+//                event.stopPropagation();
+//                $(this).parent(".bask").css({display:"none"});
+//                if($(this).parent(".bask").css("display")==="none"){
+//
+//                    $("#total").html(
+//                        (parseFloat($("#total").html())-parseFloat($(this).parent(".bask").siblings(".list").find(".price").html().substr(1))*parseInt($(this).siblings(".mount").html())).toFixed(2)
+//                    )
+//                    $(".usualytotal").html(
+//                        (parseFloat($(".usualytotal").html())-parseFloat($(this).parent(".bask").siblings(".list").find(".newprice").html().substr(1))*parseInt($(this).siblings(".mount").html())).toFixed(2)
+//                    )
+//                    $(this).siblings(".mount").html(1);
+//                }
+//            });
+            // 主界面中产品增加
+            $(".bask .add").on("tap",function(event){
+                event.stopPropagation();
+                if($(this).parent().find(".mount").css("display")==="none"){
+                    $(this).parent().children().css({"display":"inline-block"});
+                    $(this).css({"marginLeft":0});
+                }
+                $(this).parent().find(".mount").html(parseInt($(this).parent().find(".mount").html())+1);
+
+                $("#total").html(
+                    (parseFloat($("#total").html())+parseFloat($(this).parent().siblings(".list").find(".price").html().substr(1))).toFixed(2)
+                )
+                $(".usualytotal").html(
+                    (parseFloat($(".usualytotal").html())+parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
+                )
+                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
+                nn+=1;
+                $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
+                mm+=1;
+                $(".carmount").html(mm);
+                if($(".carmount").html()===0){
+                    $(".carmount").css({"display":"none"});
+                }else{
+
+                    $(".carmount").css({"display":"block"});
+                }
+            })
+            // 主界面中产品减少
+            $(".bask .remove").on("tap",function(event){
+                event.stopPropagation();
+                if($(this).siblings(".mount").html()<=1){
+                    $(this).parent().find(".mount").css({"display":"none"});
+                    $(this).parent().find(".add").css({"marginLeft":"2.5rem"});
+                    $(this).css({"display":"none"});
+                }
+                $(this).parent().find(".mount").html(parseInt($(this).parent().find(".mount").html())-1);
+
+                $("#total").html(
+                    (parseFloat($("#total").html())-parseFloat($(this).parent().siblings(".list").find(".price").html().substr(1))).toFixed(2)
+                )
+                $(".usualytotal").html(
+                    (parseFloat($(".usualytotal").html())-parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
+                )
+                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
+                nn-=1;
+                $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
+                if(nn==0){
+                    $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
+                }
+                mm-=1;
+                $(".carmount").html(mm);
+                if($(".carmount").html()==0){
+                    $(".carmount").css({"display":"none"});
+                }else{
+
+                    $(".carmount").css({"display":"block"});
+                }
+            })
+            for(var i=0;i<$(".container ul").length;i++){
+
+                for(var j=0;j<$(".container ul").eq(i).find("li").length;j++){
+                    if((j+1)%3===0){
+                        $(".container ul").eq(i).find("li").eq(j).css({"borderRight":"none"})
+                    }
+                }
+                // var addbox=3-$(".container ul").eq(i).find("li").length%3;
+                // while(addbox){
+
+                // 	$("<li/>",{"width":"33.33%","height":"7rem","float":"left","borderBottom":"1px solid #eee","backgroundColor":"#fff"}).appendTo($(".container ul").eq(i));
+                // 	addbox--;
+                // }
+            }
+            // $(".search input").on("focus",function(){
+            // 	$(".search_info").css({"display":"none"});
+            // })
+            // $(".search input").on("blur",function(){
+
+            // 	if($(this).val()==''){
+            // 		$(".search_info").css({"display":"block"});
+            // 	}
+
+            // 	var keyword=$(this).val();
+
+            // 	$("li").css({"display":"none"});
+            // 	$("ul").css({"display":"none"});
+
+            // 	for(var i=0;i<$(".container ul").length;i++){
+            // 		for(var j=0;j<$(".container ul").eq(i).find("li").length;j++){
+            // 			if($(".container ul").eq(i).find("li").eq(j).find(".name").html()&&$(".container ul").eq(i).find("li").eq(j).find(".name").html().indexOf(keyword)>-1){
+            // 				$(".container ul").eq(i).find("li").eq(j).css({"display":"block"});
+            // 				$(".container ul").eq(i).css({"display":"block"});
+            // 			}
+            // 		}
+
+            // 	}
+
+            // })
+            // 左边产品分类点击
+            $("#slider li").on ("tap",function(event){
+                $(".container ul").css({"display":"none"});
+                $("#slider li").css({"backgroundColor":"#eee"});
+                $(this).css({"backgroundColor":"#fff"})
+                $(".container ul").eq($(this).index()).css({"display":"block"});
+            })
+            // 购物车点击
+            $(".hotspot").on("tap",function(event){
+                shop_list=[];
+
+                if($(".shopping_detial ul").find("li")){
+
+                    $(".shopping_detial ul").html("");
+                }
+                for(var i=0;i<$(".container ul li").length;i++){
+                    if($(".container ul li").eq(i).find(".mount").html()>0){
+                        var object={
+                            "id":i,
+                            "name":$(".container ul li").eq(i).find(".name").html(),
+                            "price":$(".container ul li").eq(i).find(".price").html(),
+                            "newprice":$(".container ul li").eq(i).find(".newprice").html(),
+                            "mount":$(".container ul li").eq(i).find(".mount").html(),
+                        };
+                        object.total="¥"+(parseFloat(object.price.substr(1))*parseFloat(object.mount)).toFixed(2);
+                        shop_list.push(object);
+                    }
+                }
+                if(shop_list.length===0)return;
+
+                $(".carbask").fadeToggle(400);
+//                var template_shopping="";
+
+                for(var i=0;i<shop_list.length;i++){
+//                    $(".shopping_detial ul").append(_.template(template_shopping)(shop_list[i]));
+                    $(".shopping_detial ul").append("<li><span class='name'>" + shop_list[i].name + "</span><span class='price'>" + shop_list[i].price + "</span><span class='total'>" + shop_list[i].total + "</span><div class='bask_car'><span  class='fa fa-minus fa-lt remove'></span><span class='mount'>" + shop_list[i].mount + "</span><span  class='fa fa-plus fa-lt add' ></span></div></li>");
+                }
+                if($(".shopping_detial").css("display")=="block"){
+                    $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
+                }else{
+                    $(".shopping_detial").css({"display":"block"}).animate({"bottom":"3rem"},400);
+                }
+                // 购物车详情中增加某产品
+                $(".bask_car .add").on("tap",function(event){
+                    event.stopPropagation();
+                    $(this).siblings(".mount").html(parseInt($(this).siblings(".mount").html())+1);
+                    shop_list[$(this).parents("li").index()].mount=parseInt(shop_list[$(this).parents("li").index()].mount)+1;
+                    var t_m=(parseFloat($("#total").html())+parseFloat(shop_list[$(this).parents("li").index()].price.substr(1))).toFixed(2);
+                    $("#total").html(t_m);
+                    var t_o=(parseFloat($(".usualytotal").html())+parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
+                    $(".usualytotal").html(t_o);
+                    $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
+                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())+1);
+                    $(".carmount").html(parseInt($(".carmount").html())+1);
+                    mm+=1;
+                    $(this).parent().siblings(".total").html('¥'+(parseFloat($(this).parent().siblings(".price").html().substr(1))*parseFloat($(this).siblings(".mount").html())).toFixed(2));
+                    shop_list[$(this).parents("li").index()].mount=parseFloat($(this).siblings(".mount").html());
+                })
+                // 购物车详情中减少某产品
+                $(".bask_car .remove").on("tap",function(event){
+                    event.stopPropagation();
+                    $(this).siblings(".mount").html(parseInt($(this).siblings(".mount").html())-1);
+                    shop_list[$(this).parents("li").index()].mount-=1;
+                    var t_m=(parseFloat($("#total").html())-parseFloat(shop_list[$(this).parents("li").index()].price.substr(1))).toFixed(2);
+                    $("#total").html(t_m);
+                    var t_o=(parseFloat($(".usualytotal").html())-parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
+                    $(".usualytotal").html(t_o);
+                    $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
+                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())-1);
+                    if($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html()==0){
+                        $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
+                    }
+                    if($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html()==0){
+                        $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").css({"display":"none"});
+                        $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".add").css({"marginLeft":"2.5rem"})
+                        $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".remove").css({"display":"none"})
+                    }
+                    $(".carmount").html(parseInt($(".carmount").html())-1);
+                    mm-=1;
+                    if($(".carmount").html()==0){
+                        $(".carbask").fadeOut();
+                        $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
+                    }
+                    if($(this).siblings(".mount").html()==0){
+                        shop_list.splice($(this).parents("li").index(),1);
+                        $(this).parents("li").remove();
+                    }
+                    $(this).parent().siblings(".total").html('¥'+(parseFloat($(this).parent().siblings(".price").html().substr(1))*parseFloat($(this).siblings(".mount").html())).toFixed(2));
+                    shop_list[$(this).parents("li").index()].mount=parseFloat($(this).siblings(".mount").html());
+                })
+                // 购物车详情中清除所有产品
+                $(".shop_mount").on("tap",function(){
+                    shop_list=[];
+                    for(var i=0;i<$(".container ul li").length;i++){
+                        $(".container ul li").eq(i).find(".mount").html(0).css({"display":"none"});
+                        $(".container ul li").eq(i).find(".add").css({"marginLeft":"2.5rem"});
+                        $(".container ul li").eq(i).find(".remove").css({"display":"none"});
+                    }
+                    mm=0;
+                    nn=0;
+                    $("#slider li").find(".slidermount").html(0).css({"display":"none"});
+                    $(".carmount").html(0).css({"display":"none"});
+                    $(".usualytotal").html("0.00");
+                    $("#total").html("0.00");
+                    $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
+                    $(".carbask").fadeOut();
+                })
+            })
+            // 遮罩点击事件
+            $(".carbask").on("tap",function(){
+                $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
+                $(".carbask").fadeOut();
+            });
+            // 支付
+            $(".gobuy").on("tap",function(event){
+				/*//shoplist数组就是购物信息,给后台
+				 shop_list=[];
+				 for(var i=0;i<$(".container ul li").length;i++){
+				 if($(".container ul li").eq(i).find(".mount").html()>0){
+				 var object={
+				 "id":i,
+				 "name":$(".container ul li").eq(i).find(".name").html(),
+				 "price":$(".container ul li").eq(i).find(".price").html(),
+				 "newprice":$(".container ul li").eq(i).find(".newprice").html(),
+				 "mount":$(".container ul li").eq(i).find(".mount").html(),
+				 };
+				 shop_list.push(object);
+				 }
+				 }
+				 //获取用户信息 调用支付接口 ，跳转。*/
+                // 整理当前页面上待支付产品信息
+                var orderitem_datas = "";
+                $("input[name='product_id']").each(function (i, item) {
+                    var product_id = item.value;
+                    var product_num = 0;
+                    // 先检查其下'mount'状态是否可以显示
+                    var bask_display = $(this).parent().find(".mount").css("display");
+//                    console.log("product_id:" + product_id + ";bask_display:" + bask_display);
+                    if(bask_display == "inline-block") {
+                        product_num = parseInt($(this).parent().find(".mount").html());
+                        orderitem_datas += '{"product_id":"' + product_id + '","product_num":"' + product_num + '"},';
+                    }
+                });
+                if(orderitem_datas != '') {
+                    orderitem_datas = "[" + orderitem_datas.substring(0,orderitem_datas.length-1) + "]"; // 相关产品信息
+                    var total_price = parseFloat($("#total").html()); // 总价格
+//                    console.log("total_price:" + total_price);
+//                    console.log("orderitem_datas:" +orderitem_datas);
+                    // 支付按钮不可点击----
+                    // 异步请求支付
+                    $.ajax({
+                        type: "post",
+                        url: '${base}/frontweb/employee/buy',
+                        async: false, // 使用同步方式
+                        data: JSON.stringify({
+                            company_id:'${company_id}',
+                            open_id:'${open_id}',
+                            total_price:total_price,
+                            orderitem_datas: orderitem_datas
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            console.log("data.msg:" + data.msg + ";data.code:" + data.code + ";buy_order_id:" + data.data);
+                            if(data.code == 0) {
+//                                $(".shopname").text(data.data.packageStr + "--" + data.data.sign);
+                                // 调起微信支付客户端
+//                                document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+//                                    WeixinJSBridge.invoke('getBrandWCPayRequest',{
+//                                        "appId" : data.data.appid,
+//                                        "timeStamp" : data.data.timeStamp,
+//                                        "nonceStr" : data.data.nonceStr,
+//                                        "package" : data.data.packageStr,
+//                                        "signType" : "MD5",
+//                                        "paySign" : data.data.sign
+//                                    },function(res){
+//                                        WeixinJSBridge.log(res.err_msg);
+//                                        //alert(res.err_code + res.err_desc + res.err_msg);
+//                                        var result = "";
+//                                        if(res.err_msg == "get_brand_wcpay_request:ok"){
+//                                            result = 'ok';
+//                                        }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+//                                            result = 'cancel';
+//                                        }else{
+//                                            result = 'fail';
+//                                        }
+//                                        window.location.href = data.data.front_url + "?result=" +  result;
+//                                    })
+//                                },false);
+                                if (typeof WeixinJSBridge == "undefined"){
+                                    if( document.addEventListener ){
+                                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady(data.data), false);
+                                    }else if (document.attachEvent){
+                                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady(data.data));
+                                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(data.data));
+                                    }
+                                }else{
+                                    onBridgeReady(data.data);
+                                }
+                            }else {
+                                console.log("data.msg:" + data.msg);
+                            }
+
+                        },
+                        error: function() {
+                            // 提示error错误----
+                            console.log("获取微信支付JSAPI参数ERROR");
+                        }
+                    });
+                }else {
+                    // 未选中零食提示----
+                    console.log("selected none");
+                }
+            })
+        });
+        //        },100);
+
+        /**
+         * 微信支付调用
+         */
+        function onBridgeReady(data){
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId" : data.appid,
+                    "timeStamp" : data.timeStamp,
+                    "nonceStr" : data.nonceStr,
+                    "package" : data.packageStr,
+                    "signType" : "MD5",
+                    "paySign" : data.sign
+                },
+                function(res){
+                    var result = "";
+                    if(res.err_msg == "get_brand_wcpay_request:ok"){
+                        result = 'ok';
+                    }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                        result = 'cancel';
+                    }else{
+                        result = 'fail';
+                    }
+                    window.location.href = data.front_url;
+                }
+            );
+        }
+
+	</script>
 </head>
 <body>
-<section class="shopname">易民电子商务公司</section>
+<!--<section class="shopname">${company_name}</section>-->
 <section class="container">
-	<div id="slider"></div>
+	<div id="slider">
+		<%if(!isEmpty(categoryList)){
+		for(category in categoryList){
+		%>
+		<li><span class="slidermount">0</span>${category.product_category_name}</li>
+		<%}
+		}%>
+	</div>
+	<%if(!isEmpty(categoryList)){
+	for(category in categoryList){
+	%>
+	<ul id="category_${category.category_id}" class="cover">
+		<h4>${category.product_category_name}</h4>
+		<%if(!isEmpty(category.productInfoList)){
+		for(product in category.productInfoList){
+		%>
+		<li>
+			<input type="hidden" name="product_id" value="${product.product_id}" />
+			<div class="list">
+				<div class="img"><img src="${product.image_url}"></div>
+				<p class="pl">
+					<span class="price">¥${product.price_empolyee}</span>
+					<span class="newprice">¥${product.price_public}</span>
+				</p>
+				<p class="name">${product.product_name}</p>
+			</div>
+			<div class="bask">
+				<span class="fa fa-minus fa-lt remove"></span>
+				<span class="mount">0</span>
+				<span class="fa fa-plus fa-lt add"></span>
+			</div>
+		</li>
+		<%}
+		}%>
+	</ul>
+	<%}
+	}%>
 </section>
 <section class="carbask"></section>
 <section class="shopping_detial">
@@ -31,317 +469,5 @@
 	</div>
 	<span class="gobuy">去支付</span>
 </section>
-<script type="text/javascript" src="lib/jquery-1.1.4.min.js"></script>
-<script type="text/javascript" src="lib/zepto.js"></script>
-<script type="text/javascript" src="lib/zepto.touch.js"></script>
-<script type="text/javascript"  src="lib/underscore.js"></script>
-<script type="text/javascript">
-    function set(){
-        var w = document.documentElement.clientWidth;
-        if(w > 667){
-            w = 667;
-        }else if(w < 320){
-            w = 320;
-        }
-        var rate = w / 667;
-        document.documentElement.style.fontSize = 40 * rate + "px";
-    }
-    set();
-
-    window.onresize = set;
-    $(".carbask").css({"height":window.screen.height+"px"});
-
-    var mm=0;var shop_list=[];
-    var jsondata;
-    var template="<li><div class='list'><div class='img'><img src='<%=url%>'></div><p class='pl'><span class='price'>¥<%=price%></span><span class='newprice'>¥<%=price_public%></span></p><p class='name'><%=name%></p></div><div class='bask'><span  class='fa fa-minus fa-lt remove'></span><span class='mount'>0</span><span  class='fa fa-plus fa-lt add'></span></div></li>";
-
-    $.get("port/employee_buy_index.json",function(result){
-
-        jsondata=result;
-        if(result.status != 0){
-            //服务器返回错误，直接转到用户导引页面就可以了
-
-            return;
-        }
-
-        $(".shopname").text(result.company_name);
-
-        for(i=0;i<result.product_catagory.length;i++){
-            $("<ul />",{id:"product"+i,class:"cover"}).append($("<h4 />",{html:result.product_catagory[i].name})).appendTo(".container");
-            $("#slider").append($("<li />",{html:"<span class='slidermount'>0</span>"+result.product_catagory[i].name}));
-            for(var j=0;j<result.product.length;j++){
-                var dictionary={
-                    "id":result.product[j].id,
-                    "url":result.product[j].display_url,
-                    "name":result.product[j].name,
-                    "price":parseFloat(result.product[j].price_public*(1-result.company_price_percent)).toFixed(2),
-                    "price_public":parseFloat(result.product[j].price_public).toFixed(2)
-
-                }
-                $('#product'+i).append(_.template(template)(dictionary));
-            }
-        }
-
-
-    })
-
-    setTimeout(function(){
-        $(".list").on("tap",function(event){
-            event.stopPropagation();
-
-            if($(this).siblings(".bask").css("display")==="block"){
-
-                return ;
-
-            }
-
-            if($(this).siblings(".bask").css("display")==="none"){
-                $(this).siblings(".bask").css({display:"block"});
-                $("#total").html(
-                    (parseFloat($("#total").html())+parseFloat($(this).find(".price").html().substr(1))).toFixed(2)
-                )
-                $(".usualytotal").html(
-                    (parseFloat($(".usualytotal").html())+parseFloat($(this).find(".newprice").html().substr(1))).toFixed(2)
-                )
-            }
-
-        });
-        $(".close").on("tap",function(event){
-            event.stopPropagation();
-
-            $(this).parent(".bask").css({display:"none"});
-            if($(this).parent(".bask").css("display")==="none"){
-
-                $("#total").html(
-                    (parseFloat($("#total").html())-parseFloat($(this).parent(".bask").siblings(".list").find(".price").html().substr(1))*parseInt($(this).siblings(".mount").html())).toFixed(2)
-                )
-                $(".usualytotal").html(
-                    (parseFloat($(".usualytotal").html())-parseFloat($(this).parent(".bask").siblings(".list").find(".newprice").html().substr(1))*parseInt($(this).siblings(".mount").html())).toFixed(2)
-                )
-                $(this).siblings(".mount").html(1);
-            }
-        });
-
-
-        $(".bask .add").on("tap",function(event){
-            event.stopPropagation();
-            if($(this).parent().find(".mount").css("display")==="none"){
-                $(this).parent().children().css({"display":"inline-block"});
-                $(this).css({"marginLeft":0});
-            }
-            $(this).parent().find(".mount").html(parseInt($(this).parent().find(".mount").html())+1);
-
-            $("#total").html(
-                (parseFloat($("#total").html())+parseFloat($(this).parent().siblings(".list").find(".price").html().substr(1))).toFixed(2)
-            )
-            $(".usualytotal").html(
-                (parseFloat($(".usualytotal").html())+parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
-            )
-            var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
-            nn+=1;
-            $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
-            mm+=1;
-            $(".carmount").html(mm);
-            if($(".carmount").html()===0){
-                $(".carmount").css({"display":"none"});
-            }else{
-
-                $(".carmount").css({"display":"block"});
-            }
-        })
-        $(".bask .remove").on("tap",function(event){
-            event.stopPropagation();
-            if($(this).siblings(".mount").html()<=1){
-                $(this).parent().find(".mount").css({"display":"none"});
-                $(this).parent().find(".add").css({"marginLeft":"2.5rem"});
-                $(this).css({"display":"none"});
-            }
-            $(this).parent().find(".mount").html(parseInt($(this).parent().find(".mount").html())-1);
-
-            $("#total").html(
-                (parseFloat($("#total").html())-parseFloat($(this).parent().siblings(".list").find(".price").html().substr(1))).toFixed(2)
-            )
-            $(".usualytotal").html(
-                (parseFloat($(".usualytotal").html())-parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
-            )
-            var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
-            nn-=1;
-            $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
-            if(nn==0){
-                $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
-            }
-            mm-=1;
-            $(".carmount").html(mm);
-            if($(".carmount").html()==0){
-                $(".carmount").css({"display":"none"});
-            }else{
-
-                $(".carmount").css({"display":"block"});
-            }
-        })
-        for(var i=0;i<$(".container ul").length;i++){
-
-            for(var j=0;j<$(".container ul").eq(i).find("li").length;j++){
-                if((j+1)%3===0){
-                    $(".container ul").eq(i).find("li").eq(j).css({"borderRight":"none"})
-                }
-            }
-            // var addbox=3-$(".container ul").eq(i).find("li").length%3;
-            // while(addbox){
-
-            // 	$("<li/>",{"width":"33.33%","height":"7rem","float":"left","borderBottom":"1px solid #eee","backgroundColor":"#fff"}).appendTo($(".container ul").eq(i));
-            // 	addbox--;
-            // }
-        }
-        // $(".search input").on("focus",function(){
-        // 	$(".search_info").css({"display":"none"});
-        // })
-        // $(".search input").on("blur",function(){
-
-        // 	if($(this).val()==''){
-        // 		$(".search_info").css({"display":"block"});
-        // 	}
-
-        // 	var keyword=$(this).val();
-
-        // 	$("li").css({"display":"none"});
-        // 	$("ul").css({"display":"none"});
-
-        // 	for(var i=0;i<$(".container ul").length;i++){
-        // 		for(var j=0;j<$(".container ul").eq(i).find("li").length;j++){
-        // 			if($(".container ul").eq(i).find("li").eq(j).find(".name").html()&&$(".container ul").eq(i).find("li").eq(j).find(".name").html().indexOf(keyword)>-1){
-        // 				$(".container ul").eq(i).find("li").eq(j).css({"display":"block"});
-        // 				$(".container ul").eq(i).css({"display":"block"});
-        // 			}
-        // 		}
-
-        // 	}
-
-        // })
-        $("#slider li").on ("tap",function(event){
-            $(".container ul").css({"display":"none"});
-            $("#slider li").css({"backgroundColor":"#eee"});
-            $(this).css({"backgroundColor":"#fff"})
-            $(".container ul").eq($(this).index()).css({"display":"block"});
-        })
-        $(".hotspot").on("tap",function(event){
-            shop_list=[];
-
-            if($(".shopping_detial ul").find("li")){
-
-                $(".shopping_detial ul").html("");
-            }
-            for(var i=0;i<$(".container ul li").length;i++){
-                if($(".container ul li").eq(i).find(".mount").html()>0){
-                    var object={
-                        "id":i,
-                        "name":$(".container ul li").eq(i).find(".name").html(),
-                        "price":$(".container ul li").eq(i).find(".price").html(),
-                        "newprice":$(".container ul li").eq(i).find(".newprice").html(),
-                        "mount":$(".container ul li").eq(i).find(".mount").html(),
-                    };
-                    object.total="¥"+(parseFloat(object.price.substr(1))*parseFloat(object.mount)).toFixed(2);
-                    shop_list.push(object);
-                }
-            }
-            if(shop_list.length===0)return;
-
-            $(".carbask").fadeToggle(400);
-            var template_shopping="<li><span class='name'><%=name%></span><span class='price'><%=price%></span><span class='total'><%=total%></span><div class='bask_car'><span  class='fa fa-minus fa-lt remove'></span><span class='mount'><%=mount%></span><span  class='fa fa-plus fa-lt add' ></span></div></li>";
-
-            for(var i=0;i<shop_list.length;i++){
-                $(".shopping_detial ul").append(_.template(template_shopping)(shop_list[i]));
-            }
-            if($(".shopping_detial").css("display")=="block"){
-                $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
-            }else{
-                $(".shopping_detial").css({"display":"block"}).animate({"bottom":"3rem"},400);
-            }
-
-            $(".bask_car .add").on("tap",function(event){
-                event.stopPropagation();
-                $(this).siblings(".mount").html(parseInt($(this).siblings(".mount").html())+1);
-                shop_list[$(this).parents("li").index()].mount=parseInt(shop_list[$(this).parents("li").index()].mount)+1;
-                var t_m=(parseFloat($("#total").html())+parseFloat(shop_list[$(this).parents("li").index()].price.substr(1))).toFixed(2);
-                $("#total").html(t_m);
-                var t_o=(parseFloat($(".usualytotal").html())+parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
-                $(".usualytotal").html(t_o);
-                $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
-                $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())+1);
-                $(".carmount").html(parseInt($(".carmount").html())+1);
-                mm+=1;
-                $(this).parent().siblings(".total").html('¥'+(parseFloat($(this).parent().siblings(".price").html().substr(1))*parseFloat($(this).siblings(".mount").html())).toFixed(2));
-                shop_list[$(this).parents("li").index()].mount=parseFloat($(this).siblings(".mount").html());
-            })
-            $(".bask_car .remove").on("tap",function(event){
-                event.stopPropagation();
-                $(this).siblings(".mount").html(parseInt($(this).siblings(".mount").html())-1);
-                shop_list[$(this).parents("li").index()].mount-=1;
-                var t_m=(parseFloat($("#total").html())-parseFloat(shop_list[$(this).parents("li").index()].price.substr(1))).toFixed(2);
-                $("#total").html(t_m);
-                var t_o=(parseFloat($(".usualytotal").html())-parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
-                $(".usualytotal").html(t_o);
-                $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
-                $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())-1);
-                if($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html()==0){
-                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
-                }
-                if($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html()==0){
-                    $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").css({"display":"none"});
-                    $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".add").css({"marginLeft":"2.5rem"})
-                    $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".remove").css({"display":"none"})
-                }
-                $(".carmount").html(parseInt($(".carmount").html())-1);
-                mm-=1;
-                if($(".carmount").html()==0){
-                    $(".carbask").fadeOut();
-                    $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
-                }
-                if($(this).siblings(".mount").html()==0){
-                    shop_list.splice($(this).parents("li").index(),1);
-                    $(this).parents("li").remove();
-                }
-                $(this).parent().siblings(".total").html('¥'+(parseFloat($(this).parent().siblings(".price").html().substr(1))*parseFloat($(this).siblings(".mount").html())).toFixed(2));
-                shop_list[$(this).parents("li").index()].mount=parseFloat($(this).siblings(".mount").html());
-            })
-            $(".shop_mount").on("tap",function(){
-                shop_list=[];
-                for(var i=0;i<$(".container ul li").length;i++){
-                    $(".container ul li").eq(i).find(".mount").html(0).css({"display":"none"});
-                    $(".container ul li").eq(i).find(".add").css({"marginLeft":"2.5rem"});
-                    $(".container ul li").eq(i).find(".remove").css({"display":"none"});
-                }
-                mm=0;
-                nn=0;
-                $("#slider li").find(".slidermount").html(0).css({"display":"none"});
-                $(".carmount").html(0).css({"display":"none"});
-                $(".usualytotal").html("0.00");
-                $("#total").html("0.00");
-                $(".shopping_detial").animate({"bottom":"-5rem"},400).css({"display":"none"});
-                $(".carbask").fadeOut();
-            })
-        })
-        $(".gobuy").on("tap",function(evnet){
-            //shoplist数组就是购物信息,给后台
-            shop_list=[];
-            for(var i=0;i<$(".container ul li").length;i++){
-                if($(".container ul li").eq(i).find(".mount").html()>0){
-                    var object={
-                        "id":i,
-                        "name":$(".container ul li").eq(i).find(".name").html(),
-                        "price":$(".container ul li").eq(i).find(".price").html(),
-                        "newprice":$(".container ul li").eq(i).find(".newprice").html(),
-                        "mount":$(".container ul li").eq(i).find(".mount").html(),
-                    };
-                    shop_list.push(object);
-                }
-            }
-            //获取用户信息 调用支付接口 ，跳转。
-
-        })
-    },100);
-
-
-</script>
 </body>
 </html>

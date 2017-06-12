@@ -1,14 +1,109 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <title>扫码引导</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <title>易民新便利</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
 
-	<p>请到微信首页，使用右上角的<h1>扫一扫</h1>来扫描货架上的二维码，进入商品页面进行购买！</p>
-	<p>更多内容请关注微信公众号<h1>易民新便利</h1></p>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+
+            background-color:#FFD705;
+            font-family:"Microsoft YaHei";
+        }
+
+        .guide_header{
+
+            background-color:#FFD705;
+            width: 100%;
+        }
+
+        .guide_header_img{
+
+            position: fixed;
+            top: 5rem;
+            left: 0rem;
+            width: 100%;
+            height: 7rem;
+            background:url(${netPath}/assets/img/front/logo.jpg)no-repeat center center ;
+            background-size:contain
+        }
+
+        .guide_header_div_head_logo{
+
+            position: fixed;
+            top: 12rem;
+            color: #000000;
+            text-align: center;
+            line-height: 3rem;
+            height: 3rem;
+            width: 100%;
+            font-size: 1.6rem;
+            color: #0000ff;
+        }
+
+        .guide_header_div_head{
+
+            position: fixed;
+            top: 15rem;
+            color: #000000;
+            text-align: center;
+            line-height: 6rem;
+            height: 6rem;
+            width: 100%;
+            font-size: 1.6rem;
+            color: #0000ff;
+        }
+
+        .guide_header_div_content{
+
+            position: fixed;
+            top: 21rem;
+            margin-left: 2rem;
+            margin-bottom: .5rem;
+            margin-top: .5rem;
+            text-align: left;
+            font-size: 1.6rem;
+            line-height:2rem;
+            height: 2rem;
+            width: 100%;
+            color: #0000ff;
+        }
+
+        .guide_header_div_content_content{
+
+            margin: .1rem;
+        }
+
+        .guide_header_div_content_saoma{
+
+            color: #ff0000;
+        }
+
+
+
+
+    </style>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+<section class="guide_header">
+    <div class="guide_header_img"></div>
+    <div class="guide_header_div_head_logo">易民新便利</div>
+    <div class="guide_header_div_head">请前往贵公司货架，扫码购买！</div>
+    <div class="guide_header_div_content">
+        <div class="guide_header_div_content_content">1.&nbsp 前往公司货架</div>
+        <div class="guide_header_div_content_content">2.&nbsp 微信首页右上角<span class="guide_header_div_content_saoma">扫一扫</span></div>
+        <div class="guide_header_div_content_content">3.&nbsp 货架首页，支付购买</div>
+    </div>
+
+</section>
 
 </body>
 </html>

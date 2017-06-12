@@ -211,6 +211,8 @@ public class WxService extends Service {
 	/**
 	 * 获取用户微信支付前JSAPI所需参数
 	 * 场景：用户扫码后,前端跳转至微信授权的用户购买产品页面,此逻辑在购买商品时,已经获取到了用户open_id信息
+	 *
+	 * @param company_id
 	 * @param buy_order_id
 	 * @param open_id
 	 * @param total_price
@@ -219,7 +221,7 @@ public class WxService extends Service {
 	 * @param notify_url
 	 * @return wechatPageInfo
 	 */
-	public WechatPageInfo getWechatPageInfoBeforePay(String buy_order_id, String open_id, double total_price, HttpServletRequest req, CheckInfo checkInfo, String notify_url) {
+	public WechatPageInfo getWechatPageInfoBeforePay(long company_id, String buy_order_id, String open_id, double total_price, HttpServletRequest req, CheckInfo checkInfo, String notify_url) {
 		log.info("开始获取微信预支付Id,当前商户订单号:【" + buy_order_id + "】;用户的openid:【" + open_id + "】");
 		// 下单
 		String currTime = TenpayUtil.getCurrTime();
@@ -318,7 +320,7 @@ public class WxService extends Service {
 		wechatPageInfo.setSign(finalsign);
 		wechatPageInfo.setPackageStr(packages);
 		wechatPageInfo.setPrepay_id(prepay_id);
-		wechatPageInfo.setFront_url(ConstantUrl.URL_WECHAT_FRONT);
+		wechatPageInfo.setFront_url(ConstantUrl.URL_WECHAT_FRONT + "?company_id=" + company_id);
 		// 参数准备成功
 		checkInfo.setFlag(true);
 		return wechatPageInfo;

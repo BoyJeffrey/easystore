@@ -23,20 +23,20 @@ public class WeChatMenuService extends Service {
 		
 		//便利店
 		WeChatViewButton easystoreButton = new WeChatViewButton();
-		easystoreButton.setName("便利店");
+		easystoreButton.setName("零食来了");
 		easystoreButton.setType("view");
 		easystoreButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/employee/scan_guide");
 		
     	//后台管理
 		WeChatViewButton managerButton = new WeChatViewButton();
-		managerButton.setName("后台管理");
+		managerButton.setName("公司采购");
 		managerButton.setType("view");
 //		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/h5/manager.do");
-		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/welcome.html");
+		managerButton.setUrl(WeChatConst.SERVER_DOMAIN_ROOT + "/frontweb/manager.html");
 
     	//更多
     	WeChatComplexButton moreButton = new WeChatComplexButton();
-    	moreButton.setName("了解易民");
+    	moreButton.setName("更多");
     	
     		//申请开店
     		WeChatViewButton applyButton = new WeChatViewButton();
@@ -74,8 +74,8 @@ public class WeChatMenuService extends Service {
             text.setMsgType(WeChatMessageType.RESP_MESSAGE_TYPE_TEXT);
             text.setCreateTime(new Date().getTime());
             text.setFuncFlag(0);
-            text.setContent("1.请直接拨打客服热线13858068101! \n" +
-                         	"2.请留言，客服MM会第一时间联系您。");
+			text.setContent("1.请直接拨打客服热线0571-56532888! \n" +
+							"2.请留言，客服MM会第一时间联系您。");
             result = WeChatFormatXmlProcess.textMessageToXml(text);	
 		}
 		return result;

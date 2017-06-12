@@ -1,32 +1,88 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <title>申请开店</title>
+    <meta charset="UTF-8">
+    <title>易民新便利</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+
+            background-color:#FFD705;
+            font-family:"Microsoft YaHei";
+        }
+
+        .guide_header{
+
+            background-color:#FFD705;
+            width: 100%;
+        }
+
+        .guide_header_img{
+
+            position: fixed;
+            top: 10rem;
+            left: 0rem;
+            width: 100%;
+            height: 7rem;
+            background:url(../assets/img/front/logo.jpg)no-repeat center center ;
+            background-size:contain
+        }
+
+        .guide_header_div_head_logo{
+
+            position: fixed;
+            top: 17rem;
+            color: #000000;
+            text-align: center;
+            line-height: 3rem;
+            height: 3rem;
+            width: 100%;
+            font-size: 2.7rem;
+            color: #0000ff;
+        }
+
+        .guide_header_div_content{
+
+
+            width: 100%;
+            line-height:5rem;
+            height: 5rem;
+        }
+
+        .apply_tel{
+
+            color: #0000ff;
+            position: fixed;
+            top: 25rem;
+            text-align: center;
+            font-size: 2rem;
+            line-height:3rem;
+            height: 3rem;
+            width: 100%;
+            background-color: #ff0000;
+            border-radius: 0.8rem;
+        }
+
+
+    </style>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
-<style type="text/css">
-    body,ul,li,h1,h2,div 
-    {
-        padding:0;
-        margin:0;
-        border:0;
-    }
-    body 
-    {
-        font-size:100%;
-        -webkit-user-select:none;
-        -webkit-text-size-adjust:none;
-        font-family:helvetica;
-    }
-    .bigimage
-    {
-        width: 100%;
-        height: auto;
-    }
-</style>
+
 <body>
-<img class="bigimage" src="${request.contextPath}/assets/wechatpublicnumber/images/wechat/aboutus.jpg" /><br>
-易民新便利-专注于企业智能自助便利店的新零售业务领域，旨在为企业文化和团队建设舔砖加瓦，为员工提供更加便捷的生活服务。我们的目标：让工作更快乐，让生活更开心！<br>
+<section class="guide_header">
+    <div class="guide_header_img"></div>
+    <div class="guide_header_div_head_logo">易民新便利</div>
+
+
+    <a class="apply_tel" href="tel:0571-56532888">申请开店</a>
+
+</section>
+
 </body>
 </html>

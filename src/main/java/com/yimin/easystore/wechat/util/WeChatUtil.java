@@ -1,13 +1,12 @@
 package com.yimin.easystore.wechat.util;
 
+import com.yimin.easystore.wechat.constant.WeChatConst;
+import com.yimin.easystore.wechat.pojo.WeChatAccessToken;
+import com.yimin.easystore.wechat.pojo.WeChatMenu;
+import com.yimin.easystore.wechat.pojo.WeChatUserInfo;
+import com.yimin.easystore.wechat.pojo.WeChatWebAccessToken;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,19 +16,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.yimin.easystore.wechat.constant.WeChatConst;
-import com.yimin.easystore.wechat.pojo.WeChatMenu;
-import com.yimin.easystore.wechat.pojo.WeChatAccessToken;
-import com.yimin.easystore.wechat.pojo.WeChatUserInfo;
-import com.yimin.easystore.wechat.pojo.WeChatWebAccessToken;
-import com.yimin.easystore.wechat.util.EmojiFilter;
-import com.yimin.easystore.wechat.util.MyX509TrustManager;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.URL;
 

@@ -1,0 +1,395 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background-color: #eee;
+	font-family:"Microsoft YaHei";
+}
+.shopname{
+	width: 100%;
+	height: 1.5rem;
+	background:url(../../img/front/bg1.jpg)no-repeat 80% center;
+	text-align: center;
+	line-height: 1.5rem;
+	color:#fff;
+	padding-top:.2rem;
+	border-bottom:1px solid #eee;
+	position:fixed;
+	z-index:10;
+	top:0;
+	left:0;
+}
+.container {
+	/*margin-top: 1.6rem;*/
+}
+
+.container h4{
+	padding-left: 1.5rem;
+	font-size:0.6rem;
+	font-weight:normal;
+	color:#3a3a3a;
+	background-color: #fff;
+	width: 100%;
+	height:1.4rem;
+	line-height: 1.4rem;
+}
+.container  #slider{
+	width:20%;
+	position:fixed;
+	/*top:2rem;*/
+	left:0;
+	/*padding-top: .8rem;*/
+	overflow:hidden;
+	list-style: none;
+}
+.container #slider .slidermount{
+	width: .7rem;
+	height: .7rem;
+	background-color: #FF6900;
+	border-radius:50%;
+	font-size: .4rem;
+	text-align: center;
+	line-height: .7rem;
+	position: absolute;
+	display: none;
+	top:10%;
+	right:10%;
+}
+.container #slider li{
+	width: 100%;
+	position: relative;
+	height: 2rem;
+	text-align: center;
+	line-height:2rem;
+	/*font-size:.7rem;*/
+	font-size:.5rem;
+	background-color:#EFEFEF;
+	border-bottom: 1px solid #ddd;
+}
+.container #slider li:nth-child(1){
+	background-color: #fff;
+}
+.container .cover{
+	margin-left: 20%;
+	width: 80%;
+	overflow: hidden;
+	list-style: none;
+}
+.container ul li{
+	background-color: #fff;
+	float:left;
+	width: 100%;
+	/*height:5rem;*/
+	height:4rem;
+	border:1px solid #eee;
+	border-top:none;
+	border-left:none;
+	text-align: center;
+	box-sizing:border-box;
+	position: relative;
+	color:#3a3a3a;
+}
+.container ul li .list{
+	padding:.4rem;
+	position: relative;
+}
+.container ul li .img {
+	width: 4rem;
+	/*height:4rem;*/
+	height:3.2rem;
+}
+.container ul li .list  .pl{
+	margin-bottom: .2rem;
+}
+.container ul li .list .img img{
+	width: 100%;
+	height: 100%;
+}
+.container ul li .list .price{
+	font-size:.6rem;
+	margin-right: .2rem;
+	position: absolute;
+	/*top:3rem;*/
+	top:2.4rem;
+	left:5rem;
+}
+.container ul li .list .newprice{
+	font-size:.4rem;
+	position: absolute;
+	/*top:3.1rem;*/
+	top:2.5rem;
+	left:7rem;
+	text-decoration: line-through;
+}
+.container ul li .list .name{
+	font-size:.7rem;
+	position:absolute;
+	/*top:1rem;*/
+	top:0.8rem;
+	left:5rem;
+}
+.container ul li .bask .add{
+	font-size:.7rem;
+	margin-left: 2.5rem;
+}
+.container ul li .bask{
+	width:5rem;
+	height: 1rem;
+	position:absolute;
+	/*top:2.8rem;*/
+	top:2.2rem;
+	right:0;
+	// display: none;
+}
+.container ul li .bask span{
+	width: 1rem;
+	margin-right: .2rem;
+	font-size:.7rem;
+	height: 1rem;
+	line-height:1rem;
+	border-radius: 50%;
+	background-color:#FFD705;
+}
+.container ul li .bask .remove{
+	display: none;
+	background-color: #ffffff;
+	color: #eee;
+}
+.container ul li .bask .mount{
+	border-radius:5px;
+	width: 1rem;
+	height: 1rem;
+	display: inline-block;
+	border:1px solid #eee;
+	background-color: #fff;
+	color:#000000;
+	font-size:.7rem;
+	display: none;
+}
+.buycar{
+	z-index:30;
+	width: 100%;
+	padding-left: .5rem;
+	height: 3rem;
+	box-sizing:border-box;
+	position: fixed;
+	bottom:0;
+	left:0;
+	background-color: #262626;
+}
+.buycar .hotspot{
+	height: 3rem;
+	width: 75%;
+	position: relative;
+
+}
+.buycar .cartbuy{
+	width: 2.5rem;
+	position: absolute;
+	left:0;
+	top:.4rem;
+	height:2.5rem;
+	background:url(../../img/front/buycar.png)no-repeat center center ;
+	background-size:contain;
+}
+.buycar .carmount{
+	width: 1rem;
+	height:1rem;
+	background-color: #FF6900;
+	border-radius:50%;
+	position: absolute;
+	top:.5rem;
+	left:1.7rem;
+	font-size: .7rem;
+	text-align: center;
+	line-height: 1rem;
+	display: none;
+	z-index: 2;
+}
+.buycar .gobuy{
+	width: 4rem;
+	height: 3rem;
+	background-color: #cd0102;
+	position: absolute;
+	top:0;
+	text-align: center;
+	line-height:3rem;
+	right:0;
+	color:#fff;
+}
+.buycar .normal{
+	color:#fff;
+	position: absolute;
+	left:3rem;
+	
+}
+.buycar .normal,#total,.usualytotal{
+	line-height: 3rem;
+	font-size: .8rem;
+	color:#fff;
+}
+.buycar #total{
+	position: absolute;
+	left:5.5rem;
+}
+.buycar .usualytotal{
+	position: absolute;
+	text-decoration: line-through;
+	left:8rem;
+	font-size:.6rem;
+}
+.shopping_detial{
+	width: 100%;
+	background-color: #fff;
+	position: fixed;
+	bottom:-5rem;
+	left:0;
+	max-height:20rem;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	z-index:25;
+	display: none;
+}
+.shopping_detial .title_g{
+	width: 100%;
+	padding:0 1rem;
+	height:1rem;
+	background-color: #ff0000;
+}
+.shopping_detial .title_g .shop_name{
+	font-size:.7rem;
+	line-height: 1rem;
+	display: inline-block;
+	height:1rem;
+	color:#ffffff;
+	float: left;
+}
+.shopping_detial .title_g .shop_mount{
+	font-size:.7rem;
+	line-height:1rem;
+	width:5rem;
+	display: inline-block;
+	height:1rem;
+	float:right;
+	color:#ffffff;
+}
+
+.open{
+	display: block;
+}
+.closer{
+	display: none;
+}
+.shopping_detial ul{
+	list-style: none;
+}
+.shopping_detial ul li{
+	width: 100%;
+	height:2rem;
+	padding-left: .5rem;
+	box-sizing:border-box;
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+/*// .shopping_detial ul li .img{*/
+/*// 	width: 4rem;*/
+/*// 	height: 4rem;*/
+/*// 	display: inline-block;*/
+
+/*// }*/
+/*// .shopping_detial ul li .img img{*/
+/*// 	width: 100%;*/
+/*// 	height: 100%;*/
+/*// }*/
+.shopping_detial ul li{
+	position: relative;
+}
+.shopping_detial ul li .name{
+	position: absolute;
+	left:5%;
+	color:#333;
+	font-size:.7rem;
+	line-height: 2rem;
+	display: block;
+	height: 2rem;
+}
+.shopping_detial ul li .price{
+	position: absolute;
+	left:50%;
+	color:#333;
+	line-height: 2rem;
+	font-size:.7rem;
+	display: block;
+	height: 2rem;
+	display: none;
+}
+.shopping_detial ul li .total{
+	position: absolute;
+	left:40%;
+	color:#333;
+	line-height: 2rem;
+	font-size:.7rem;
+	display: block;
+	height: 2rem;
+}
+.shopping_detial ul li .bask_car{
+	position: absolute;
+	left:70%;
+	width: 5rem;
+	height: 2rem;
+}
+.shopping_detial ul li .mount{
+	
+	color:#333;
+	margin: 0.5rem;
+	text-align: center;
+	display:inline-block;
+	width: 1rem;
+	height: 1rem;	
+	border:1px solid #eee;
+	border-radius: .2rem;
+	line-height: 1rem;
+	font-size:.7rem;
+}
+.shopping_detial ul li .remove{
+	color:#eee;
+	display: inline-block;
+	text-align: center;
+	background-color: #ffffff;
+	width: 1rem;
+	height: 1rem;	
+	border:1px solid #eee;
+	border-radius: 50%;
+	line-height: 1rem;
+	font-size:.6rem;
+}
+
+.shopping_detial ul li .add{
+	color:#333;
+	display: inline-block;
+	text-align: center;
+	background-color: #FFD705;
+	width: 1rem;
+	height: 1rem;	
+	border:1px solid #eee;
+	border-radius: 50%;
+	line-height: 1rem;
+	font-size:.6rem;
+}
+
+.wlcs{
+	width: 100%;
+	height: 3rem;
+
+}
+.carbask{
+	display: none;
+	width: 100%;
+	position:fixed;
+	top:0;
+	left:0;
+	opacity:.5;
+	z-index:20;
+	background-color: #000;
+}

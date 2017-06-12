@@ -54,8 +54,8 @@ public class EmployeeController extends WeChatBaseController {
 	 */
 	@At("/scan_guide")
 	@Ok("beetl:/frontweb/wechat/employee/scan_guide.html")
-	public void scanQRGuide(){
-
+	public void scanQRGuide(HttpServletRequest req){
+		req.setAttribute("netPath", "http://" + req.getServerName() + req.getContextPath());
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class EmployeeController extends WeChatBaseController {
 		// 校验参数
 		CheckInfo checkInfo = frontUserService.checkShowProductsParam(param);
 		if(! checkInfo.getFlag() || StringUtil.isBlank(openID)) {
-			req.setAttribute("title", "");
+			req.setAttribute("company_name", "");
 			req.setAttribute("checkInfo", checkInfo);
 			req.setAttribute("company_id", -1);
 			req.setAttribute("open_id", "");
@@ -96,7 +96,7 @@ public class EmployeeController extends WeChatBaseController {
 		// 校验通过,则获取该公司货架上商品信息
 		CompanyProducts companyProducts = frontUserService.getCompanyProductsInfo(param.getCompany_id());
 		req.setAttribute("checkInfo", checkInfo);
-		req.setAttribute("title", companyProducts.getTitle());
+		req.setAttribute("company_name", companyProducts.getTitle());
 		req.setAttribute("company_id", param.getCompany_id());
 		req.setAttribute("open_id", openID);
 		req.setAttribute("categoryList", companyProducts.getCategoryList());
@@ -115,7 +115,7 @@ public class EmployeeController extends WeChatBaseController {
 		String buy_order_id = frontUserService.dealEmployeeBeforePay(company_id, total_price, orderdetailList, checkInfo);
 		if(checkInfo.getFlag()) { // 获取页面JSAPI所需参数
 			CheckUtil.emptyCheckInfo(checkInfo);
-			WechatPageInfo wechatPageInfo = wxService.getWechatPageInfoBeforePay(buy_order_id, open_id, total_price, req, checkInfo, ConstantUrl.URL_WECHAT_NOTIFY_EMPLOYEE);
+			WechatPageInfo wechatPageInfo = wxService.getWechatPageInfoBeforePay(company_id, buy_order_id, open_id, total_price, req, checkInfo, ConstantUrl.URL_WECHAT_NOTIFY_EMPLOYEE);
 			if(checkInfo.getFlag())
 				return Result.success("ok", wechatPageInfo);
 		}
@@ -128,7 +128,7 @@ public class EmployeeController extends WeChatBaseController {
 	 * @param res
 	 * @return
 	 */
-	@At("report_buy_result")
+	@At("/report_buy_result")
 	@POST
 	public void reportBuyResult(@Param("..") NutMap map, HttpServletRequest req, HttpServletResponse res){
 		log.debug("map::" + Json.toJson(map));
@@ -167,7 +167,7 @@ public class EmployeeController extends WeChatBaseController {
 				// 修改订单状态
 				openid = resultMap.get("openid");
 				transaction_id = resultMap.get("transaction_id");
-				pay_time = resultMap.get("pay_time");
+				pay_time = resultMap.get("time_end");
 				payService.updateEmlpoyeeOrderSuccess(out_trade_no, openid, transaction_id, pay_time);
 				// 通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
 				res.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
