@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>${company_name}</title>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=20170612">
+	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=201706122027">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<script type="text/javascript" src="${base}/assets/js/front/jquery-1.1.4.min.js"></script>
 	<script type="text/javascript" src="${base}/assets/js/front/zepto.js"></script>
@@ -36,7 +36,10 @@
 
         //        setTimeout(function(){
         $(document).ready(function () {
+            // 遮罩设置
             $(".carbask").css({"height":window.screen.height+"px"});
+            // 左边分类第一个为白色
+            $("#slider li").eq(0).addClass("white");
 //            $(".list").on("tap",function(event){
 //                event.stopPropagation();
 //                if($(this).siblings(".bask").css("display")==="block"){
@@ -164,12 +167,68 @@
 
             // })
             // 左边产品分类点击
-            $("#slider li").on ("tap",function(event){
-                $(".container ul").css({"display":"none"});
-                $("#slider li").css({"backgroundColor":"#eee"});
-                $(this).css({"backgroundColor":"#fff"})
-                $(".container ul").eq($(this).index()).css({"display":"block"});
-            })
+//            $("#slider li").on ("tap",function(event){
+//                $(".container ul").css({"display":"none"});
+//                $("#slider li").css({"backgroundColor":"#eee"});
+//                $(this).css({"backgroundColor":"#fff"})
+//                $(".container ul").eq($(this).index()).css({"display":"block"});
+//            })
+            // 左边产品分类点击
+            $("#slider li").click(function(){
+                // scroll事件解绑
+                $ (window).unbind ('scroll');
+                var pos = $("ul").eq($(this).index()).offset().top;
+                var obj = $(this);
+                var flag_scrollEvent = false; // 默认分类事件执行完成前不可使用滚动事件
+                $("html,body").animate({scrollTop: pos}, "slow", function() {
+                    // scroll事件绑定
+                    scrollEvent();
+                    // 传参数进行回调
+                    changeLeftCategoryClassLater();
+                    /**
+                     * scroll绑定事件
+                     */
+                    function scrollEvent() {
+						$ (window).bind ('scroll', function() {
+                            $(".tan").text("scrollEvent:" + flag_scrollEvent).show().delay(2000).hide(0);
+							if(flag_scrollEvent) {
+								var wst = $(window).scrollTop() //滚动条距离顶端值
+								$("ul").addClass()
+								for (var i = 0; i < $(".container ul").length; i++) {             //加循环
+									if ($(".container ul").eq(i).offset().top - 1 <= wst) { //判断滚动条位置
+										$("#slider li").removeClass("white");
+										$("#slider li").eq(i).addClass("white");
+									}
+								}
+							}
+						});
+                        }
+                    /**
+                     * 添加分类样式
+                     */
+                    function changeLeftCategoryClassLater() {
+                        // 样式修改
+                        $("#slider li").removeClass("white");
+                        obj.addClass("white");
+                        // 分类点击事件完毕后,可以使用滚动事件
+                        flag_scrollEvent = true;
+                        $(".tan").text("changeLeftCategoryClassLater:" + flag_scrollEvent).show().delay(1000).hide(0);
+                    }
+                });
+                return false;
+            });
+
+            // 滚动事件触发
+//            $(window).scroll(function(){//为页面添加页面滚动监听事件
+//                var wst = $(window).scrollTop() //滚动条距离顶端值
+//                $("ul").addClass()
+//                for(var i=0;i<$(".container ul").length;i++){             //加循环
+//                    if($(".container ul").eq(i).offset().top-1<=wst){ //判断滚动条位置
+//                        $("#slider li").removeClass("white");
+//                        $("#slider li").eq(i).addClass("white");
+//                    }
+//                }
+//            });
             // 购物车点击
             $(".hotspot").on("tap",function(event){
                 shop_list=[];
@@ -293,6 +352,7 @@
 				 }
 				 }
 				 //获取用户信息 调用支付接口 ，跳转。*/
+				// 禁用提交按钮
                 // 整理当前页面上待支付产品信息
                 var orderitem_datas = "";
                 $("input[name='product_id']").each(function (i, item) {
@@ -328,30 +388,6 @@
                         success: function(data) {
                             console.log("data.msg:" + data.msg + ";data.code:" + data.code + ";buy_order_id:" + data.data);
                             if(data.code == 0) {
-//                                $(".shopname").text(data.data.packageStr + "--" + data.data.sign);
-                                // 调起微信支付客户端
-//                                document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-//                                    WeixinJSBridge.invoke('getBrandWCPayRequest',{
-//                                        "appId" : data.data.appid,
-//                                        "timeStamp" : data.data.timeStamp,
-//                                        "nonceStr" : data.data.nonceStr,
-//                                        "package" : data.data.packageStr,
-//                                        "signType" : "MD5",
-//                                        "paySign" : data.data.sign
-//                                    },function(res){
-//                                        WeixinJSBridge.log(res.err_msg);
-//                                        //alert(res.err_code + res.err_desc + res.err_msg);
-//                                        var result = "";
-//                                        if(res.err_msg == "get_brand_wcpay_request:ok"){
-//                                            result = 'ok';
-//                                        }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
-//                                            result = 'cancel';
-//                                        }else{
-//                                            result = 'fail';
-//                                        }
-//                                        window.location.href = data.data.front_url + "?result=" +  result;
-//                                    })
-//                                },false);
                                 if (typeof WeixinJSBridge == "undefined"){
                                     if( document.addEventListener ){
                                         document.addEventListener('WeixinJSBridgeReady', onBridgeReady(data.data), false);
@@ -364,17 +400,20 @@
                                 }
                             }else {
                                 console.log("data.msg:" + data.msg);
+                                $(".tan").text(data.msg).show().delay(1000).hide(0);
                             }
 
                         },
                         error: function() {
                             // 提示error错误----
                             console.log("获取微信支付JSAPI参数ERROR");
+                            $(".tan").text("微信支付时参数缺失啦").show().delay(1000).hide(0);
                         }
                     });
                 }else {
                     // 未选中零食提示----
                     console.log("selected none");
+                    $(".tan").text("还未选购零食喔").show().delay(1000).hide(0);
                 }
             })
         });
@@ -396,9 +435,12 @@
                 function(res){
                     var result = "";
                     if(res.err_msg == "get_brand_wcpay_request:ok"){
-                        result = 'ok';
+//                        result = 'ok';
+						// 购买成功
+                        $(".tan").text("购买成功").show().delay(1000).hide(0);
                     }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
-                        result = 'cancel';
+//                        result = 'cancel';
+                        $(".tan").text("取消成功").show().delay(1000).hide(0);
                     }else{
                         result = 'fail';
                     }
@@ -410,44 +452,46 @@
 	</script>
 </head>
 <body>
+<div class="load"><img src="${base}/assets/img/front/loding.gif"/></div>
+<div class="tan"></div>
 <!--<section class="shopname">${company_name}</section>-->
 <section class="container">
 	<div id="slider">
 		<%if(!isEmpty(categoryList)){
-		for(category in categoryList){
+			for(category in categoryList){
 		%>
-		<li><span class="slidermount">0</span>${category.product_category_name}</li>
-		<%}
+			<li><span class="slidermount">0</span>${category.product_category_name}</li>
+			<%}
 		}%>
 	</div>
 	<%if(!isEmpty(categoryList)){
-	for(category in categoryList){
+		for(category in categoryList){
 	%>
-	<ul id="category_${category.category_id}" class="cover">
-		<h4>${category.product_category_name}</h4>
-		<%if(!isEmpty(category.productInfoList)){
-		for(product in category.productInfoList){
-		%>
-		<li>
-			<input type="hidden" name="product_id" value="${product.product_id}" />
-			<div class="list">
-				<div class="img"><img src="${product.image_url}"></div>
-				<p class="pl">
-					<span class="price">¥${product.price_empolyee}</span>
-					<span class="newprice">¥${product.price_public}</span>
-				</p>
-				<p class="name">${product.product_name}</p>
-			</div>
-			<div class="bask">
-				<span class="fa fa-minus fa-lt remove"></span>
-				<span class="mount">0</span>
-				<span class="fa fa-plus fa-lt add"></span>
-			</div>
-		</li>
+		<ul id="category_${category.category_id}" class="cover">
+			<h4><span>${category.product_category_name}</span></h4>
+			<%if(!isEmpty(category.productInfoList)){
+				for(product in category.productInfoList){
+			%>
+				<li>
+					<input type="hidden" name="product_id" value="${product.product_id}" />
+					<div class="list">
+						<div class="img"><img src="${product.image_url}"></div>
+						<p class="pl">
+							<span class="price">¥${product.price_empolyee}</span>
+							<span class="newprice">¥${product.price_public}</span>
+						</p>
+						<p class="name">${product.product_name}</p>
+					</div>
+					<div class="bask">
+						<span class="fa fa-minus fa-lt remove"></span>
+						<span class="mount">0</span>
+						<span class="fa fa-plus fa-lt add"></span>
+					</div>
+				</li>
+				<%}
+			}%>
+		</ul>
 		<%}
-		}%>
-	</ul>
-	<%}
 	}%>
 </section>
 <section class="carbask"></section>
@@ -469,5 +513,8 @@
 	</div>
 	<span class="gobuy">去支付</span>
 </section>
+<script type="text/javascript">
+    $(".load").fadeOut();
+</script>
 </body>
 </html>
