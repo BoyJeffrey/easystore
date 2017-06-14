@@ -23,8 +23,9 @@ public class OSSUploadFileUtil {
 
 	private static final Log logger = Logs.get();
 
+	 static String URL_FRONT_PRODUCTIMAGE = "http://newworklife-product-picture.oss-cn-shanghai.aliyuncs.com"; // 产品图访问地址前缀:需要3级域名
+
 	public static String BUCKET_PRODUCT_PICTURE = "newworklife-product-picture"; // 产品图bucket
-	
 	private static String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 	private static String accessKeyId = "LTAIV9Og32fXLDPH";
 	private static String accessKeySecret = "S5u8LtYtr0Y0fZhYalRkViaxYj9Im7";
@@ -45,7 +46,7 @@ public class OSSUploadFileUtil {
     		ObjectMetadata meta = new ObjectMetadata();
     		meta.setContentLength(tf.getSize());
     		client.putObject(bucketName, key, tf.getInputStream(),meta);
-			image_url_oss = endpoint + "/" + BUCKET_PRODUCT_PICTURE + "/" + key;
+			image_url_oss = URL_FRONT_PRODUCTIMAGE + "/" + key;
     		logger.info("图片"+image_url_oss+"上传成功");
 		} catch (Exception e) {
 			logger.error(e);

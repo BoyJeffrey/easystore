@@ -4,37 +4,7 @@
 }
 body{
 	background-color: #eee;
-	font-family:黑体,"Microsoft YaHei";
-}
-.white{
-  background: #fff!important;
-}
-.tan{
-	display: none;
-	color: #fff;
-	position: fixed;
-	top: 30%;
-	left: 25%;
-	z-index: 99;
-	width: 50%;
-	padding: 1rem;
-	border-radius: 0.3rem;
-	background: rgba(0,0,0,0.6);
-	text-align: center;
-	font-size:.5rem;
-}
-.load{
-	width: 100%;
-	height: 100%;
-	background: #fff;
-	text-align: center;
-	position: fixed;
-	top: 0;
-	left:0;
-	z-index: 999;
-}
-.load img{
-  padding-top: 65%;
+	font-family:"Microsoft YaHei";
 }
 .shopname{
 	width: 100%;
@@ -55,7 +25,7 @@ body{
 }
 
 .container h4{
-	padding-left: 1rem;
+	padding-left: 1.5rem;
 	font-size:0.6rem;
 	font-weight:normal;
 	color:#3a3a3a;
@@ -63,10 +33,6 @@ body{
 	width: 100%;
 	height:1.4rem;
 	line-height: 1.4rem;
-}
-.container h4 span{
-	padding-left: 0.2rem;
-	border-left: 2px solid #ffae00;
 }
 .container  #slider{
 	width:20%;
@@ -80,7 +46,6 @@ body{
 .container #slider .slidermount{
 	width: .7rem;
 	height: .7rem;
-	color: #fff;
 	background-color: #FF6900;
 	border-radius:50%;
 	font-size: .4rem;
@@ -101,6 +66,9 @@ body{
 	font-size:.5rem;
 	background-color:#EFEFEF;
 	border-bottom: 1px solid #ddd;
+}
+.container #slider li:nth-child(1){
+	background-color: #fff;
 }
 .container .cover{
 	margin-left: 20%;
@@ -156,7 +124,6 @@ body{
 }
 .container ul li .list .name{
 	font-size:.7rem;
-	font-weight: bold;
 	position:absolute;
 	/*top:1rem;*/
 	top:0.8rem;
@@ -177,15 +144,16 @@ body{
 }
 .container ul li .bask span{
 	width: 1rem;
+	margin-right: .2rem;
 	font-size:.7rem;
 	height: 1rem;
 	line-height:1rem;
 	border-radius: 50%;
-	background:#FFD705;
+	background-color:#FFD705;
 }
 .container ul li .bask .remove{
 	display: none;
-	background: #ccc;
+	background-color: #ffffff;
 	color: #eee;
 }
 .container ul li .bask .mount{
@@ -203,15 +171,15 @@ body{
 	z-index:30;
 	width: 100%;
 	padding-left: .5rem;
-	height: 2.5rem;
+	height: 3rem;
 	box-sizing:border-box;
 	position: fixed;
 	bottom:0;
 	left:0;
-	background-color: rgba(0,0,0,0.8);
+	background-color: #262626;
 }
 .buycar .hotspot{
-	height: 2.5rem;
+	height: 3rem;
 	width: 75%;
 	position: relative;
 
@@ -220,20 +188,18 @@ body{
 	width: 2.5rem;
 	position: absolute;
 	left:0;
-	top:-0.5rem;
+	top:.4rem;
 	height:2.5rem;
-	border-radius: 50%;
-	background:#79e8fc url(../../img/front/buycar_white.png)no-repeat center center ;
-	background-size:65%;
+	background:url(../../img/front/buycar.png)no-repeat center center ;
+	background-size:contain;
 }
 .buycar .carmount{
 	width: 1rem;
 	height:1rem;
-	color: #fff;
 	background-color: #FF6900;
 	border-radius:50%;
 	position: absolute;
-	top:-0.6rem;
+	top:.5rem;
 	left:1.7rem;
 	font-size: .7rem;
 	text-align: center;
@@ -242,14 +208,13 @@ body{
 	z-index: 2;
 }
 .buycar .gobuy{
-	width: 5rem;
-	height: 2.5rem;
-	font-size: 0.85rem;
-	background: #ffae00;
+	width: 4rem;
+	height: 3rem;
+	background-color: #cd0102;
 	position: absolute;
 	top:0;
 	text-align: center;
-	line-height:2.5rem;
+	line-height:3rem;
 	right:0;
 	color:#fff;
 }
@@ -290,7 +255,7 @@ body{
 	width: 100%;
 	padding:0 1rem;
 	height:1rem;
-	background-color: #a9a9a9;
+	background-color: #ff0000;
 }
 .shopping_detial .title_g .shop_name{
 	font-size:.7rem;

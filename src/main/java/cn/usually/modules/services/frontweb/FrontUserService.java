@@ -26,10 +26,7 @@ import org.nutz.trans.Atom;
 import org.nutz.trans.Trans;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 2017-05-15
@@ -176,7 +173,15 @@ public class FrontUserService extends Service {
 				productCategoryInfo.setProductInfoList(productInfoList); // 该类别所有产品组装
 				productCategoryList.add(productCategoryInfo); // 组装类别
 			}
+			// 分类中最多的商品放最下面
+			Collections.sort(productCategoryList, new Comparator<ProductCategoryInfo>() {
+				@Override
+				public int compare(ProductCategoryInfo o1, ProductCategoryInfo o2) {
+					return o1.getProductInfoList().size() - o2.getProductInfoList().size();
+				}
+			});
 			companyProducts.setCategoryList(productCategoryList); //
+
 		}
 		return companyProducts;
 	}

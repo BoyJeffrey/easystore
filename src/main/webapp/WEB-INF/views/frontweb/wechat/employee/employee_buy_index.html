@@ -10,6 +10,11 @@
 	<script type="text/javascript" src="${base}/assets/js/front/zepto.js"></script>
 	<script type="text/javascript" src="${base}/assets/js/front/zepto.touch.js"></script>
 	<script type="text/javascript"  src="${base}/assets/js/front/underscore.js"></script>
+	<style type="text/css">
+		.fa-plus:before{
+		color: #fff;
+	}
+	</style>
 	<script type="text/javascript">
         function set(){
             var w = document.documentElement.clientWidth;
@@ -166,6 +171,7 @@
             // 	}
 
             // })
+			// 第一个分类版本
             // 左边产品分类点击
 //            $("#slider li").on ("tap",function(event){
 //                $(".container ul").css({"display":"none"});
@@ -173,6 +179,27 @@
 //                $(this).css({"backgroundColor":"#fff"})
 //                $(".container ul").eq($(this).index()).css({"display":"block"});
 //            })
+			// 第二个分类版本---墨鸦
+            // 左边产品分类点击
+//            $("#slider li").click(function(){
+//                $("#slider li").removeClass("white");
+//                $(this).addClass("white");
+//                var pos = $("ul").eq($(this).index()).offset().top;
+//                $("html,body").animate({scrollTop: pos}, 100);
+//                return false;
+//            });
+//
+//
+//            $(window).scroll(function(){//为页面添加页面滚动监听事件
+//                var wst = $(window).scrollTop() //滚动条距离顶端值
+//                for (i=0; i < $(".container ul").length; i++){             //加循环
+//                    if($(".container ul").eq(i).offset().top-80<=wst){ //判断滚动条位置
+//                        $("#slider li").removeClass("white");
+//                        $("#slider li").eq(i).addClass("white");
+//                    }
+//                }
+//            });
+//
             // 左边产品分类点击
             $("#slider li").click(function(){
                 // scroll事件解绑
@@ -190,29 +217,30 @@
                      */
                     function scrollEvent() {
 						$ (window).bind ('scroll', function() {
-                            $(".tan").text("scrollEvent:" + flag_scrollEvent).show().delay(2000).hide(0);
+//                            $(".tan").text("scrollEvent:" + flag_scrollEvent).show().delay(2000).hide(0);
 							if(flag_scrollEvent) {
 								var wst = $(window).scrollTop() //滚动条距离顶端值
-								$("ul").addClass()
 								for (var i = 0; i < $(".container ul").length; i++) {             //加循环
-									if ($(".container ul").eq(i).offset().top - 1 <= wst) { //判断滚动条位置
+									if ($(".container ul").eq(i).offset().top - 80 <= wst) { //判断滚动条位置
 										$("#slider li").removeClass("white");
 										$("#slider li").eq(i).addClass("white");
 									}
 								}
 							}
 						});
-                        }
+					}
                     /**
                      * 添加分类样式
                      */
                     function changeLeftCategoryClassLater() {
+                        // 停止动画
+                        $(this).stop(false,true).animate();
                         // 样式修改
                         $("#slider li").removeClass("white");
                         obj.addClass("white");
                         // 分类点击事件完毕后,可以使用滚动事件
                         flag_scrollEvent = true;
-                        $(".tan").text("changeLeftCategoryClassLater:" + flag_scrollEvent).show().delay(1000).hide(0);
+//                        $(".tan").text("changeLeftCategoryClassLater:" + flag_scrollEvent).show().delay(1000).hide(0);
                     }
                 });
                 return false;
