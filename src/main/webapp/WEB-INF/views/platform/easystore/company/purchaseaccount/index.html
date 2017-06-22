@@ -15,9 +15,11 @@ layout("/layouts/platform.html"){
             <table class="table table-bordered table-striped mg-t datatable">
                 <thead>
                     <tr>
-                            <th>公司采购员微信openid</th>
-                            <th>公司采购员姓名</th>
-                            <th>操作</th>
+                        <th>公司采购员用户名</th>
+                        <th>公司采购员姓名</th>
+                        <th>公司采购员联系电话</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
             </table>
@@ -52,6 +54,27 @@ layout("/layouts/platform.html"){
         </div>
     </div>
 </div>
+
+<div id="dialogPaasword" class="modal fade bs-modal-sm" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script language="JavaScript">
     var datatable;
     function initDatatable() {
@@ -80,21 +103,37 @@ layout("/layouts/platform.html"){
             },
             "order": [[0, "desc"]],
             "columns": [
-                    {"data": "company_openid", "bSortable": true},
-                    {"data": "company_purchasename", "bSortable": true},
+                    {"data": "loginname", "bSortable": true},
+                    {"data": "nickname", "bSortable": true},
+                    {"data": "company_purchasephone", "bSortable": true},
+                    {"data": "disabled", "bSortable": true},
             ],
             "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        if (!data) {
+                            return '<i id="disable_' + row.user_id + '" class="fa fa-circle text-success ml5"></i>';
+                        } else {
+                            return '<i id="disable_' + row.user_id + '" class="fa fa-circle text-danger ml5"></i>';
+                        }
+                    },
+                    "targets": 3
+                },
                 {
                     "render": function (data, type, row) {
                         return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
                                 ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
                                 /*'<li><a href="${base}/platform/company/purchaseaccount/detail/' + row.id + '" data-toggle="modal" data-target="#dialogDetail">查看</a></li>' +*/
-                                '<li><a href="${base}/platform/company/purchaseaccount/edit/' + row.id + '" data-pjax>修改</a></li>' +
+                                '<li><a href="${base}/platform/company/purchaseaccount/edit/' + row.id + '" data-pjax>修改信息</a></li>' +
+                                '<li><a href="javascript:;" onclick="resetPwd(\'' + row.user_id + '\')">密码重置</a></li>' +
                                 '<li class="divider"></li>' +
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
+                                '<li class="divider"></li>' +
+                                '<li><a href="javascript:;" onclick="enableUser(\'' + row.user_id + '\')">启用</a></li>' +
+                                '<li><a href="javascript:;" onclick="disableUser(\'' + row.user_id + '\')">禁用</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 2
+                    "targets": 4
                 }
             ]
         });
@@ -105,6 +144,39 @@ layout("/layouts/platform.html"){
             datatable.ajax.reload();
         });
     }
+
+    function resetPwd(id) {
+        $.post("${base}/platform/sys/user/resetPwd/" + id, {}, function (data) {
+            var dialog = $("#dialogPaasword");
+            if (data.code == 0) {
+                dialog.find(".col-xs-12").html("密码重置成功，请复制新密码：" + data.data);
+                dialog.modal("show");
+            } else {
+                dialog.find(".col-xs-12").html(data.msg);
+                dialog.modal("show");
+            }
+        }, "json");
+    }
+
+    function enableUser(id) {
+        $.post("${base}/platform/sys/user/enable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disable_" + id).attr("class", "fa fa-circle text-success ml5");
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+    function disableUser(id) {
+        $.post("${base}/platform/sys/user/disable/" + id, {}, function (data) {
+            if (data.code == 0) {
+                $("#disable_" + id).attr("class", "fa fa-circle text-danger ml5");
+            } else {
+                Toast.error(data.msg);
+            }
+        }, "json");
+    }
+
     function del(id) {
         var dialog = $("#dialogDelete");
         dialog.modal("show");
@@ -154,6 +226,9 @@ layout("/layouts/platform.html"){
     $(function () {
         initDatatable();
         $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+        $("#dialogPaasword").on("hidden.bs.modal", function () {
             $(this).removeData("bs.modal");
         });
     });

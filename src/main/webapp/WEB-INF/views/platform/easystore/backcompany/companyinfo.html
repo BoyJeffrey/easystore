@@ -1,0 +1,87 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<%if(isRolePurchase) {%>
+    <div class="content-wrap">
+        <div class="wrapper" style="min-height:500px;">
+            <section class="panel panel-form">
+                <form id="editForm" role="form" class="form-horizontal parsley-form" data-parsley-validate
+                      action="${base}/platform/company/info/editDo" method="post">
+                    <input name="id" type="hidden" value="${obj.id}">
+                    <div class="row mb10">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司名称</label>
+                                <div class="col-sm-8">
+                                    ${obj.company_name}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司地址</label>
+                                <div class="col-sm-8">
+                                    ${obj.company_address}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司联系电话</label>
+                                <div class="col-sm-8">
+                                    ${obj.company_phone}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司联系人姓名</label>
+                                <div class="col-sm-8">
+                                    ${obj.company_contact_name}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司员工人数</label>
+                                <div class="col-sm-8">
+                                    ${obj.employee_num}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司加入平台时间</label>
+                                <div class="col-sm-8">
+                                    ${obj.create_time}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司给员工的福利类型</label>
+                                <div class="col-sm-8">
+                                    <%if(obj.benefit_type== 0){%>
+                                        纯福利
+                                    <%} else if(obj.benefit_type== 1){%>
+                                        员工和企业共同负担
+                                    <%}%>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">员工购买零食时支付比例(%)</label>
+                                <div class="col-sm-8">
+                                    ${obj.price_percent_benefit}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">公司状态</label>
+                                <div class="col-sm-8">
+                                    <%if(obj.status== 0){%>
+                                        正常
+                                    <%}else if(obj.status== 1){%>
+                                        已退出
+                                    <%}%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
+                </form>
+            </section>
+
+        </div>
+    </div>
+<%} else {%>
+    <h4 style="color: blue;margin: 20px">抱歉，您不是公司后台人员</h4>
+<%}%>
+
+<%}%>

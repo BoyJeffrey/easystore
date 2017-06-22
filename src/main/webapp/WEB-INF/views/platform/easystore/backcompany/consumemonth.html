@@ -1,0 +1,73 @@
+ <%
+layout("/layouts/platform.html"){
+%>
+ <%if(isRolePurchase) {%>
+    <section class="content-wrap bg-white">
+        <header class="header navbar bg-white shadow">
+            <div class="btn-group tool-button">
+                <a id="add" class="btn btn-primary navbar-btn" href="${base}/platform/backcompany/consumeemployee" data-pjax><i class="ti-plus"></i>员工购买列表</a>
+            </div>
+        </header>
+        <div class=panel-body style="padding-top: 50px;">
+            <div class="table-responsive no-border">
+                <table class="table table-bordered table-striped mg-t datatable">
+                    <thead>
+                        <tr>
+                                <th>年-月</th>
+                                <th>员工购买总笔数</th>
+                                <th>员工购买支付金额</th>
+                                <th>商品实际金额</th>
+                                <th>企业尚需补贴金额</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </section>
+    <script language="JavaScript">
+        var datatable;
+        function initDatatable() {
+            datatable = $('.datatable').DataTable({
+                "dom": '<"toolbar">frtip',
+                "searching":false,
+                "processing": false,
+                "serverSide": true,
+                "select": true,
+                "ordering": true,
+                "language": {
+                    "url": "${base}/assets/plugins/datatables/cn.json"
+                },
+                "preDrawCallback": function () {
+                    sublime.showLoadingbar($(".main-content"));
+                },
+                "drawCallback": function () {
+                    sublime.closeLoadingbar($(".main-content"));
+                },
+                "ajax": {
+                    "url": "${base}/platform/backcompany/consumemonthData",
+                    "type": "post",
+                    "data": function (d) {
+                        //d.nutz = $('#nutz').val();
+                    }
+                },
+                "order": [[0, "desc"]],
+                "columns": [
+                        {"data": "date_month", "bSortable": true},
+                        {"data": "consume_employee_sum", "bSortable": true},
+                        {"data": "consume_employee_amount", "bSortable": true},
+                        {"data": "consume_product_amount", "bSortable": true},
+                        {"data": "consume_company_amount", "bSortable": true},
+                ]
+            });
+            datatable.on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+        }
+        $(function () {
+            initDatatable();
+        });
+    </script>
+ <%} else {%>
+    <h4 style="color: blue;margin: 20px">抱歉，您不是公司后台人员</h4>
+ <%}%>
+<%}%>

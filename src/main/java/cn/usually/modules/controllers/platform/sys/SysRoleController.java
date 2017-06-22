@@ -205,7 +205,12 @@ public class SysRoleController {
     @Ok("beetl:/platform/sys/role/editUser.html")
     @RequiresAuthentication
     public Object editUser(String roleId, HttpServletRequest req) {
-        return roleService.fetch(roleId);
+        Sys_role role = roleService.fetch(roleId);
+        if(ConstantSys.SYSROLE_PURCHASE.equals(role.getCode()))
+            req.setAttribute("isRolePurchase", true);
+        else
+            req.setAttribute("isRolePurchase", false);
+        return role;
     }
 
     @At
@@ -394,7 +399,7 @@ public class SysRoleController {
     public Object delete(String roleId, HttpServletRequest req) {
         try {
             Sys_role role = roleService.fetch(roleId);
-            if ("sysadmin".equals(role.getCode()) || "public".equals(role.getCode()) || "delivery".equals(role.getCode())) { // 管理员/公用/送货员角色不予以删除
+            if ("sysadmin".equals(role.getCode()) || "public".equals(role.getCode()) || "delivery".equals(role.getCode()) || ConstantSys.SYSROLE_PURCHASE.equals(role.getCode())) { // 管理员/公用/送货员/采购员角色不予以删除
                 return Result.error("system.not.allow");
             }
             roleService.dao().clear("sys_user_role", Cnd.where("roleId", "=", roleId));
@@ -416,9 +421,10 @@ public class SysRoleController {
             Sys_role role = roleService.fetch(Cnd.where("code", "=", "sysadmin"));
             Sys_role role1 = roleService.fetch(Cnd.where("code", "=", "public"));
             Sys_role role2 = roleService.fetch(Cnd.where("code", "=", "delivery"));
+            Sys_role role3 = roleService.fetch(Cnd.where("code", "=", ConstantSys.SYSROLE_PURCHASE));
             StringBuilder sb = new StringBuilder();
             for (String s : roleIds) {
-                if (s.equals(role.getId()) || s.equals(role1.getId()) || s.equals(role2.getId())) { // 管理员/公用/送货员角色不予以删除
+                if (s.equals(role.getId()) || s.equals(role1.getId()) || s.equals(role2.getId()) || s.equals(role3.getId())) { // 管理员/公用/送货员角色不予以删除
                     return Result.error("system.not.allow");
                 }
                 sb.append(s).append(",");

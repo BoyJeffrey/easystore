@@ -1,0 +1,40 @@
+<div class="modal-body no-p">
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel panel-primary no-b">
+                <header class="panel-heading clearfix brtl brtr">
+                    <div class="overflow-hidden">
+                        <a href="javascript:;" class="h4 show no-m pt5">购买零食详情</a>
+                    </div>
+                </header>
+                <div class="list-group">
+                    <%if(!isEmpty(orderdetailList)){%>
+                        <table class="table table-bordered table-striped mg-t datatable">
+                            <thead>
+                                <tr>
+                                    <th>零食名称</th>
+                                    <th>零食价格:元</th>
+                                    <th>零食数量:个</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%for(order_detail in orderdetailList){%>
+                                <tr>
+                                    <td>${order_detail.product_name}</td>
+                                    <td>${order_detail.price_empolyee}</td>
+                                    <td>${order_detail.product_num}</td>
+                                </tr>
+                            <%}%>
+                            </tbody>
+                        </table>
+                    <%}else{%>
+                        <h4 style="color: blue;margin: 20px">no data</h4>
+                    <%}%>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">知道了</button>
+</div>

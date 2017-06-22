@@ -1,0 +1,147 @@
+<%
+layout("/layouts/platform.html"){
+%>
+<section class="content-wrap bg-white">
+    <header class="header navbar bg-white shadow">
+        <div class="btn-group tool-button">
+            <a class="btn btn-primary navbar-btn" href="${base}/platform/backcompany/consumemonth" id="goback" data-pjax><i class="ti-angle-left"></i> 返回</a>
+        </div>
+    </header>
+    <div class=panel-body style="padding-top: 50px;">
+        <div class="table-responsive no-border">
+            <table class="table table-bordered table-striped mg-t datatable">
+                <thead>
+                    <tr>
+                            <th>公司名称</th>
+                            <th>员工openid</th>
+                            <th>购买零食时间</th>
+                            <th>此次订单应付金额:元</th>
+                            <th>第三方支付订单号</th>
+                            <th>支付完成时间</th>
+                            <th>支付状态</th>
+                            <th>支付方式</th>
+                            <th>操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<div id="dialogDetail" class="modal fade bs-modal-sm" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    var datatable;
+    function initDatatable() {
+        datatable = $('.datatable').DataTable({
+            "dom": '<"toolbar">frtip',
+            "searching":false,
+            "processing": false,
+            "serverSide": true,
+            "select": true,
+            "ordering": true,
+            "language": {
+                "url": "${base}/assets/plugins/datatables/cn.json"
+            },
+            "preDrawCallback": function () {
+                sublime.showLoadingbar($(".main-content"));
+            },
+            "drawCallback": function () {
+                sublime.closeLoadingbar($(".main-content"));
+            },
+            "ajax": {
+                "url": "${base}/platform/backcompany/consumeemployeeData",
+                "type": "post",
+                "data": function (d) {
+                    //d.nutz = $('#nutz').val();
+                }
+            },
+            "order": [[0, "desc"]],
+            "columns": [
+                    {"data": "company_id", "bSortable": true},
+                    {"data": "openid", "bSortable": true},
+                    {"data": "create_time", "bSortable": true},
+                    {"data": "total_price", "bSortable": true},
+                    {"data": "thirdpay_order_id", "bSortable": true},
+                    {"data": "pay_time", "bSortable": true},
+                    {"data": "pay_status", "bSortable": true},
+                    {"data": "pay_way", "bSortable": true},
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        return row.company.company_name;
+                    },
+                    "targets": 0
+                },
+                {
+                    "render": function (data, type, row) {
+                        return moment(row.create_time).format("YYYY-MM-DD HH:mm:ss");
+                    },
+                    "targets": 2
+                },
+                {
+                    "render": function (data, type, row) {
+                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
+                    },
+                    "targets": 5
+                },
+                {
+                    "render": function (data, type, row) {
+                        var pay_status = row.pay_status;
+                        var desc;
+                        if(pay_status == 0)
+                            desc = "未支付";
+                        else if(pay_status == 1)
+                            desc = "处理中";
+                        else if(pay_status == 2)
+                            desc = "支付成功";
+                        else
+                            desc = "error";
+                        return desc;
+                    },
+                    "targets": 6
+                },
+                {
+                    "render": function (data, type, row) {
+                        var pay_way = row.pay_way;
+                        var desc;
+                        if(pay_way == 0)
+                            desc = "位置";
+                        else if(pay_way == 1)
+                            desc = "现金";
+                        else if(pay_way == 2)
+                            desc = "微信支付";
+                        else
+                            desc = "error";
+                        return desc;
+                    },
+                    "targets": 7
+                },
+                {
+                    "render": function (data, type, row) {
+                        return '<div class="btn-group"><button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">' +
+                                ' <i class="ti-settings"></i> <span class="ti-angle-down"></span></button><ul class="dropdown-menu" role="menu">' +
+                                '<li><a href="${base}/platform/backcompany/consumedetail/' + row.buy_order_id + '" data-toggle="modal" data-target="#dialogDetail">购买详情</a></li>' +
+                                '</ul></div>';
+                    },
+                    "targets": 8
+                }
+            ]
+        });
+        datatable.on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
+    }
+    $(function () {
+        initDatatable();
+        $("#dialogDetail").on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+    });
+</script>
+
+<%}%>

@@ -74,6 +74,9 @@ public class Easy_empolyee_order implements Serializable {
     @ColDefine(type = ColType.INT)
     private int pay_way;
 
+	@One(target = Easy_company.class, field = "company_id")
+	private Easy_company company;
+
 	public long getId() {
 		return id;
 	}
@@ -152,5 +155,13 @@ public class Easy_empolyee_order implements Serializable {
 
 	public void setPay_time(String pay_time) {
 		this.pay_time = pay_time;
+	}
+
+	public Easy_company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Easy_company company) {
+		this.company = company;
 	}
 }

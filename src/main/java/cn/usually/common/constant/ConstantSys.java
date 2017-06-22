@@ -21,4 +21,9 @@ public class ConstantSys {
      */
     public static String SYSROLE_DELIVERY = "delivery";
 
+    /**
+     * 系统角色:采购员角色标识
+     */
+    public static String SYSROLE_PURCHASE = "purchase";
+
 }

@@ -12,6 +12,7 @@ import cn.usually.modules.models.platform.easystore.Easy_deliveryman_associateco
 import cn.usually.modules.models.platform.sys.Sys_menu;
 import cn.usually.modules.models.platform.sys.Sys_unit;
 import cn.usually.modules.models.platform.sys.Sys_user;
+import cn.usually.modules.services.platform.easystore.EasyCompanyPurchaseaccountService;
 import cn.usually.modules.services.platform.easystore.EasyDeliverymanService;
 import cn.usually.modules.services.platform.sys.SysMenuService;
 import cn.usually.modules.services.platform.sys.SysRoleService;
@@ -58,6 +59,8 @@ public class SysUserController {
     SysRoleService roleService;
     @Inject
     EasyDeliverymanService deliverymanService;
+    @Inject
+    private EasyCompanyPurchaseaccountService easyCompanyPurchaseaccountService;
 
     @At("")
     @Ok("beetl:/platform/sys/user/index.html")
@@ -108,7 +111,11 @@ public class SysUserController {
     @SLog(tag = "修改用户", msg = "用户名:${args[1]}->${args[0].loginname}")
     public Object editDo(@Param("..") Sys_user user, @Param("oldLoginname") String oldLoginname, HttpServletRequest req) {
         try {
-            if (!Strings.sBlank(oldLoginname).equals(user.getLoginname())) {
+            // 采购员角色的用户不可修改
+            boolean flag_role_purchase = roleService.includeTargetRolecodeByUserid(user.getId(), ConstantSys.SYSROLE_PURCHASE);
+            if(flag_role_purchase)
+                return Result.error("该用户角色为采购员,请至【公司信息管理】---【操作】---【管理采购员】中对采购员进行相关信息修改操作！");
+            if(!Strings.sBlank(oldLoginname).equals(user.getLoginname())) {
                 Sys_user u = userService.fetch(Cnd.where("loginname", "=", user.getLoginname()));
                 if (u != null)
                     return Result.error("用户名已存在");
@@ -150,6 +157,11 @@ public class SysUserController {
             if ("superadmin".equals(user.getLoginname())) {
                 return Result.error("system.not.allow");
             }
+            // 待删除用户如果为采购员,则不予以删除
+            // 采购员角色的用户不可修改
+            boolean flag_role_purchase = roleService.includeTargetRolecodeByUserid(user.getId(), ConstantSys.SYSROLE_PURCHASE);
+            if(flag_role_purchase)
+                return Result.error("该用户角色为采购员,请至【公司信息管理】---【操作】---【管理采购员】中对采购员进行相关删除操作！");
             // 待删除用户如果为送货员,且其下存在关联公司,则不予以删除
             boolean flag_role_delivery = roleService.includeTargetRolecodeByUserid(userId, ConstantSys.SYSROLE_DELIVERY);
             if(flag_role_delivery) {
@@ -180,8 +192,10 @@ public class SysUserController {
                 }
                 sb.append(s).append(",");
             }
-            // 如待删除用户中存在送货员角色,且存在关联公司,则不予以删除
             CheckInfo checkInfo = CheckUtil.getDefaultSuccessCheckInfo(); // 默认可以删除
+            // 如待删除用户中存在采购员角色,则不予以删除
+            easyCompanyPurchaseaccountService.searchPurchaseaccountByUserids(roleService, userIds, checkInfo);
+            // 如待删除用户中存在送货员角色,且存在关联公司,则不予以删除
             deliverymanService.searchDeliverymanAssociatecompanyByUserids(roleService, userIds, checkInfo);
             if(checkInfo.getFlag())
               userService.deleteByIds(userIds);

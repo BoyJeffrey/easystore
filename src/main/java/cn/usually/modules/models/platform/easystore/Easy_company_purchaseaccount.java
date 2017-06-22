@@ -1,11 +1,11 @@
 package cn.usually.modules.models.platform.easystore;
 
-import java.io.Serializable;
-
+import cn.usually.common.base.Model;
+import cn.usually.modules.models.platform.sys.Sys_user;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.nutz.dao.entity.annotation.*;
 
-import cn.usually.common.base.Model;
+import java.io.Serializable;
 
 /**
  * Created on 2017/5/10.
@@ -29,15 +29,22 @@ public class Easy_company_purchaseaccount extends Model implements Serializable 
     
     @Column
     @Comment("公司采购员微信openid---登录平台公众号后用于采购管理")
-    @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 200)
     private String company_openid;
 
 	@Column
-	@Comment("公司采购员姓名")
-	@NotNull
+	@Comment("公司采购员联系电话")
 	@ColDefine(type = ColType.VARCHAR, width = 50)
-	private String company_purchasename;
+	private String company_purchasephone;
+
+	@Column
+	@Comment("关联采购员角色用户")
+	@NotNull
+	@ColDefine(type = ColType.VARCHAR, width = 32)
+	private String userId;
+
+	@One(target = Sys_user.class, field = "userId")
+	private Sys_user sys_user;
 
 	public long getId() {
 		return id;
@@ -63,11 +70,27 @@ public class Easy_company_purchaseaccount extends Model implements Serializable 
 		this.company_openid = company_openid;
 	}
 
-	public String getCompany_purchasename() {
-		return company_purchasename;
+	public String getCompany_purchasephone() {
+		return company_purchasephone;
 	}
 
-	public void setCompany_purchasename(String company_purchasename) {
-		this.company_purchasename = company_purchasename;
+	public void setCompany_purchasephone(String company_purchasephone) {
+		this.company_purchasephone = company_purchasephone;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Sys_user getSys_user() {
+		return sys_user;
+	}
+
+	public void setSys_user(Sys_user sys_user) {
+		this.sys_user = sys_user;
 	}
 }
