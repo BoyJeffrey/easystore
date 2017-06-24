@@ -11,7 +11,8 @@ import java.io.Serializable;
  */
 @Table("easy_company")
 @Comment("采购公司---平台上提供员工福利的公司")
-@TableIndexes({@Index(name = "INDEX_EASYCOMPANY_ACCOUNTID", fields = {"account_id"}, unique = false)})
+@TableIndexes({@Index(name = "INDEX_EASYCOMPANY_ACCOUNTID", fields = {"account_id"}, unique = false),
+			   @Index(name = "INDEX_EASYCOMPANY_EMPLOYEENUM", fields = {"employee_num"}, unique = false)})
 public class Easy_company extends Model implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -43,6 +44,13 @@ public class Easy_company extends Model implements Serializable {
     @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 50)
     private String company_contact_name;
+
+	@Column
+	@Comment("公司员工人数")
+	@NotNull
+	@Default(value = "0")
+	@ColDefine(type = ColType.INT)
+	private int employee_num;
     
     @Column
     @Comment("公司加入平台时间")
@@ -190,5 +198,12 @@ public class Easy_company extends Model implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-    
+
+	public int getEmployee_num() {
+		return employee_num;
+	}
+
+	public void setEmployee_num(int employee_num) {
+		this.employee_num = employee_num;
+	}
 }

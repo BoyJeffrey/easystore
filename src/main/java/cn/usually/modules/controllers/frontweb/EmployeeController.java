@@ -169,6 +169,7 @@ public class EmployeeController extends WeChatBaseController {
 				transaction_id = resultMap.get("transaction_id");
 				pay_time = resultMap.get("time_end");
 				payService.updateEmlpoyeeOrderSuccess(out_trade_no, openid, transaction_id, pay_time);
+				log.info("微信支付回调已处理完毕：订单支付成功，订单号：" + out_trade_no + ";订单状态:" + return_code);
 				// 通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
 				res.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
 			} else

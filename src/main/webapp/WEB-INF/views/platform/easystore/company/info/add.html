@@ -39,6 +39,12 @@ layout("/layouts/platform.html"){
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="employee_num" class="col-sm-2 control-label">公司员工人数</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="employee_num" class="form-control" name="employee_num" data-parsley-required="true" placeholder="公司员工人数" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="create_time" class="col-sm-2 control-label">公司加入平台时间</label>
 
                             <div class="col-sm-8 input-group date form_datetime " style="padding-left: 16px;padding-right: 16px;" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="create_time">
@@ -72,13 +78,13 @@ layout("/layouts/platform.html"){
                         <div class="form-group">
                             <label for="price_pure_benefit" class="col-sm-2 control-label">纯福利公司员工象征性支付钱数:元</label>
                             <div class="col-sm-8">
-                            <input type="text" id="price_pure_benefit" class="form-control" name="price_pure_benefit" value="0.2" data-parsley-required="true" placeholder="纯福利公司员工象征性支付钱数:元">
+                            <input type="text" id="price_pure_benefit" class="form-control" name="price_pure_benefit" value="0.1" data-parsley-required="true" placeholder="纯福利公司员工象征性支付钱数:元">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="price_percent_benefit" class="col-sm-2 control-label">员工和企业共同负担公司员工支付钱数占产品公开价格的比例(%)---默认40,不能高于企业的拿货价格的最低值</label>
+                            <label for="price_percent_benefit" class="col-sm-2 control-label">员工和企业共同负担中员工支付钱数占公司拿货价的比例(%)---默认100,不能高于公司拿货价格的120%</label>
                             <div class="col-sm-8">
-                            <input type="text" id="price_percent_benefit" class="form-control" name="price_percent_benefit" value="40" data-parsley-required="true" placeholder="员工和企业共同负担公司员工支付钱数占产品公开价格的比例(%)---默认40,不能高于企业的拿货价格的最低值">
+                            <input type="text" id="price_percent_benefit" class="form-control" name="price_percent_benefit" value="100" data-parsley-required="true" placeholder="员工和企业共同负担中员工支付钱数占公司拿货价的比例(%)---默认100,不能高于公司拿货价格的120%">
                             </div>
                         </div>
                         <div class="form-group">
@@ -130,8 +136,8 @@ layout("/layouts/platform.html"){
                 // 校验员工承担公开价格百分比:>0;<=100
                 if(!checkPrice($("#price_percent_benefit"))) {
                     return false;
-                }else if ($("#price_percent_benefit").val() > 100) {
-                    Toast.error("员工承担企业价格百分比不会大于100%！");
+                }else if ($("#price_percent_benefit").val() > 120) {
+                    Toast.error("员工购买价相对公司拿货价百分比不会大于120%！");
                     return false;
                 }
                 form.find("button:submit").button("loading");

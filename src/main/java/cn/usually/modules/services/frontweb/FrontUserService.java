@@ -136,8 +136,8 @@ public class FrontUserService extends Service {
 											"pro.product_name,pro.image_url,round(pro.price_public,2) as price_public," +
 											"case com.benefit_type " +
 												"when 0 then round(com.price_pure_benefit,2) " +
-												"when 1 then ROUND(pro.price_public * com.price_percent_benefit/100,2) " +
-												"else round(pro.price_public,2) " +
+												"when 1 then ROUND(pro.price_company * com.price_percent_benefit/100,2) " +
+												"else round(pro.price_company,2) " +
 											"end as price_empolyee," +
 											"cp.num from easy_company_product cp " +
 										"inner join easy_company com on com.id = cp.company_id " +
@@ -229,8 +229,8 @@ public class FrontUserService extends Service {
 			Sql sql = Sqls.create("select pro.id as product_id,pro.product_name as product_name," +
 					"case com.benefit_type " +
 					"when 0 then round(com.price_pure_benefit,2) " +
-					"when 1 then ROUND(pro.price_public * com.price_percent_benefit/100,2) " +
-					"else round(pro.price_public,2) " +
+					"when 1 then ROUND(pro.price_company * com.price_percent_benefit/100,2) " +
+					"else round(pro.price_company,2) " +
 					"end as price_empolyee " +
 					"from easy_company_product cp " +
 					"inner join easy_company com on com.id = cp.company_id " +
