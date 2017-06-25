@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>${company_name}</title>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=201706122027">
+	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=201706242031">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<script type="text/javascript" src="${base}/assets/js/front/jquery-1.1.4.min.js"></script>
 	<script type="text/javascript" src="${base}/assets/js/front/zepto.js"></script>
@@ -44,7 +44,7 @@
             // 遮罩设置
             $(".carbask").css({"height":window.screen.height+"px"});
             // 左边分类第一个为白色
-            $("#slider li").eq(0).addClass("white");
+            $("#slider li").eq(1).addClass("white");
 //            $(".list").on("tap",function(event){
 //                event.stopPropagation();
 //                if($(this).siblings(".bask").css("display")==="block"){
@@ -89,9 +89,9 @@
                 $(".usualytotal").html(
                     (parseFloat($(".usualytotal").html())+parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
                 )
-                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
+                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1 + 1).find(".slidermount").html());
                 nn+=1;
-                $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
+                $("#slider li").eq($(this).parents("ul").index()-1 + 1).find(".slidermount").html(nn).css({"display":"block"});
                 mm+=1;
                 $(".carmount").html(mm);
                 if($(".carmount").html()===0){
@@ -117,11 +117,11 @@
                 $(".usualytotal").html(
                     (parseFloat($(".usualytotal").html())-parseFloat($(this).parent().siblings(".list").find(".newprice").html().substr(1))).toFixed(2)
                 )
-                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html());
+                var nn=parseInt($("#slider li").eq($(this).parents("ul").index()-1 + 1).find(".slidermount").html());
                 nn-=1;
-                $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").html(nn).css({"display":"block"});
+                $("#slider li").eq($(this).parents("ul").index()-1 + 1).find(".slidermount").html(nn).css({"display":"block"});
                 if(nn==0){
-                    $("#slider li").eq($(this).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
+                    $("#slider li").eq($(this).parents("ul").index()-1 + 1).find(".slidermount").css({"display":"none"});
                 }
                 mm-=1;
                 $(".carmount").html(mm);
@@ -202,12 +202,15 @@
 //
             // 左边产品分类点击
             $("#slider li").click(function(){
+                if($(this).index() == 0)
+                    return;
                 // scroll事件解绑
                 $ (window).unbind ('scroll');
-                var pos = $("ul").eq($(this).index()).offset().top;
+                var pos = $("ul").eq($(this).index() - 1).offset().top;
                 var obj = $(this);
                 var flag_scrollEvent = false; // 默认分类事件执行完成前不可使用滚动事件
-                $("html,body").animate({scrollTop: pos}, "slow", function() {
+//				var container_margin_top = $('.container').css('margin-top'); // 分类信息的整体下移距离排除
+                $("html,body").animate({scrollTop: pos-32}, "slow", function() {
                     // scroll事件绑定
                     scrollEvent();
                     // 传参数进行回调
@@ -221,9 +224,9 @@
 							if(flag_scrollEvent) {
 								var wst = $(window).scrollTop() //滚动条距离顶端值
 								for (var i = 0; i < $(".container ul").length; i++) {             //加循环
-									if ($(".container ul").eq(i).offset().top - 80 <= wst) { //判断滚动条位置
+									if ($(".container ul").eq(i).offset().top -80 <= wst) { //判断滚动条位置
 										$("#slider li").removeClass("white");
-										$("#slider li").eq(i).addClass("white");
+										$("#slider li").eq(i + 1).addClass("white");
 									}
 								}
 							}
@@ -302,7 +305,7 @@
                     var t_o=(parseFloat($(".usualytotal").html())+parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
                     $(".usualytotal").html(t_o);
                     $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
-                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())+1);
+                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").html())+1);
                     $(".carmount").html(parseInt($(".carmount").html())+1);
                     mm+=1;
                     $(this).parent().siblings(".total").html('¥'+(parseFloat($(this).parent().siblings(".price").html().substr(1))*parseFloat($(this).siblings(".mount").html())).toFixed(2));
@@ -318,9 +321,9 @@
                     var t_o=(parseFloat($(".usualytotal").html())-parseFloat(shop_list[$(this).parents("li").index()].newprice.substr(1))).toFixed(2);
                     $(".usualytotal").html(t_o);
                     $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html(shop_list[$(this).parents("li").index()].mount);
-                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html())-1);
-                    if($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").html()==0){
-                        $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1).find(".slidermount").css({"display":"none"});
+                    $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").html(parseInt($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").html())-1);
+                    if($("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").html()==0){
+                        $("#slider li").eq($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).parents("ul").index()-1 + 1).find(".slidermount").css({"display":"none"});
                     }
                     if($(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").html()==0){
                         $(".container ul li").eq(shop_list[$(this).parents("li").index()].id).find(".mount").css({"display":"none"});
@@ -482,10 +485,13 @@
 <body>
 <div class="load"><img src="${base}/assets/img/front/loding.gif"/></div>
 <div class="tan"></div>
-<!--<section class="shopname">${company_name}</section>-->
+<section class="headline"></section>
 <section class="container">
 	<div id="slider">
 		<%if(!isEmpty(categoryList)){
+		%>
+			<li class="categorymain">品类目录</li>
+		<%
 			for(category in categoryList){
 		%>
 			<li><span class="slidermount">0</span>${category.product_category_name}</li>
