@@ -249,6 +249,8 @@ public class SysRoleController {
     @RequiresAuthentication
     public Object selectData(@Param("roleid") String roleid, @Param("name") String name, @Param("length") int length, @Param("start") int start, @Param("draw") int draw, @Param("::order") List<DataTableOrder> order, @Param("::columns") List<DataTableColumn> columns) {
         String sql = "SELECT a.* FROM sys_user a WHERE 1=1 ";
+        // 排除采购员角色
+        sql += " and a.id not in (SELECT b.userId FROM sys_user_role b inner join sys_role r on r.id = b.roleId WHERE r.code='" + ConstantSys.SYSROLE_PURCHASE + "')";
         if (!Strings.isBlank(roleid)) {
             sql += " and a.id NOT IN(SELECT b.userId FROM sys_user_role b WHERE b.roleId='" + roleid + "')";
         }
