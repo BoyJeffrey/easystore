@@ -19,7 +19,7 @@ layout("/layouts/platform.html"){
                             <th>联系人姓名</th>
                             <th>员工人数</th>
                             <th>加入时间</th>
-                            <th>登录账号id</th>
+                            <!--<th>登录账号id</th>-->
                             <th>福利类型</th>
                             <th>纯福利金额:元</th>
                             <th>员工负担比例(%)</th>
@@ -93,7 +93,7 @@ layout("/layouts/platform.html"){
                     {"data": "company_contact_name", "bSortable": true},
                     {"data": "employee_num", "bSortable": true},
                     {"data": "create_time", "bSortable": true},
-                    {"data": "account_id", "bSortable": true},
+//                    {"data": "account_id", "bSortable": true},
                     {"data": "benefit_type", "bSortable": true},
                     {"data": "price_pure_benefit", "bSortable": true},
                     {"data": "price_percent_benefit", "bSortable": true},
@@ -118,7 +118,7 @@ layout("/layouts/platform.html"){
                             benefit_type_desc = "error"
                         return benefit_type_desc;
                     },
-                    "targets": 7
+                    "targets": 6
                 },
                 {
                     "render": function (data, type, row) {
@@ -132,7 +132,7 @@ layout("/layouts/platform.html"){
                             status_desc = "error";
                         return status_desc;
                     },
-                    "targets": 10
+                    "targets": 9
                 },
                 {
                     "render": function (data, type, row) {
@@ -146,7 +146,7 @@ layout("/layouts/platform.html"){
                                 '<li><a href="javascript:;" onclick="del(\'' + row.id + '\')">删除</a></li>' +
                                 '</ul></div>';
                     },
-                    "targets": 11
+                    "targets": 10
                 }
             ]
         });

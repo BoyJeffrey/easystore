@@ -59,13 +59,11 @@ public class Easy_company extends Model implements Serializable {
     
     @Column
     @Comment("公司在平台的登录账号id")
-    @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 50)
     private String account_id;
 
     @Column
     @Comment("公司在平台的登录密码")
-    @NotNull
     @ColDefine(type = ColType.VARCHAR, width = 100)
     private String account_password;
     
