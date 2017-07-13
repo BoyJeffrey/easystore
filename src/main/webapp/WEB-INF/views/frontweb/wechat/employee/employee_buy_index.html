@@ -12,8 +12,8 @@
 	<script type="text/javascript"  src="${base}/assets/js/front/underscore.js"></script>
 	<style type="text/css">
 		.fa-plus:before{
-		color: #fff;
-	}
+			color: #fff;
+		}
 	</style>
 	<script type="text/javascript">
         function set(){
@@ -171,7 +171,7 @@
             // 	}
 
             // })
-			// 第一个分类版本
+            // 第一个分类版本
             // 左边产品分类点击
 //            $("#slider li").on ("tap",function(event){
 //                $(".container ul").css({"display":"none"});
@@ -179,7 +179,7 @@
 //                $(this).css({"backgroundColor":"#fff"})
 //                $(".container ul").eq($(this).index()).css({"display":"block"});
 //            })
-			// 第二个分类版本---墨鸦
+            // 第二个分类版本---墨鸦
             // 左边产品分类点击
 //            $("#slider li").click(function(){
 //                $("#slider li").removeClass("white");
@@ -219,19 +219,19 @@
                      * scroll绑定事件
                      */
                     function scrollEvent() {
-						$ (window).bind ('scroll', function() {
+                        $ (window).bind ('scroll', function() {
 //                            $(".tan").text("scrollEvent:" + flag_scrollEvent).show().delay(2000).hide(0);
-							if(flag_scrollEvent) {
-								var wst = $(window).scrollTop() //滚动条距离顶端值
-								for (var i = 0; i < $(".container ul").length; i++) {             //加循环
-									if ($(".container ul").eq(i).offset().top -80 <= wst) { //判断滚动条位置
-										$("#slider li").removeClass("white");
-										$("#slider li").eq(i + 1).addClass("white");
-									}
-								}
-							}
-						});
-					}
+                            if(flag_scrollEvent) {
+                                var wst = $(window).scrollTop() //滚动条距离顶端值
+                                for (var i = 0; i < $(".container ul").length; i++) {             //加循环
+                                    if ($(".container ul").eq(i).offset().top -80 <= wst) { //判断滚动条位置
+                                        $("#slider li").removeClass("white");
+                                        $("#slider li").eq(i + 1).addClass("white");
+                                    }
+                                }
+                            }
+                        });
+                    }
                     /**
                      * 添加分类样式
                      */
@@ -383,7 +383,7 @@
 				 }
 				 }
 				 //获取用户信息 调用支付接口 ，跳转。*/
-				// 禁用提交按钮
+                // 禁用提交按钮
                 // 整理当前页面上待支付产品信息
                 var orderitem_datas = "";
                 $("input[name='product_id']").each(function (i, item) {
@@ -467,7 +467,7 @@
                     var result = "";
                     if(res.err_msg == "get_brand_wcpay_request:ok"){
 //                        result = 'ok';
-						// 购买成功
+                        // 购买成功
                         $(".tan").text("购买成功").show().delay(1000).hide(0);
                     }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
 //                        result = 'cancel';
@@ -494,37 +494,37 @@
 		<%
 			for(category in categoryList){
 		%>
-			<li><span class="slidermount">0</span>${category.product_category_name}</li>
+				<li><span class="slidermount">0</span>${category.product_category_name}</li>
 			<%}
 		}%>
 	</div>
 	<%if(!isEmpty(categoryList)){
 		for(category in categoryList){
 	%>
-		<ul id="category_${category.category_id}" class="cover">
-			<h4><span>${category.product_category_name}</span></h4>
-			<%if(!isEmpty(category.productInfoList)){
-				for(product in category.productInfoList){
-			%>
-				<li>
-					<input type="hidden" name="product_id" value="${product.product_id}" />
-					<div class="list">
-						<div class="img"><img src="${product.image_url}"></div>
-						<p class="pl">
-							<span class="price">¥${product.price_empolyee}</span>
-							<span class="newprice">¥${product.price_public}</span>
-						</p>
-						<p class="name">${product.product_name}</p>
-					</div>
-					<div class="bask">
-						<span class="fa fa-minus fa-lt remove"></span>
-						<span class="mount">0</span>
-						<span class="fa fa-plus fa-lt add"></span>
-					</div>
-				</li>
-				<%}
-			}%>
-		</ul>
+			<ul id="category_${category.category_id}" class="cover">
+				<h4><span>${category.product_category_name}</span></h4>
+				<%if(!isEmpty(category.productInfoList)){
+					for(product in category.productInfoList){
+				%>
+						<li>
+							<input type="hidden" name="product_id" value="${product.product_id}" />
+							<div class="list">
+								<div class="img"><img src="${product.image_url}"></div>
+								<p class="pl">
+									<span class="price">¥${product.price_empolyee}</span>
+									<span class="newprice">¥${product.price_public}</span>
+								</p>
+								<p class="name">${product.product_name}</p>
+							</div>
+							<div class="bask">
+								<span class="fa fa-minus fa-lt remove"></span>
+								<span class="mount">0</span>
+								<span class="fa fa-plus fa-lt add"></span>
+							</div>
+						</li>
+					<%}
+				}%>
+			</ul>
 		<%}
 	}%>
 </section>
