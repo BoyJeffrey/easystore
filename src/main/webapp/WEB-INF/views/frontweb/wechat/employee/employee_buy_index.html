@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>${company_name}</title>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=201706242032">
+	<link rel="stylesheet" href="${base}/assets/css/front/index.css?t=201706242036">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<script type="text/javascript" src="${base}/assets/js/front/jquery-1.1.4.min.js"></script>
 	<script type="text/javascript" src="${base}/assets/js/front/zepto.js"></script>
@@ -249,6 +249,9 @@
                 return false;
             });
 
+            // 默认左边第一个分类点击事件,保证第一次进入时,右边滚动事件有效
+            $("#slider li").eq(1).click();
+
             // 滚动事件触发
 //            $(window).scroll(function(){//为页面添加页面滚动监听事件
 //                var wst = $(window).scrollTop() //滚动条距离顶端值
@@ -485,7 +488,7 @@
 <body>
 <div class="load"><img src="${base}/assets/img/front/loding.gif"/></div>
 <div class="tan"></div>
-<section class="headline"></section>
+<section><img src="${base}/assets/img/front/headline.png" class="headline"/></section>
 <section class="container">
 	<div id="slider">
 		<%if(!isEmpty(categoryList)){
@@ -494,7 +497,7 @@
 		<%
 			for(category in categoryList){
 		%>
-				<li><span class="slidermount">0</span>${category.product_category_name}</li>
+				<li style="font-size: .6rem"><span class="slidermount">0</span>${category.product_category_name}</li>
 			<%}
 		}%>
 	</div>
