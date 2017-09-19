@@ -19,6 +19,9 @@ import org.nutz.mvc.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 后台 - 商品分类管理
+ */
 @IocBean
 @At("/platform/product/category")
 @Filters({@By(type = PrivateFilter.class)})

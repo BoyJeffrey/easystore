@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 采购管理
+ * 后台 - 采购管理
  */
 @IocBean
 @At("/platform/purchaseorder")

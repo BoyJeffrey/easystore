@@ -20,6 +20,9 @@ import org.nutz.mvc.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 后台 - 公司信息管理
+ */
 @IocBean
 @At("/platform/company/info")
 @Filters({@By(type = PrivateFilter.class)})

@@ -30,6 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 后台 - 公司采购员管理
+ */
 @IocBean
 @At("/platform/company/purchaseaccount")
 @Filters({@By(type = PrivateFilter.class)})

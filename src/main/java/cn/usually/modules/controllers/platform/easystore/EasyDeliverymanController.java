@@ -6,16 +6,13 @@ import cn.usually.common.filter.PrivateFilter;
 import cn.usually.common.page.DataTableColumn;
 import cn.usually.common.page.DataTableOrder;
 import cn.usually.modules.models.platform.easystore.Easy_deliveryman;
-import cn.usually.modules.models.platform.sys.Sys_role;
 import cn.usually.modules.services.platform.easystore.EasyDeliverymanService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Sqls;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.*;
@@ -23,6 +20,9 @@ import org.nutz.mvc.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 后台 - 公司送货员管理
+ */
 @IocBean
 @At("/platform/deliveryman/info")
 @Filters({@By(type = PrivateFilter.class)})

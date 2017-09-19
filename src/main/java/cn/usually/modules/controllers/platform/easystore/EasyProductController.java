@@ -25,6 +25,9 @@ import org.nutz.mvc.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 后台 - 商品管理
+ */
 @IocBean
 @At("/platform/product/info")
 @Filters({@By(type = PrivateFilter.class)})
